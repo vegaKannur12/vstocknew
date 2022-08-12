@@ -18,12 +18,58 @@ class _ScanTypeState extends State<ScanType> {
   late List<Map<String, dynamic>> queryresult;
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
           title: Text("Select Scan Type"), backgroundColor: Colors.black),
       drawer: Drawer(
-        child: Container(
-          child: Text("ghdfsh"),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: size.height * 0.045,
+                  ),
+                  Container(
+                    height: size.height * 0.1,
+                    width: size.width * 1,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.07,
+                          width: size.width * 0.03,
+                        ),
+                        Icon(
+                          Icons.list_outlined,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
+                        SizedBox(width: size.width * 0.04),
+                        Text(
+                          "Menus",
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  ListTile(
+                    title: Text(
+                      "Download",
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
       body: Container(
@@ -49,7 +95,7 @@ class _ScanTypeState extends State<ScanType> {
                         borderRadius: BorderRadius.circular(30)),
                     tileColor: tappedIndex == index
                         ? Color.fromARGB(255, 255, 255, 255)
-                        : Color.fromARGB(255, 75, 107, 212),
+                        : Color.fromARGB(255, 45, 25, 71),
                     onTap: () async {
                       setState(() {
                         tappedIndex = index;

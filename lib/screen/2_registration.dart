@@ -76,10 +76,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       fillColor: Color.fromARGB(255, 153, 69, 97),
                       focusColor: Colors.green,
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
+                        borderSide: BorderSide(color: Colors.grey),
                         //  when the TextFormField in unfocused
                       ),
-
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white, width: 1.0),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue),
+                        //  when the TextFormField in focused
+                      ),
                       icon: Icon(
                         Icons.phone,
                         color: Color.fromARGB(255, 153, 69, 97),

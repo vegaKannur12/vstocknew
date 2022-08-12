@@ -13,8 +13,8 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   bool isExpired = false;
   final _formKey = new GlobalKey<FormState>();
-  TextEditingController controller1=TextEditingController();
-  TextEditingController controller2=TextEditingController();
+  TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
 
   ExternalDir externalDir = ExternalDir();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -113,7 +113,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Widget textForm(String type) {
     return TextFormField(
-      controller:type=="Company code"? controller1:controller2,
+      controller: type == "Company code" ? controller1 : controller2,
       style: TextStyle(color: ColorThemeComponent.textFrmtext),
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(

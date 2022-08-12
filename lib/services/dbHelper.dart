@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:vstock/model/registrationModel.dart';
 
 class VstockDB {
   static final VstockDB instance = VstockDB._init();
@@ -90,23 +91,23 @@ class VstockDB {
 //   }
 
 //   ///////////////////////////////////////////////
-//   Future insertRegistrationDetails(String company_code, String device_id,
-//       String appType, RegistrationModel rgModel) async {
-//     final db = await database;
-//     print("userId*****${user_id}");
-//     // print(user_id.runtimeType);
-//     var query =
-//         'INSERT INTO tableRegistration(company_code, device_id, appType, company_id, company_name, user_id, expiry_date) VALUES("${company_code}", "${device_id}", "${appType}", "${rgModel.companyId}", "${rgModel.companyName}", "${rgModel.userId}", "${rgModel.expiryDate}")';
-//     var res = await db.rawInsert(query);
-//     print(query);
-//     print(res);
-//     return res;
-//   }
+  Future insertRegistrationDetails(String company_code, String device_id,
+      String appType, RegistrationModel rgModel) async {
+    final db = await database;
+    // print("userId*****${user_id}");
+    // print(user_id.runtimeType);
+    var query =
+        'INSERT INTO tableRegistration(company_code, device_id, appType, company_id, company_name, user_id, expiry_date) VALUES("${company_code}", "${device_id}", "${appType}", "${rgModel.companyId}", "${rgModel.companyName}", "${rgModel.userId}", "${rgModel.expiryDate}")';
+    var res = await db.rawInsert(query);
+    print(query);
+    print(res);
+    return res;
+  }
 
-//   Future close() async {
-//     final _db = await instance.database;
-//     _db.close();
-//   }
+  Future close() async {
+    final _db = await instance.database;
+    _db.close();
+  }
 
 //   /////////////////////////get all rows////////////
 //   Future<List<Map<String, dynamic>>> queryAllRows() async {

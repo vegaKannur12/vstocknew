@@ -19,7 +19,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 12, 12, 12),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -31,7 +31,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
         height: double.infinity,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(top: 5, left: 20, right: 20),
           child: Form(
             key: _formKey,
             child: Center(
@@ -42,21 +42,46 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     style: TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
-                      fillColor: Color.fromARGB(255, 219, 134, 163),
+                      fillColor: Color.fromARGB(255, 153, 69, 97),
                       focusColor: Colors.green,
                       icon: Icon(
                         Icons.business,
-                        color: Colors.pink,
+                        color: Color.fromARGB(255, 153, 69, 97),
                       ),
                       // hintText: 'What do people call you?',
                       labelText: 'Company Code',
                       labelStyle: TextStyle(
-                          color: Colors.pink, fontSize: 18 //<-- SEE HERE
-                          ),
+                        color: Color.fromARGB(255, 153, 69, 97),
+                      ),
                     ),
                     validator: (text) {
                       if (text == null || text.isEmpty) {
                         return 'Please Enter Company code';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: size.height * 0.04,
+                  ),
+                  TextFormField(
+                    style: TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      fillColor: Color.fromARGB(255, 153, 69, 97),
+                      focusColor: Colors.green,
+                      icon: Icon(
+                        Icons.phone,
+                        color: Color.fromARGB(255, 153, 69, 97),
+                      ),
+                      // hintText: 'What do people call you?',
+                      labelText: 'Phone Number',
+                      labelStyle: TextStyle(
+                        color: Color.fromARGB(255, 153, 69, 97),
+                      ),
+                    ),
+                    validator: (text) {
+                      if (text == null || text.isEmpty) {
+                        return 'Please Enter Phone number';
                       }
                       return null;
                     },
@@ -69,7 +94,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     width: size.width * 0.3,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.pink,
+                        primary: Color.fromARGB(255, 153, 69, 97),
                       ),
                       onPressed: () {},
                       child: Text(

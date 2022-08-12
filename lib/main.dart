@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:vstock/screen/1_splashscreen.dart';
-
 import 'package:vstock/view/splashScreen.dart';
+
+import 'package:vstock/screen/2_registration.dart';
+import 'package:vstock/screen/scan_type.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +19,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: SplashScreen(),
+
+      // theme: ThemeData(
+      //   scaffoldBackgroundColor: Colors.grey[200],
+      //   colorScheme: ColorScheme.fromSwatch().copyWith(
+      //     primary: Color(0xFF424242),
+      //     secondary: Color(0xFF424242),
+      //   ),
+      // ),
+      debugShowCheckedModeBanner: false,
+      home: ScanType(),
     );
   }
 }

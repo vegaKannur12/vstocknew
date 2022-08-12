@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/screen/1_splashscreen.dart';
 import 'package:vstock/screen/2_registration.dart';
+import 'package:vstock/screen/scan_type.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: RegistrationScreen(),
+      home: ScanType(),
     );
   }
 }

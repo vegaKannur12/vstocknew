@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vstock/components/externalDir.dart';
+import 'package:vstock/model/barcodeScannerModel.dart';
 import 'package:vstock/model/registrationModel.dart';
 import 'package:vstock/services/dbHelper.dart';
 
@@ -53,5 +54,18 @@ class RegistrationController extends ChangeNotifier {
       print(e);
       return null;
     }
+  }
+    String? updatedQty;
+  Data? dataDetails;
+
+  List<Map<String, dynamic>> listResult = [];
+  ////////////////////////////////////////////////
+  insertintoTableScanlog(String? _barcodeScanned, String? formattedDate,
+      int count, int page_id, String type) async {
+    print("enterd insertion section-----");
+    var res = await VstockDB.instance.barcodeTimeStamp(
+        _barcodeScanned, formattedDate, count, page_id, type, null);
+    print("res----${res}");
+    notifyListeners();
   }
 }

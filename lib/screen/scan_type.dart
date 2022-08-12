@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstock/components/commonColor.dart';
 
 class ScanType extends StatefulWidget {
   const ScanType({Key? key}) : super(key: key);
@@ -48,8 +49,8 @@ class _ScanTypeState extends State<ScanType> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     tileColor: tappedIndex == index
-                        ? Color.fromARGB(255, 255, 255, 255)
-                        : Color.fromARGB(255, 75, 107, 212),
+                        ? ColorThemeComponent.tappedtileColor
+                        :  ColorThemeComponent.regButtonColor,
                     onTap: () async {
                       setState(() {
                         tappedIndex = index;

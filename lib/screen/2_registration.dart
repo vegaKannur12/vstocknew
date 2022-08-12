@@ -110,8 +110,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           Navigator.of(context).pop();
-
-
                           
                         }
                       },

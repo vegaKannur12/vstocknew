@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/screen/scan_type.dart';
 
@@ -12,15 +13,17 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   bool isExpired = false;
   final _formKey = new GlobalKey<FormState>();
+  TextEditingController controller1=TextEditingController();
+  TextEditingController controller2=TextEditingController();
+
   ExternalDir externalDir = ExternalDir();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late String uniqId;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      // backgroundColor: Color.fromARGB(255, 255, 255, 255),
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -40,69 +43,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  TextFormField(
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                        //  when the TextFormField in unfocused
-                      ),
-
-                      fillColor: Color.fromARGB(255, 153, 69, 97),
-                      focusColor: Colors.green,
-                      icon: Icon(
-                        Icons.business,
-                        color: Color.fromARGB(255, 153, 69, 97),
-                      ),
-                      // hintText: 'What do people call you?',
-                      labelText: 'Company Code',
-                      labelStyle: TextStyle(
-                        color: Color.fromARGB(255, 153, 69, 97),
-                      ),
-                    ),
-                    validator: (text) {
-                      if (text == null || text.isEmpty) {
-                        return 'Please Enter Company code';
-                      }
-                      return null;
-                    },
-                  ),
+                  textForm("Company code"),
                   SizedBox(
                     height: size.height * 0.04,
                   ),
-                  TextFormField(
-                    style: TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      fillColor: Color.fromARGB(255, 153, 69, 97),
-                      focusColor: Colors.green,
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                        //  when the TextFormField in unfocused
-                      ),
-                      border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white, width: 1.0),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue),
-                        //  when the TextFormField in focused
-                      ),
-                      icon: Icon(
-                        Icons.phone,
-                        color: Color.fromARGB(255, 153, 69, 97),
-                      ),
-                      // hintText: 'What do people call you?',
-                      labelText: 'Phone Number',
-                      labelStyle: TextStyle(
-                        color: Color.fromARGB(255, 153, 69, 97),
-                      ),
-                    ),
-                    validator: (text) {
-                      if (text == null || text.isEmpty) {
-                        return 'Please Enter Phone number';
-                      }
-                      return null;
-                    },
-                  ),
+                  textForm("Phone number"),
                   SizedBox(
                     height: size.height * 0.04,
                   ),
@@ -111,7 +56,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     width: size.width * 0.3,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Color.fromARGB(255, 153, 69, 97),
+                        primary: ColorThemeComponent.regButtonColor,
                       ),
                       onPressed: () {
                         Navigator.push(
@@ -163,6 +108,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget textForm(String type) {
+    return TextFormField(
+      controller:type=="Company code"? controller1:controller2,
+      style: TextStyle(color: ColorThemeComponent.textFrmtext),
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+          //  when the TextFormField in unfocused
+        ),
+        border: UnderlineInputBorder(
+          borderSide:
+              BorderSide(color: ColorThemeComponent.textFrmtext, width: 1.0),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: ColorThemeComponent.regButtonColor),
+          //  when the TextFormField in focused
+        ),
+        icon: Icon(
+          Icons.phone,
+          color: ColorThemeComponent.regButtonColor,
+        ),
+        // hintText: 'What do people call you?',
+        labelText: type,
+        labelStyle: TextStyle(
+          color: ColorThemeComponent.regButtonColor,
+        ),
+      ),
+      validator: (text) {
+        if (text == null || text.isEmpty) {
+          return 'Please Enter Phone number';
+        }
+        return null;
+      },
     );
   }
 }

@@ -4,18 +4,23 @@ import 'package:http/http.dart' as http;
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/model/barcodeScannerModel.dart';
 import 'package:vstock/model/registrationModel.dart';
+import 'package:vstock/screen/scan_type.dart';
 import 'package:vstock/services/dbHelper.dart';
 
 class RegistrationController extends ChangeNotifier {
   ExternalDir externalDir = ExternalDir();
   String? comName;
-  bool isLoading=false;
+  bool isLoading = false;
+  /////////////////////////////////////////////////////////////////////
   Future<RegistrationModel?> postRegistration(
       String fingerprints,
-      String company_code, String device_id, String app_id) async {
+      String company_code,
+      String device_id,
+      String app_id,
+      BuildContext context) async {
     try {
       print("divuxe-----$device_id");
-      isLoading=true;
+      isLoading = true;
       notifyListeners();
       Uri url = Uri.parse("http://trafiqerp.in/ydx/send_regkey");
       Map<String, dynamic> body = {
@@ -29,13 +34,13 @@ class RegistrationController extends ChangeNotifier {
         url,
         body: body,
       );
-       isLoading=false;
+      isLoading = false;
       notifyListeners();
       var map = jsonDecode(response.body);
       print("from post data ${map}");
       print('user id------------${map["UserId"]}');
       RegistrationModel regModel = RegistrationModel.fromJson(map);
-      comName=regModel.companyName;
+      comName = regModel.companyName;
       print("com---$comName");
       notifyListeners();
 
@@ -44,11 +49,14 @@ class RegistrationController extends ChangeNotifier {
       //       await externalDir.fileWrite(fp!);
 
       var result = await VstockDB.instance.insertRegistrationDetails(
-          company_code,
-          device_id,
-          "free to scan",
-          regModel);
-      // return regModel;
+          company_code, device_id, "free to scan", regModel);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ScanType(
+                // companyName: result!.companyName.toString(),
+                )),
+      );
       notifyListeners();
     } catch (e) {
       print(e);

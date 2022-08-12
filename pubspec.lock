@@ -64,6 +64,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+<<<<<<< HEAD
   device_info_plus:
     dependency: "direct main"
     description:
@@ -106,6 +107,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+=======
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   external_path:
     dependency: "direct main"
     description:
@@ -126,7 +129,11 @@ packages:
       name: ffi
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.2.1"
+=======
+    version: "2.0.1"
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   file:
     dependency: transitive
     description:
@@ -177,6 +184,7 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
   http:
     dependency: "direct main"
     description:
@@ -198,6 +206,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.17.0"
+=======
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   js:
     dependency: transitive
     description:
@@ -233,6 +243,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+<<<<<<< HEAD
   mime:
     dependency: transitive
     description:
@@ -240,6 +251,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+=======
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   nested:
     dependency: transitive
     description:
@@ -247,6 +260,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+<<<<<<< HEAD
   open_file:
     dependency: "direct main"
     description:
@@ -296,6 +310,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+=======
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   path:
     dependency: transitive
     description:
@@ -351,21 +367,33 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.0.7"
+=======
+    version: "2.1.2"
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   permission_handler:
     dependency: "direct main"
     description:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "9.2.0"
+=======
+    version: "10.0.0"
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   permission_handler_android:
     dependency: transitive
     description:
       name: permission_handler_android
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "9.0.2+1"
+=======
+    version: "10.0.0"
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   permission_handler_apple:
     dependency: transitive
     description:
@@ -415,6 +443,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.3"
+<<<<<<< HEAD
   qr_code_scanner:
     dependency: "direct main"
     description:
@@ -464,6 +493,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+=======
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   shared_preferences:
     dependency: "direct main"
     description:
@@ -678,7 +709,11 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "2.6.1"
+=======
+    version: "2.7.0"
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   xdg_directories:
     dependency: transitive
     description:
@@ -687,5 +722,9 @@ packages:
     source: hosted
     version: "0.2.0+1"
 sdks:
+<<<<<<< HEAD
   dart: ">=2.17.0 <3.0.0"
+=======
+  dart: ">=2.17.6 <3.0.0"
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
   flutter: ">=3.0.0"

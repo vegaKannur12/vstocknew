@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:vstock/screen/1_splashscreen.dart';
+
 import 'package:vstock/view/splashScreen.dart';
 
-void main(){
+void main() {
   runApp(MyApp());
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:SplashScreen() ,
+      home: SplashScreen(),
     );
   }
 }

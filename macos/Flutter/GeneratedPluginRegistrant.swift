@@ -5,6 +5,7 @@
 import FlutterMacOS
 import Foundation
 
+<<<<<<< HEAD
 import app_install_date
 import device_info_plus_macos
 import package_info_plus_macos
@@ -23,4 +24,12 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
   UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))
+=======
+import path_provider_macos
+import shared_preferences_macos
+
+func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
+  SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
 }

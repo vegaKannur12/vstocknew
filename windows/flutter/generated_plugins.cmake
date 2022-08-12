@@ -4,7 +4,10 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   permission_handler_windows
+<<<<<<< HEAD
   url_launcher_windows
+=======
+>>>>>>> 7bbfb5837b8e14a1dcfffe113a280e6c23bf9ade
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

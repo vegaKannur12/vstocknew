@@ -1,6 +1,9 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
+import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/screen/scan_type.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -18,7 +21,45 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   ExternalDir externalDir = ExternalDir();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late String uniqId;
+  String? uniqId;
+
+  getDeviceInfo() async {
+    final deviceInfoPlugin = DeviceInfoPlugin();
+    final deviceInfo = await deviceInfoPlugin.deviceInfo;
+    final map = deviceInfo.toMap();
+
+    //String id = map["androidId"];
+    String model = map["model"];
+    String id = map["id"];
+    String manufacturer = map["manufacturer"];
+    uniqId = model + manufacturer;
+    //print(uniqId);
+  }
+
+  // _showSnackbar(BuildContext context) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       backgroundColor: Color.fromARGB(255, 143, 17, 8),
+  //       duration: const Duration(seconds: 1),
+  //       content: Text('Expired!!!!'),
+  //       action: SnackBarAction(
+  //         label: 'Dissmiss',
+  //         textColor: Colors.yellow,
+  //         onPressed: () {
+  //           ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getDeviceInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -58,14 +99,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       style: ElevatedButton.styleFrom(
                         primary: ColorThemeComponent.regButtonColor,
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ScanType(
-                                  // companyName: result!.companyName.toString(),
-                                  )),
-                        );
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          print(uniqId);
+                          String tempFp1 = await externalDir.fileRead();
+                          Provider.of<RegistrationController>(context,
+                                  listen: false)
+                              .postRegistration(
+                                  tempFp1, controller1.text, uniqId!, "1",context);
+
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                          Navigator.of(context).pop();
+
+
+                          
+                        }
                       },
                       child: Text(
                         "Register",
@@ -140,7 +188,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       ),
       validator: (text) {
         if (text == null || text.isEmpty) {
-          return 'Please Enter Phone number';
+          return 'Please Enter $type';
         }
         return null;
       },

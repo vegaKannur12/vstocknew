@@ -43,6 +43,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   TextFormField(
                     style: TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        //  when the TextFormField in unfocused
+                      ),
+
                       fillColor: Color.fromARGB(255, 153, 69, 97),
                       focusColor: Colors.green,
                       icon: Icon(
@@ -70,6 +75,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     decoration: const InputDecoration(
                       fillColor: Color.fromARGB(255, 153, 69, 97),
                       focusColor: Colors.green,
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        //  when the TextFormField in unfocused
+                      ),
+
                       icon: Icon(
                         Icons.phone,
                         color: Color.fromARGB(255, 153, 69, 97),

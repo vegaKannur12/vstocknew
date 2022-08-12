@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vstock/components/externalDir.dart';
+import 'package:vstock/screen/scan_type.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -96,7 +97,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromARGB(255, 153, 69, 97),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ScanType(
+                                  // companyName: result!.companyName.toString(),
+                                  )),
+                        );
+                      },
                       child: Text(
                         "Register",
                         style: TextStyle(color: Colors.white),

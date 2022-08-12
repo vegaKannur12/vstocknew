@@ -21,6 +21,62 @@ class _ScanTypeState extends State<ScanType> {
     return Scaffold(
       appBar: AppBar(
           title: Text("Select Scan Type"), backgroundColor: Colors.black),
+      drawer: Drawer(
+        child: Container(
+          child: Text("ghdfsh"),
+        ),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("asset/wave2.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: ListView.builder(
+            itemCount: types.length,
+            itemBuilder: ((context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Card(
+                  elevation: 0,
+                  color: Colors.transparent,
+                  // shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.circular(15.0),
+                  // ),
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    tileColor: tappedIndex == index
+                        ? Colors.grey[400]
+                        : Color.fromARGB(255, 192, 151, 165),
+                    onTap: () async {
+                      setState(() {
+                        tappedIndex = index;
+                      });
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => BarcodeScanner(
+                      //             type: types[index],
+                      //             // queryresult: queryresult,
+                      //           )),
+                      // );
+                    },
+                    title: Text(
+                      types[index],
+                      style: TextStyle(
+                          // fontFamily: "fantasy",
+                          fontSize: 20,
+                          color: tappedIndex == index
+                              ? Colors.black
+                              : Colors.black),
+                    ),
+                  ),
+                ),
+              );
+            })),
+      ),
     );
   }
 }

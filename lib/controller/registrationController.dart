@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:vstock/components/externalDir.dart';
-import 'package:vstock/model/barcodeScannerModel.dart';
 import 'package:vstock/model/registrationModel.dart';
-import 'package:vstock/screen/scan_type.dart';
 import 'package:vstock/services/dbHelper.dart';
+
+import '../screen/3_scan_type.dart';
 
 class RegistrationController extends ChangeNotifier {
   ExternalDir externalDir = ExternalDir();
@@ -52,28 +52,12 @@ class RegistrationController extends ChangeNotifier {
           company_code, device_id, "free to scan", regModel);
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => ScanType(
-                // companyName: result!.companyName.toString(),
-                )),
+        MaterialPageRoute(builder: (context) => ScanType()),
       );
       notifyListeners();
     } catch (e) {
       print(e);
       return null;
     }
-  }
-    String? updatedQty;
-  Data? dataDetails;
-
-  List<Map<String, dynamic>> listResult = [];
-  ////////////////////////////////////////////////
-  insertintoTableScanlog(String? _barcodeScanned, String? formattedDate,
-      int count, int page_id, String type) async {
-    print("enterd insertion section-----");
-    var res = await VstockDB.instance.barcodeTimeStamp(
-        _barcodeScanned, formattedDate, count, page_id, type, null);
-    print("res----${res}");
-    notifyListeners();
   }
 }

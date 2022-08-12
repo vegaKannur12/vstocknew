@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class ScanType extends StatefulWidget {
-  const ScanType({Key? key}) : super(key: key);
 
   @override
   State<ScanType> createState() => _ScanTypeState();

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/controller/registrationController.dart';
-import 'package:vstock/screen/scan_type.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -105,14 +104,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           String tempFp1 = await externalDir.fileRead();
                           Provider.of<RegistrationController>(context,
                                   listen: false)
-                              .postRegistration(
-                                  tempFp1, controller1.text, uniqId!, "1",context);
+                              .postRegistration(tempFp1, controller1.text,
+                                  uniqId!, "1", context);
 
                           ScaffoldMessenger.of(context).removeCurrentSnackBar();
                           Navigator.of(context).pop();
-
-
-                          
                         }
                       },
                       child: Text(
@@ -177,7 +173,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           //  when the TextFormField in focused
         ),
         icon: Icon(
-          Icons.phone,
+         type == "Company code" ? Icons.business: Icons.phone ,
           color: ColorThemeComponent.regButtonColor,
         ),
         // hintText: 'What do people call you?',

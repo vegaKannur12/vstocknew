@@ -37,7 +37,7 @@ class _ScanTypeState extends State<ScanType> {
             itemCount: types.length,
             itemBuilder: ((context, index) {
               return Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Card(
                   elevation: 0,
                   color: Colors.transparent,
@@ -48,8 +48,8 @@ class _ScanTypeState extends State<ScanType> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     tileColor: tappedIndex == index
-                        ? Colors.grey[400]
-                        : Color.fromARGB(255, 192, 151, 165),
+                        ? Color.fromARGB(255, 255, 255, 255)
+                        : Color.fromARGB(255, 75, 107, 212),
                     onTap: () async {
                       setState(() {
                         tappedIndex = index;
@@ -70,7 +70,7 @@ class _ScanTypeState extends State<ScanType> {
                           fontSize: 20,
                           color: tappedIndex == index
                               ? Colors.black
-                              : Colors.black),
+                              : Colors.white),
                     ),
                   ),
                 ),

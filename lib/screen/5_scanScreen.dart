@@ -47,6 +47,13 @@ class _ScanBarcodeState extends State<ScanBarcode> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Provider.of<BarcodeController>(context, listen: false)
+                  .getDataFromScanLog();
+                  Navigator.pop(context);
+            }),
         backgroundColor: ColorThemeComponent.color4,
       ),
       body: Transform.translate(
@@ -185,7 +192,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                   "save button------${_barcodeText.text}, ${date}");
 
                               if (_barcodeText.text.isNotEmpty) {
-
                                 if (widget.type == "Free Scan with quantity") {
                                   // Provider.of<BarcodeController>(context,
                                   //         listen: false)
@@ -274,7 +280,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           _barcodeText.text = _barcodeScanned;
           // int c = int.parse(
           //     Provider.of<BarcodeController>(context, listen: false).count);
-          count = count+ 1;
+          count = count + 1;
           print("count====$count");
         });
         await FlutterBeep.beep();
@@ -288,8 +294,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           //  await BarcodeScanlogDB.instance.barcodeTimeStamp(_barcodeScanned, formattedDate, count,1);
           if (widget.type == "Free Scan") {
             Provider.of<BarcodeController>(context, listen: false)
-                .insertintoTableScanlog(_barcodeText.text, date, 1,
-                    countInt, 1, "Free Scan", context);
+                .insertintoTableScanlog(_barcodeText.text, date, 1, countInt, 1,
+                    "Free Scan", context);
           }
           if (widget.type == "API Scan") {
             //  var result=await Provider.of<ProviderController>(context, listen: false).searchInTableScanLog(_barcodeScanned);

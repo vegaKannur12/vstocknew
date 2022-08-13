@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/screen/1_splashscreen.dart';
 import 'package:vstock/screen/2_registration.dart';
-import 'package:vstock/screen/scan_type.dart';
+import 'package:vstock/screen/3_scan_type.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

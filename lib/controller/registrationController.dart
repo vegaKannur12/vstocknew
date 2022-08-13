@@ -4,8 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/model/registrationModel.dart';
-import 'package:vstock/screen/scan_type.dart';
 import 'package:vstock/services/dbHelper.dart';
+
+import '../screen/3_scan_type.dart';
 
 class RegistrationController extends ChangeNotifier {
   ExternalDir externalDir = ExternalDir();
@@ -53,6 +54,7 @@ class RegistrationController extends ChangeNotifier {
           company_code, device_id, "free to scan", regModel);
       print("result-----$result");
       if (result > 0) {
+        print("hekoooooo");
         Navigator.push(
           context,
           MaterialPageRoute(

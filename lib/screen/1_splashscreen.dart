@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/screen/2_registration.dart';
-import 'package:vstock/screen/scan_type.dart';
+import 'package:vstock/screen/3_scan_type.dart';
 import 'package:vstock/services/dbHelper.dart';
 
 class SplashScreen extends StatefulWidget {

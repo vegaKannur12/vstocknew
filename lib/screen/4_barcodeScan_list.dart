@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/screen/5_scanScreen.dart';
 
 import '../controller/registrationController.dart';
 
@@ -17,7 +18,9 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: ColorThemeComponent.color4,
       appBar: AppBar(
+        backgroundColor: ColorThemeComponent.color4,
         title: Text("company name"),
         actions: [
           // IconButton(
@@ -72,19 +75,27 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            backgroundColor: Colors.pink,
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //       builder: (context) => BarcodeScannerScreen(
-              //             strcontroller: controller,
-              //             type: widget.type,
-              //           )),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ScanBarcode(
+                          type: widget.type,
+                        )),
+              );
             },
             child: Icon(Icons.scanner),
           ),
         ],
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("asset/wave2.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
       // body: Consumer<RegistrationController>(
       //   builder: (context, value, child) {

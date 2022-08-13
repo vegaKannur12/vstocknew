@@ -70,27 +70,6 @@ class VstockDB {
           ''');
   }
 
-  ////////////////////////////////////////////////
-//   Future barcodeTimeStamp(String? barcode, String? time, int? qty, int page_id,
-//       String type, Data? barcodeData) async {
-//     var query;
-//     print("entered insertion table");
-//     final db = await database;
-//     if (type == "Free Scan" || type == "Free Scan with quantity") {
-//       query =
-//           'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcode}", "${time}", ${qty}, ${page_id},"","","","","","","","")';
-//     }
-//     if (type == "API Scan" || type == "API Scan with quantity") {
-//       query =
-//           'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcodeData!.barcode}", "${time}", ${qty}, ${page_id},"${barcodeData.model}","${barcodeData.brand}","${barcodeData.description}","${barcodeData.rate}","${barcodeData.size}","${barcodeData.product}","${barcodeData.pcode}","${barcodeData.ean}")';
-//     }
-
-//     var res = await db.rawInsert(query);
-//     print(query);
-//     print(res);
-//     return res;
-//   }
-
 //   ///////////////////////////////////////////////
   Future insertRegistrationDetails(String company_code, String device_id,
       String appType, RegistrationModel rgModel) async {
@@ -105,6 +84,28 @@ class VstockDB {
     return res;
   }
 
+  ////////////////////////////////////////////////
+  Future barcodeTimeStamp(String? time, int? qty, int page_id, String type,
+      Data? barcodeData) async {
+    var query;
+    print("entered insertion table");
+    final db = await database;
+    if (type == "Free Scan" || type == "Free Scan with quantity") {
+      query =
+          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcodeData!.barcode}", "${time}", ${qty}, ${page_id},"","","","","","","","")';
+    }
+    if (type == "API Scan" || type == "API Scan with quantity") {
+      query =
+          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcodeData!.barcode}", "${time}", ${qty}, ${page_id},"${barcodeData.model}","${barcodeData.brand}","${barcodeData.description}","${barcodeData.rate}","${barcodeData.size}","${barcodeData.product}","${barcodeData.pcode}","${barcodeData.ean}")';
+    }
+
+    var res = await db.rawInsert(query);
+    print(query);
+    print(res);
+    return res;
+  }
+
+////////////////////////////////////////////////////////////////////
   Future close() async {
     final _db = await instance.database;
     _db.close();
@@ -136,6 +137,28 @@ class VstockDB {
 
   ///////////////////////////////////////////////////
 //   /////////////////////////get all rows////////////
+  selectCommonQuery(String table, String field, String condition) async {
+    Database db = await instance.database;
+    var query = "SELECT $field FROM $table $condition";
+    var list = await db.rawQuery(query);
+    return list;
+  }
+
+//////////////////////compare local db and scanned code/////////////
+  compareScannedbarcode(
+      String time, int qty, int page_id, String type, Data? barcodeData) async {
+    Database db = await instance.database;
+    var response;
+    var list = selectCommonQuery(" barcode ", " barcode, ean ", "");
+    if (list[0]["barcode"] == barcodeData!.barcode ||
+        list[0]["ean"] == barcodeData.ean) {
+      response = barcodeTimeStamp(time, qty, page_id, type, barcodeData);
+    }
+    print("response----$response");
+    return response;
+  }
+
+//////////////////////////////////////////////////////////
 //   Future<List<Map<String, dynamic>>> queryAllRows() async {
 //     var a = "";
 //     Database db = await instance.database;

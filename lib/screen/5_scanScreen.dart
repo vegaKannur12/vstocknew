@@ -13,7 +13,7 @@ import 'package:vstock/model/barcodeScannerModel.dart';
 
 class ScanBarcode extends StatefulWidget {
   String type;
-  
+
   ScanBarcode({required this.type});
 
   @override
@@ -22,8 +22,9 @@ class ScanBarcode extends StatefulWidget {
 
 class _ScanBarcodeState extends State<ScanBarcode> {
   SnackbarCommon snackbr = SnackbarCommon();
-  String? formattedDate;
-  DateTime? now;
+  DateTime now = DateTime.now();
+
+  String? date;
   List<Data>? result;
   QRViewController? controller;
   String _barcodeScanned = "";
@@ -33,6 +34,13 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   TextEditingController _textController = TextEditingController();
   TextEditingController _barcodeText = TextEditingController();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  @override
+  void initState() {
+    date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -163,10 +171,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                         ),
                         ElevatedButton(
                             onPressed: () {
-                              now = DateTime.now();
-                              print(DateTime.now());
-                              formattedDate =
-                                  DateFormat('yyyy-MM-dd – kk:mm').format(now!);
                               if (_textController.text.isEmpty ||
                                   _textController.text == null) {
                                 print(" empty");
@@ -188,7 +192,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                 snackbr.showSnackbar(context);
                               }
                               print(
-                                  "save button------${_barcodeText.text}, ${formattedDate}");
+                                  "save button------${_barcodeText.text}, ${date}");
 
                               if (_barcodeText.text.isNotEmpty) {
                                 if (widget.type == "Free Scan with quantity") {
@@ -196,7 +200,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                   //         listen: false)
                                   //     .insertintoTableScanlog(
                                   //         _barcodeText.text,
-                                  //         formattedDate,
+                                  //         date,
                                   //         countInt,
                                   //         2,
                                   //         "Free Scan with quantity");
@@ -280,7 +284,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         controller.pauseCamera();
         now = DateTime.now();
         print(DateTime.now());
-        formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now!);
         if (_barcodeScanned != null && _barcodeScanned.isNotEmpty) {
           print("barcode----------------${_barcodeScanned}");
 

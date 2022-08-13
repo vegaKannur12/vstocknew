@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/components/shareFile.dart';
 import 'package:vstock/screen/5_scanScreen.dart';
 
 import '../controller/registrationController.dart';
@@ -14,6 +16,7 @@ class ScanListBarcode extends StatefulWidget {
 }
 
 class _ScanListBarcodeState extends State<ScanListBarcode> {
+  ShareFilePgm shareFilePgm = ShareFilePgm();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

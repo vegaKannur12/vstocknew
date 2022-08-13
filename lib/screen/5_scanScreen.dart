@@ -272,9 +272,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         setState(() {
           _barcodeScanned = scanData.code!;
           _barcodeText.text = _barcodeScanned;
-          int c = int.parse(
-              Provider.of<BarcodeController>(context, listen: false).count);
-          count = c + 1;
+          // int c = int.parse(
+          //     Provider.of<BarcodeController>(context, listen: false).count);
+          count = count+ 1;
           print("count====$count");
         });
         await FlutterBeep.beep();

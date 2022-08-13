@@ -1,11 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/shareFile.dart';
 import 'package:vstock/screen/5_scanScreen.dart';
-import 'package:vstock/screen/tableList.dart';
-import 'package:vstock/services/dbHelper.dart';
 
 import '../controller/registrationController.dart';
 
@@ -23,7 +20,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // backgroundColor: ColorThemeComponent.color4,
+      backgroundColor: ColorThemeComponent.color4,
       appBar: AppBar(
         backgroundColor: ColorThemeComponent.color4,
         title: Text("company name"),
@@ -33,17 +30,18 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           //       controller.add(true);
           //     },
           //     icon: Icon(Icons.refresh)),
-          IconButton(
-            onPressed: () async {
-              List<Map<String, dynamic>> list =
-                  await VstockDB.instance.getListOfTables();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TableList(list: list)),
-              );
-            },
-            icon: Icon(Icons.table_bar),
-          ),
+          // IconButton(
+          //   onPressed: () async {
+          //     List<Map<String, dynamic>> list =
+          //         await BarcodeScanlogDB.instance.getListOfTables();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //           builder: (context) => TableList(list: list)),
+          //     );
+          //   },
+          //   icon: Icon(Icons.table_bar),
+          // ),
           // IconButton(
           //   onPressed: () {
           //     _showDialog(context, "all", 0);
@@ -94,8 +92,6 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         ],
       ),
       body: Container(
-        height: size.height,
-        width: size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("asset/wave2.png"),

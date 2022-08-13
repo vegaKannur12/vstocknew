@@ -51,7 +51,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
       body: Transform.translate(
         offset: Offset(0.0, -0.4 * MediaQuery.of(context).viewInsets.bottom),
         child: Column(
-          children: <Widget>[
+          children: [
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
@@ -73,14 +73,13 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                       Text(
                         "Barcode  : ",
                         style: TextStyle(
-                          fontSize: 20,
-                        ),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       if (widget.type == "Free Scan with quantity" ||
                           widget.type == "API Scan with quantity")
                         Container(
-                          height: 50,
-                          width: 100,
+                          height: size.height * 0.05,
+                          width: size.width * 0.1,
                           child: TextFormField(
                             style: TextStyle(
                                 fontSize: 19, fontWeight: FontWeight.bold),
@@ -134,14 +133,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                         Container(
                           width: size.width * 0.2,
                           height: size.height * 0.06,
-                          // decoration: BoxDecoration(
-                          //   // shape: BoxShape.circle,
-                          //   border: Border.all(
-                          //     width: 1,
-                          //     color: Color(0xFF424242),
-                          //     style: BorderStyle.solid,
-                          //   ),
-                          // ),
                           child: Center(
                             child: TextFormField(
                               inputFormatters: [
@@ -159,17 +150,14 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                               decoration: InputDecoration(hintText: "1"),
                             ),
                           ),
-                          // child: Center(
-                          //   child: Text(
-                          //     count.toString(),
-                          //     style: TextStyle(fontSize: 20, color: Colors.red),
-                          //   ),
-                          // ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: size.height * 0.03,
                         ),
                         ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: ColorThemeComponent.regButtonColor,
+                            ),
                             onPressed: () {
                               if (_textController.text.isEmpty ||
                                   _textController.text == null) {
@@ -195,9 +183,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                   "save button------${_barcodeText.text}, ${date}");
 
                               if (_barcodeText.text.isNotEmpty) {
-                                if(widget.type=="Free Scan"){
-                                  
-                                }
+                                if (widget.type == "Free Scan") {}
                                 if (widget.type == "Free Scan with quantity") {
                                   // Provider.of<RegistrationController>(context,
                                   //         listen: false)
@@ -233,7 +219,10 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                               // });
                               controller!.resumeCamera();
                             },
-                            child: Text("save"))
+                            child: Text(
+                              "save",
+                              style: TextStyle(fontSize: 17),
+                            ))
                       ],
                     ),
 

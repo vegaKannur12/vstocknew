@@ -18,13 +18,12 @@ class BarcodeController extends ChangeNotifier {
   insertintoTableScanlog(String? _barcodeScanned, String? formattedDate,
       int count, int page_id, String type) async {
     print("enterd insertion section-----");
-    BarcodeScannerModel barcodeModel=BarcodeScannerModel();
-    for(var item in barcodeModel.data!){
-
-    var res = await VstockDB.instance.compareScannedbarcode(formattedDate!,1,page_id,type,"");
+    BarcodeScannerModel barcodeModel = BarcodeScannerModel();
+    for (var item in barcodeModel.data!) {
+      // var res = await VstockDB.instance.compareScannedbarcode(formattedDate!,1,page_id,type,"");
 
     }
-    print("res----${res}");
+    // print("res----${res}");
     notifyListeners();
   }
 }

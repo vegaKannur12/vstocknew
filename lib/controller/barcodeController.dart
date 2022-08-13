@@ -14,7 +14,7 @@ class BarcodeController extends ChangeNotifier {
   ExternalDir externalDir = ExternalDir();
   String? comName;
   bool isLoading = false;
-  String count="0";
+  String count = "0";
   SnackbarCommon snackbarCommon = SnackbarCommon();
   ////////////////////////////
 
@@ -31,11 +31,11 @@ class BarcodeController extends ChangeNotifier {
         formattedDate!, qty, page_id, type, _barcodeScanned!);
     print("response----$res --${res.runtimeType}");
 
-
     if (res == 0) {
       snackbarCommon.showSnackbar(context, "Invalid Barcode!!!");
-    }else{
-      count= await VstockDB.instance.countCommonQuery("tableScanLog", ""); 
+    } else {
+      print("fjdxfn-----");
+      // count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
     }
 
     // BarcodeScannerModel barcodeModel=BarcodeScannerModel();
@@ -52,7 +52,7 @@ class BarcodeController extends ChangeNotifier {
 
   ////////////////////////////////////////////
   countFrombarcode() async {
-    count= await VstockDB.instance.countCommonQuery("tableScanLog", "");
+    count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
     notifyListeners();
   }
 }

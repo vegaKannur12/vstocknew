@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/snackbar.dart';
+import 'package:vstock/controller/barcodeController.dart';
 import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/model/barcodeScannerModel.dart';
 
@@ -177,19 +178,20 @@ class _ScanBarcodeState extends State<ScanBarcode> {
 
                               if (_barcodeText.text.isEmpty) {
                                 print("text empty");
-                                snackbr.showSnackbar(context);
+                                snackbr.showSnackbar(
+                                    context, "Invalid Barcode!!!");
                               }
                               print(
                                   "save button------${_barcodeText.text}, ${date}");
 
                               if (_barcodeText.text.isNotEmpty) {
-                                if (widget.type == "Free Scan") {}
+
                                 if (widget.type == "Free Scan with quantity") {
-                                  // Provider.of<RegistrationController>(context,
+                                  // Provider.of<BarcodeController>(context,
                                   //         listen: false)
                                   //     .insertintoTableScanlog(
                                   //         _barcodeText.text,
-                                  //         date,
+
                                   //         countInt,
                                   //         2,
                                   //         "Free Scan with quantity");
@@ -270,7 +272,10 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         setState(() {
           _barcodeScanned = scanData.code!;
           _barcodeText.text = _barcodeScanned;
-          count = count + 1;
+          int c = int.parse(
+              Provider.of<BarcodeController>(context, listen: false).count);
+          count = c + 1;
+          print("count====$count");
         });
         await FlutterBeep.beep();
         controller.pauseCamera();
@@ -282,9 +287,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           // await BarcodeDB.instance.barcodeTimeStamtttp(_barcodeScanned, formattedDate, count);
           //  await BarcodeScanlogDB.instance.barcodeTimeStamp(_barcodeScanned, formattedDate, count,1);
           if (widget.type == "Free Scan") {
-            // Provider.of<RegistrationController>(context, listen: false)
-            //     .insertintoTableScanlog(
-            //         _barcodeScanned, formattedDate, 0, 1, "Free Scan");
+            Provider.of<BarcodeController>(context, listen: false)
+                .insertintoTableScanlog(_barcodeText.text, date, 1,
+                    countInt, 1, "Free Scan", context);
           }
           if (widget.type == "API Scan") {
             //  var result=await Provider.of<ProviderController>(context, listen: false).searchInTableScanLog(_barcodeScanned);

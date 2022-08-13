@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/externalDir.dart';
+import 'package:vstock/components/snackbar.dart';
 import 'package:vstock/model/barcodeScannerModel.dart';
 import 'package:vstock/model/registrationModel.dart';
 import 'package:vstock/services/dbHelper.dart';
@@ -13,17 +14,45 @@ class BarcodeController extends ChangeNotifier {
   ExternalDir externalDir = ExternalDir();
   String? comName;
   bool isLoading = false;
-
+  String count="0";
+  SnackbarCommon snackbarCommon = SnackbarCommon();
   ////////////////////////////
-  insertintoTableScanlog(String? _barcodeScanned, String? formattedDate,
-      int count, int page_id, String type) async {
-    print("enterd insertion section-----");
-    BarcodeScannerModel barcodeModel = BarcodeScannerModel();
-    for (var item in barcodeModel.data!) {
-      // var res = await VstockDB.instance.compareScannedbarcode(formattedDate!,1,page_id,type,"");
 
+  insertintoTableScanlog(
+      String? _barcodeScanned,
+      String? formattedDate,
+      int qty,
+      int count,
+      int page_id,
+      String type,
+      BuildContext context) async {
+    print("enterd insertion section---$_barcodeScanned--$formattedDate--$qty");
+    var res = await VstockDB.instance.compareScannedbarcode(
+        formattedDate!, qty, page_id, type, _barcodeScanned!);
+    print("response----$res --${res.runtimeType}");
+
+
+    if (res == 0) {
+      snackbarCommon.showSnackbar(context, "Invalid Barcode!!!");
+    }else{
+      count= await VstockDB.instance.countCommonQuery("tableScanLog", ""); 
     }
-    // print("res----${res}");
+
+    // BarcodeScannerModel barcodeModel=BarcodeScannerModel();
+
+    // for(var item in barcodeModel.data!){
+
+    // var res = await VstockDB.instance.compareScannedbarcode(formattedDate!,1,page_id,type,"");
+
+    // }
+    print("res----${res}");
+
+    notifyListeners();
+  }
+
+  ////////////////////////////////////////////
+  countFrombarcode() async {
+    count= await VstockDB.instance.countCommonQuery("tableScanLog", "");
     notifyListeners();
   }
 }

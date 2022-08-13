@@ -86,7 +86,7 @@ class VstockDB {
 
   ////////////////////////////////////////////////
   Future barcodeTimeStamp(String? time, int? qty, int page_id, String type,
-      Data? barcodeData) async {
+      Data? barcodeData, param5) async {
     var query;
     print("entered insertion table");
     final db = await database;
@@ -132,6 +132,7 @@ class VstockDB {
     print("response----$response");
     return response;
   }
+
 /////////////////////////////////////////////////////////
   getListOfTables() async {
     Database db = await instance.database;

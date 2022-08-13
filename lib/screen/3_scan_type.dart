@@ -22,7 +22,9 @@ class _ScanTypeState extends State<ScanType> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text("Select Scan Type"), backgroundColor: Colors.black),
+          title: Text("Select Scan Type"), 
+          backgroundColor: ColorThemeComponent.color4,
+          ),
       drawer: Drawer(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -73,6 +75,8 @@ class _ScanTypeState extends State<ScanType> {
         ),
       ),
       body: Container(
+         height: size.height,
+        width: size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("asset/wave2.png"),

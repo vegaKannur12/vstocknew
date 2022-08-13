@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/screen/1_splashscreen.dart';
 import 'package:vstock/screen/2_registration.dart';
@@ -46,6 +47,23 @@ class _MyAppState extends State<MyApp> {
       // ),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      // builder: (context, child) {
+      //   return Overlay(
+      //     initialEntries: [
+      //       OverlayEntry(
+      //         builder: (context) {
+      //           return ResponsiveWrapper.builder(
+      //             SplashScreen(),
+      //             defaultScale: true,
+      //             breakpoints: [
+      //               ResponsiveBreakpoint.autoScale(1000),
+      //             ],
+      //           );
+      //         },
+      //       ),
+      //     ],
+      //   );
+      // },
     );
   }
 }

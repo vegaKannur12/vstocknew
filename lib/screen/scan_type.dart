@@ -21,6 +21,7 @@ class _ScanTypeState extends State<ScanType> {
   late List<Map<String, dynamic>> queryresult;
   @override
   Widget build(BuildContext context) {
+    Size size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(actions: [
         // IconButton(
@@ -39,13 +40,17 @@ class _ScanTypeState extends State<ScanType> {
           },
           icon: Icon(Icons.table_bar),
         ),
-      ], title: Text("Select Scan Type"), backgroundColor: Colors.black),
+      ], title: Text("Select Scan Type"), 
+      backgroundColor: ColorThemeComponent.color4,
+      ),
       drawer: Drawer(
         child: Container(
           child: Text("ghdfsh"),
         ),
       ),
       body: Container(
+         height: size.height,
+        width: size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("asset/wave2.png"),

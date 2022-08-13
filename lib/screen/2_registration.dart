@@ -67,13 +67,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       body: Container(
+        height: size.height,
+        width: size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("asset/wave2.png"),
             fit: BoxFit.cover,
           ),
         ),
-        height: double.infinity,
         child: Padding(
           padding: const EdgeInsets.only(top: 5, left: 20, right: 20),
           child: Form(

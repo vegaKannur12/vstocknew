@@ -12,8 +12,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
- String? companyId;
- String? expiry;
+  String? companyId;
+  String? expiry;
 
   navigate() async {
     await Future.delayed(Duration(milliseconds: 3000), () async {
@@ -44,12 +44,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
       print(companyId);
 
-      Navigator.pushReplacement(
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => RegistrationScreen()));
+      Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => companyId == null
-                  ? RegistrationScreen()
-                  : ScanType()));
+              builder: (context) =>
+                  companyId == null ? RegistrationScreen() : ScanType()));
     });
   }
 

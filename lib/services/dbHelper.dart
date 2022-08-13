@@ -132,6 +132,17 @@ class VstockDB {
     print("response----$response");
     return response;
   }
+/////////////////////////////////////////////////////////
+  getListOfTables() async {
+    Database db = await instance.database;
+    var list = await db.query('sqlite_master', columns: ['type', 'name']);
+    print(list);
+    list.map((e) => print(e["name"])).toList();
+    return list;
+    // list.forEach((row) {
+    //   print(row.values);
+    // });
+  }
 
 //////////////////////////////////////////////////////////
 //   Future<List<Map<String, dynamic>>> queryAllRows() async {

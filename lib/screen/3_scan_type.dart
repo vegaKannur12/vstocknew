@@ -97,9 +97,6 @@ class _ScanTypeState extends State<ScanType> {
                   child: ListTile(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
-                    // tileColor: tappedIndex == index
-                    //     ? ColorThemeComponent.tappedtileColor
-                    //     :  ColorThemeComponent.regButtonColor,
                     onTap: () async {
                       setState(() {
                         tappedIndex = index;
@@ -117,8 +114,8 @@ class _ScanTypeState extends State<ScanType> {
                       types[index],
                       style: TextStyle(
                         // fontFamily: "fantasy",
-                        fontSize: 20,
-                        color: ColorThemeComponent.tileTextColor,
+                        fontSize: 22,
+                        color: ColorThemeComponent.tileTextColor2,
                         // color: tappedIndex == index
                         //     ? Colors.black
                         //     : Colors.white

@@ -23,8 +23,9 @@ class ScanBarcode extends StatefulWidget {
 
 class _ScanBarcodeState extends State<ScanBarcode> {
   SnackbarCommon snackbr = SnackbarCommon();
-  String? formattedDate;
-  DateTime? now;
+  DateTime now = DateTime.now();
+
+  String? date;
   List<Data>? result;
   QRViewController? controller;
   String _barcodeScanned = "";
@@ -35,6 +36,13 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   TextEditingController _barcodeText = TextEditingController();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   @override
+  void initState() {
+    date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -44,7 +52,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
       body: Transform.translate(
         offset: Offset(0.0, -0.4 * MediaQuery.of(context).viewInsets.bottom),
         child: Column(
-          children: <Widget>[
+          children: [
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
@@ -66,14 +74,13 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                       Text(
                         "Barcode  : ",
                         style: TextStyle(
-                          fontSize: 20,
-                        ),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       if (widget.type == "Free Scan with quantity" ||
                           widget.type == "API Scan with quantity")
                         Container(
-                          height: 50,
-                          width: 100,
+                          height: size.height * 0.05,
+                          width: size.width * 0.1,
                           child: TextFormField(
                             style: TextStyle(
                                 fontSize: 19, fontWeight: FontWeight.bold),
@@ -127,14 +134,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                         Container(
                           width: size.width * 0.2,
                           height: size.height * 0.06,
-                          // decoration: BoxDecoration(
-                          //   // shape: BoxShape.circle,
-                          //   border: Border.all(
-                          //     width: 1,
-                          //     color: Color(0xFF424242),
-                          //     style: BorderStyle.solid,
-                          //   ),
-                          // ),
                           child: Center(
                             child: TextFormField(
                               inputFormatters: [
@@ -152,22 +151,15 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                               decoration: InputDecoration(hintText: "1"),
                             ),
                           ),
-                          // child: Center(
-                          //   child: Text(
-                          //     count.toString(),
-                          //     style: TextStyle(fontSize: 20, color: Colors.red),
-                          //   ),
-                          // ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: size.height * 0.03,
                         ),
                         ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: ColorThemeComponent.regButtonColor,
+                            ),
                             onPressed: () {
-                              now = DateTime.now();
-                              print(DateTime.now());
-                              formattedDate =
-                                  DateFormat('yyyy-MM-dd – kk:mm').format(now!);
                               if (_textController.text.isEmpty ||
                                   _textController.text == null) {
                                 print(" empty");
@@ -190,16 +182,16 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                     context, "Invalid Barcode!!!");
                               }
                               print(
-                                  "save button------${_barcodeText.text}, ${formattedDate}");
+                                  "save button------${_barcodeText.text}, ${date}");
 
                               if (_barcodeText.text.isNotEmpty) {
+
                                 if (widget.type == "Free Scan with quantity") {
                                   // Provider.of<BarcodeController>(context,
                                   //         listen: false)
                                   //     .insertintoTableScanlog(
                                   //         _barcodeText.text,
-                                  //         formattedDate,
-                                  //         1,
+
                                   //         countInt,
                                   //         2,
                                   //         "Free Scan with quantity");
@@ -229,7 +221,10 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                               // });
                               controller!.resumeCamera();
                             },
-                            child: Text("save"))
+                            child: Text(
+                              "save",
+                              style: TextStyle(fontSize: 17),
+                            ))
                       ],
                     ),
 
@@ -286,7 +281,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         controller.pauseCamera();
         now = DateTime.now();
         print(DateTime.now());
-        formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now!);
         if (_barcodeScanned != null && _barcodeScanned.isNotEmpty) {
           print("barcode----------------${_barcodeScanned}");
 
@@ -294,7 +288,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           //  await BarcodeScanlogDB.instance.barcodeTimeStamp(_barcodeScanned, formattedDate, count,1);
           if (widget.type == "Free Scan") {
             Provider.of<BarcodeController>(context, listen: false)
-                .insertintoTableScanlog(_barcodeText.text, formattedDate, 1,
+                .insertintoTableScanlog(_barcodeText.text, date, 1,
                     countInt, 1, "Free Scan", context);
           }
           if (widget.type == "API Scan") {

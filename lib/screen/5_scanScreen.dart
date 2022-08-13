@@ -32,6 +32,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   bool _scanCode = false;
   int count = 0;
   int countInt = 1;
+  int c = 0;
   TextEditingController _textController = TextEditingController();
   TextEditingController _barcodeText = TextEditingController();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -40,6 +41,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     // TODO: implement initState
     super.initState();
+    // c = int.parse(
+    //           Provider.of<BarcodeController>(context, listen: false).count);
   }
 
   @override
@@ -278,9 +281,11 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         setState(() {
           _barcodeScanned = scanData.code!;
           _barcodeText.text = _barcodeScanned;
-          // int c = int.parse(
-          //     Provider.of<BarcodeController>(context, listen: false).count);
-          count = count + 1;
+          Provider.of<BarcodeController>(context, listen: false)
+              .countFrombarcode();
+          c = int.parse(
+              Provider.of<BarcodeController>(context, listen: false).count);
+          count = c + 1;
           print("count====$count");
         });
         await FlutterBeep.beep();

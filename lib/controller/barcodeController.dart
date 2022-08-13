@@ -17,8 +17,7 @@ class BarcodeController extends ChangeNotifier {
   String count = "0";
   SnackbarCommon snackbarCommon = SnackbarCommon();
   List<Map<String, dynamic>> scanList = [];
-  ////////////////////////////
-
+  ////////////////////////////////////////////////
   insertintoTableScanlog(
       String? _barcodeScanned,
       String? formattedDate,
@@ -54,13 +53,15 @@ class BarcodeController extends ChangeNotifier {
   ////////////////////////////////////////////
   countFrombarcode() async {
     count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
+    print("ghgashd----$count");
     notifyListeners();
   }
 
   /////////////////////////////////////////////////
   getDataFromScanLog() async {
     print("entered fetching section---");
-    scanList = await VstockDB.instance.selectCommonQuery("tableScanlog","barcode,time"," ");
+    scanList = await VstockDB.instance
+        .selectCommonQuery("tableScanlog", "barcode,time", " ");
     print("result from scanlog.............$scanList");
     notifyListeners();
   }

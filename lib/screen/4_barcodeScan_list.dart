@@ -7,6 +7,8 @@ import 'package:vstock/controller/barcodeController.dart';
 import 'package:vstock/components/shareFile.dart';
 
 import 'package:vstock/screen/5_scanScreen.dart';
+import 'package:vstock/screen/tableList.dart';
+import 'package:vstock/services/dbHelper.dart';
 
 import '../controller/registrationController.dart';
 
@@ -34,18 +36,17 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           //       controller.add(true);
           //     },
           //     icon: Icon(Icons.refresh)),
-          // IconButton(
-          //   onPressed: () async {
-          //     List<Map<String, dynamic>> list =
-          //         await BarcodeScanlogDB.instance.getListOfTables();
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) => TableList(list: list)),
-          //     );
-          //   },
-          //   icon: Icon(Icons.table_bar),
-          // ),
+          IconButton(
+            onPressed: () async {
+              List<Map<String, dynamic>> list =
+                  await VstockDB.instance.getListOfTables();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TableList(list: list)),
+              );
+            },
+            icon: Icon(Icons.table_bar),
+          ),
           // IconButton(
           //   onPressed: () {
           //     _showDialog(context, "all", 0);
@@ -83,7 +84,8 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           FloatingActionButton(
             backgroundColor: Colors.pink,
             onPressed: () {
-              Provider.of<BarcodeController>(context, listen: false).countFrombarcode();
+              Provider.of<BarcodeController>(context, listen: false)
+                  .countFrombarcode();
               Navigator.push(
                 context,
                 MaterialPageRoute(

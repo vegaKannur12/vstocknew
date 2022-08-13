@@ -70,4 +70,13 @@ class RegistrationController extends ChangeNotifier {
       return null;
     }
   }
+
+  ////////////////////////////
+  insertintoTableScanlog(String? _barcodeScanned, String? formattedDate,
+      int count, int page_id, String type) async {
+    print("enterd insertion section-----");
+    // var res = await VstockDB.instance.compareScannedbarcode(formattedDate!,1,page_id,type,,"");
+    // print("res----${res}");
+    notifyListeners();
+  }
 }

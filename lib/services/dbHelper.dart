@@ -127,7 +127,7 @@ class VstockDB {
     var list = selectCommonQuery(" barcode ", " barcode, ean ", "");
     if (list[0]["barcode"] == barcodeData!.barcode ||
         list[0]["ean"] == barcodeData.ean) {
-      response = barcodeTimeStamp(time, qty, page_id, type, barcodeData);
+      // response = barcodeTimeStamp(time, qty, page_id, type, barcodeData,"");
     }
     print("response----$response");
     return response;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:vstock/controller/barcodeController.dart';
 import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/screen/1_splashscreen.dart';
 import 'package:vstock/screen/2_registration.dart';
@@ -14,7 +15,7 @@ void main() {
     runApp(
       MultiProvider(
         providers: [
-          // ChangeNotifierProvider(create: (_) => ProviderController()),
+          ChangeNotifierProvider(create: (_) => BarcodeController()),
           ChangeNotifierProvider(
             create: (_) => RegistrationController(),
           ),

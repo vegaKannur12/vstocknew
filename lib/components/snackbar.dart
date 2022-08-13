@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SnackbarCommon{
-  showSnackbar(BuildContext context) {
+  showSnackbar(BuildContext context,String content) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Color.fromARGB(255, 143, 17, 8),
         duration: const Duration(seconds: 1),
-        content: Text('Expired!!!!'),
+        content: Text("$content"),
         action: SnackBarAction(
           label: 'Dissmiss',
           textColor: Colors.yellow,

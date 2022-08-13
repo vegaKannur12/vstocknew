@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/controller/barcodeController.dart';
 import 'package:vstock/screen/5_scanScreen.dart';
 import 'package:vstock/screen/tableList.dart';
 import 'package:vstock/services/dbHelper.dart';
@@ -78,6 +79,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           FloatingActionButton(
             backgroundColor: Colors.pink,
             onPressed: () {
+              Provider.of<BarcodeController>(context, listen: false).countFrombarcode();
               Navigator.push(
                 context,
                 MaterialPageRoute(

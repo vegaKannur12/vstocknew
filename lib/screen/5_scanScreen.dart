@@ -195,6 +195,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                   "save button------${_barcodeText.text}, ${date}");
 
                               if (_barcodeText.text.isNotEmpty) {
+                                if(widget.type=="Free Scan"){
+                                  
+                                }
                                 if (widget.type == "Free Scan with quantity") {
                                   // Provider.of<RegistrationController>(context,
                                   //         listen: false)

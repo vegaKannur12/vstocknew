@@ -13,7 +13,7 @@ import 'package:vstock/model/barcodeScannerModel.dart';
 
 class ScanBarcode extends StatefulWidget {
   String type;
-
+  
   ScanBarcode({required this.type});
 
   @override

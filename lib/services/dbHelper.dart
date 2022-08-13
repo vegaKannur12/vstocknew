@@ -110,32 +110,7 @@ class VstockDB {
     final _db = await instance.database;
     _db.close();
   }
-  Future barcodeTimeStamp(String? barcode, String? time, int? qty, int page_id,
-      String type, Data? barcodeData) async {
-    var query;
-    print("entered insertion table");
-    final db = await database;
-    if (type == "Free Scan" || type == "Free Scan with quantity") {
-      query =
-          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcode}", "${time}", ${qty}, ${page_id},"","","","","","","","")';
-    }
-    if (type == "API Scan" || type == "API Scan with quantity") {
-      query =
-          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcodeData!.barcode}", "${time}", ${qty}, ${page_id},"${barcodeData.model}","${barcodeData.brand}","${barcodeData.description}","${barcodeData.rate}","${barcodeData.size}","${barcodeData.product}","${barcodeData.pcode}","${barcodeData.ean}")';
-    }
 
-    var res = await db.rawInsert(query);
-    print(query);
-    print(res);
-    return res;
-  }
-    //////////////////////////////////////
-
-///////////////////////////////////////////////////
-
-   //////////////////////////////////////////////////////
-
-  ///////////////////////////////////////////////////
 //   /////////////////////////get all rows////////////
   selectCommonQuery(String table, String field, String condition) async {
     Database db = await instance.database;

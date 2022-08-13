@@ -98,6 +98,33 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
             fit: BoxFit.cover,
           ),
         ),
+        child: Consumer<RegistrationController>(
+          builder: (context, value, child) {
+            return SingleChildScrollView(
+              child: Container(
+                height: size.height * 0.8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        "asset/No.png",
+                        color: ColorThemeComponent.regButtonColor,
+                        height: size.height * 0.2,
+                        width: size.width * 0.2,
+                      ),
+                    ),
+                    Text(
+                      'No data!!!',
+                      style: TextStyle(
+                          fontSize: 18, color: ColorThemeComponent.textFrmtext),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
       // body: Consumer<RegistrationController>(
       //   builder: (context, value, child) {

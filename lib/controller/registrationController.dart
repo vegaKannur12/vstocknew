@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/model/registrationModel.dart';
 import 'package:vstock/services/dbHelper.dart';
@@ -47,13 +48,22 @@ class RegistrationController extends ChangeNotifier {
       // int uid = int.parse(map["UserId"].toString());
       // String fp=regModel.fp;
       //       await externalDir.fileWrite(fp!);
-
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      pref.setString('companyId', company_code);
       var result = await VstockDB.instance.insertRegistrationDetails(
           company_code, device_id, "free to scan", regModel);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ScanType()),
-      );
+      print("result-----$result");
+      if (result > 0) {
+        print("hekoooooo");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ScanType(
+                  // companyName: result!.companyName.toString(),
+                  )),
+        );
+      }
+
       notifyListeners();
     } catch (e) {
       print(e);

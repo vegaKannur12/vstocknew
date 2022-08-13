@@ -68,6 +68,24 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           ),
         ],
       ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) => BarcodeScannerScreen(
+              //             strcontroller: controller,
+              //             type: widget.type,
+              //           )),
+              // );
+            },
+            child: Icon(Icons.scanner),
+          ),
+        ],
+      ),
       // body: Consumer<RegistrationController>(
       //   builder: (context, value, child) {
       //     return SingleChildScrollView(

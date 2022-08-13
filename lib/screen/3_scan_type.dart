@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/screen/4_barcodeScan_list.dart';
 
 class ScanType extends StatefulWidget {
-
   @override
   State<ScanType> createState() => _ScanTypeState();
 }
@@ -93,20 +94,20 @@ class _ScanTypeState extends State<ScanType> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)),
                     tileColor: tappedIndex == index
-                        ? Color.fromARGB(255, 255, 255, 255)
-                        : Color.fromARGB(255, 45, 25, 71),
+                        ? ColorThemeComponent.tappedtileColor
+                        : ColorThemeComponent.regButtonColor,
                     onTap: () async {
                       setState(() {
                         tappedIndex = index;
                       });
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => BarcodeScanner(
-                      //             type: types[index],
-                      //             // queryresult: queryresult,
-                      //           )),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ScanListBarcode(
+                                  type: types[index],
+                                  // queryresult: queryresult,
+                                )),
+                      );
                     },
                     title: Text(
                       types[index],

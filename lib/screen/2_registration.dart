@@ -157,6 +157,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Widget textForm(String type) {
     return TextFormField(
+      keyboardType: type == "Phone number" ? TextInputType.number : null,
       controller: type == "Company code" ? controller1 : controller2,
       style: TextStyle(color: ColorThemeComponent.textFrmtext),
       decoration: InputDecoration(
@@ -173,7 +174,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           //  when the TextFormField in focused
         ),
         icon: Icon(
-         type == "Company code" ? Icons.business: Icons.phone ,
+          type == "Company code" ? Icons.business : Icons.phone,
           color: ColorThemeComponent.regButtonColor,
         ),
         // hintText: 'What do people call you?',

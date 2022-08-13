@@ -110,6 +110,12 @@ class VstockDB {
   }
 
 //   /////////////////////////get all rows////////////
+  selectCommonQuery(String table, String field, String condition) async {
+    Database db = await instance.database;
+    var query = "SELECT $field FROM $table $condition";
+    var list = await db.rawQuery(query);
+    return list;
+  }
 //   Future<List<Map<String, dynamic>>> queryAllRows() async {
 //     var a = "";
 //     Database db = await instance.database;

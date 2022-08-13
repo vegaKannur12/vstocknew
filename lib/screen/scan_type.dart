@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/screen/tableList.dart';
+import 'package:vstock/services/dbHelper.dart';
 
 class ScanType extends StatefulWidget {
   const ScanType({Key? key}) : super(key: key);
@@ -20,8 +22,24 @@ class _ScanTypeState extends State<ScanType> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text("Select Scan Type"), backgroundColor: Colors.black),
+      appBar: AppBar(actions: [
+        // IconButton(
+        //     onPressed: () {
+        //       controller.add(true);
+        //     },
+        //     icon: Icon(Icons.refresh)),
+        IconButton(
+          onPressed: () async {
+            List<Map<String, dynamic>> list =
+                await VstockDB.instance.getListOfTables();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TableList(list: list)),
+            );
+          },
+          icon: Icon(Icons.table_bar),
+        ),
+      ], title: Text("Select Scan Type"), backgroundColor: Colors.black),
       drawer: Drawer(
         child: Container(
           child: Text("ghdfsh"),
@@ -67,13 +85,13 @@ class _ScanTypeState extends State<ScanType> {
                     title: Text(
                       types[index],
                       style: TextStyle(
-                          // fontFamily: "fantasy",
-                          fontSize: 20,
-                          color: ColorThemeComponent.tileTextColor ,
-                          // color: tappedIndex == index
-                          //     ? Colors.black
-                          //     : Colors.white
-                    ),
+                        // fontFamily: "fantasy",
+                        fontSize: 20,
+                        color: ColorThemeComponent.tileTextColor,
+                        // color: tappedIndex == index
+                        //     ? Colors.black
+                        //     : Colors.white
+                      ),
                     ),
                   ),
                 ),

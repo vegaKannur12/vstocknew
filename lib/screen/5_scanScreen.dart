@@ -32,6 +32,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   bool _scanCode = false;
   int count = 0;
   int countInt = 1;
+  int c = 0;
   TextEditingController _textController = TextEditingController();
   TextEditingController _barcodeText = TextEditingController();
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -40,6 +41,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     // TODO: implement initState
     super.initState();
+    // c = int.parse(
+    //           Provider.of<BarcodeController>(context, listen: false).count);
   }
 
   @override
@@ -185,7 +188,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                   "save button------${_barcodeText.text}, ${date}");
 
                               if (_barcodeText.text.isNotEmpty) {
-
                                 if (widget.type == "Free Scan with quantity") {
                                   // Provider.of<BarcodeController>(context,
                                   //         listen: false)
@@ -272,9 +274,11 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         setState(() {
           _barcodeScanned = scanData.code!;
           _barcodeText.text = _barcodeScanned;
-          // int c = int.parse(
-          //     Provider.of<BarcodeController>(context, listen: false).count);
-          count = count+ 1;
+          Provider.of<BarcodeController>(context, listen: false)
+              .countFrombarcode();
+          c = int.parse(
+              Provider.of<BarcodeController>(context, listen: false).count);
+          count = c + 1;
           print("count====$count");
         });
         await FlutterBeep.beep();
@@ -288,8 +292,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           //  await BarcodeScanlogDB.instance.barcodeTimeStamp(_barcodeScanned, formattedDate, count,1);
           if (widget.type == "Free Scan") {
             Provider.of<BarcodeController>(context, listen: false)
-                .insertintoTableScanlog(_barcodeText.text, date, 1,
-                    countInt, 1, "Free Scan", context);
+                .insertintoTableScanlog(_barcodeText.text, date, 1, countInt, 1,
+                    "Free Scan", context);
           }
           if (widget.type == "API Scan") {
             //  var result=await Provider.of<ProviderController>(context, listen: false).searchInTableScanLog(_barcodeScanned);

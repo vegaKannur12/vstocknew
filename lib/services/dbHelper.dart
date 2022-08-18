@@ -155,12 +155,17 @@ class VstockDB {
       if (list[0]["barcode"] == barcode || list[0]["ean"] == barcode) {
         if (listtimeStamp.length > 0) {
           print("updation---");
-          response = await updateqtyAndRate("tableScanLog", barcode);
+          int updatedqty = listtimeStamp[0]["qty"] + 1;
+          print("hszjj-----${listtimeStamp[0]["qty"].runtimeType}");
+          response = await updateCommonQuery(
+              "tableScanLog",
+              "qty='${updatedqty}'",
+              "where barcode='$barcode' or ean='$barcode' ");
         } else {
           print("insertion---${list[0]["rate"].runtimeType}");
 
-          response = await barcodeTimeStamp(time, qty,
-              list[0]["rate"], page_id, type, null, barcode);
+          response = await barcodeTimeStamp(
+              time, qty, list[0]["rate"], page_id, type, null, barcode);
         }
       } else {
         return 0;
@@ -196,19 +201,26 @@ class VstockDB {
   }
 
 //////////////////////////////////////////////////////////
-  updateqtyAndRate(
-    String table,
-    String barcode,
-  ) async {
+  // updateqtyAndRate(
+  //   String table,
+  //   String barcode,
+  // ) async {
+  //   Database db = await instance.database;
+  //   // List<Map<String, dynamic>> listtimeStamp = await selectCommonQuery(
+  //   //     "tableScanLog", "qty", "where barcode='$barcode' OR ean='$barcode'");
+  //   print("condition for update...$listtimeStamp");
+  //   var query = "UPDATE $table SET qty=";
+  //   var res = await db.rawUpdate(query);
+  //   print("query---$query");
+  //   print("response-------$res");
+  //   return res;
+  // }
+
+  updateCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> listtimeStamp = await selectCommonQuery(
-        "tableScanLog", "qty", "where barcode='$barcode' OR ean='$barcode'");
-    print("condition for update...$listtimeStamp");
-    var query = "UPDATE $table SET qty=";
-    // var res = await db.rawUpdate(query);
-    // print("query---$query");
-    // print("response-------$res");
-    // return res;
+    var query = "UPDATE $table SET $fields $condition";
+    var res = await db.rawUpdate(query);
+    return res;
   }
 /////////////////////////////////////////
 //   Future<List<Map<String, dynamic>>> queryAllRows() async {

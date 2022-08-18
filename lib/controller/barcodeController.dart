@@ -60,8 +60,12 @@ class BarcodeController extends ChangeNotifier {
   /////////////////////////////////////////////////
   getDataFromScanLog() async {
     print("entered fetching section---");
-    scanList = await VstockDB.instance
-        .selectCommonQuery("tableScanlog", "barcode,time", " ");
+    var res =
+        await VstockDB.instance.selectCommonQuery("tableScanlog", "*", " ");
+    scanList.clear();
+    for (var item in res) {
+      scanList.add(item);
+    }
     print("result from scanlog.............$scanList");
     notifyListeners();
   }

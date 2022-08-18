@@ -141,6 +141,14 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold),
                           ),
+                          Spacer(),
+                          Text(
+                            "Qty",
+                            style: TextStyle(
+                                color: ColorThemeComponent.regButtonColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ],
                       ),
                     ),
@@ -163,6 +171,13 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 Spacer(),
                                 Text(
                                   value.scanList[index]['time'],
+                                  style: TextStyle(
+                                      color: ColorThemeComponent.color3,
+                                      fontSize: 15),
+                                ),
+                                Spacer(),
+                                Text(
+                                  value.scanList[index]['qty'].toString(),
                                   style: TextStyle(
                                       color: ColorThemeComponent.color3,
                                       fontSize: 15),

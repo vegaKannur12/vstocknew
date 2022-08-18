@@ -38,7 +38,7 @@ class VstockDB {
             model TEXT,
             brand TEXT,
             description TEXT,
-            rate TEXT,
+            rate REAL,
             size TEXT,
             product TEXT,
             pcode TEXT,
@@ -85,8 +85,8 @@ class VstockDB {
   }
 
   ////////////////////////////////////////////////
-  Future barcodeTimeStamp(String? time, int? qty, int page_id, String type,
-      Data? barcodeData, String barcode) async {
+  Future barcodeTimeStamp(String? time, int? qty, double rate, int page_id,
+      String type, Data? barcodeData, String barcode) async {
     var query;
     print("entered insertion table");
     final db = await database;
@@ -145,11 +145,28 @@ class VstockDB {
     Database db = await instance.database;
     var response;
     List<Map<String, dynamic>> list =
-        await selectCommonQuery("barcode", "barcode, ean", "");
+        await selectCommonQuery("barcode", "*", "");
     print("list---$list");
+
+    List<Map<String, dynamic>> listtimeStamp = await selectCommonQuery(
+        "tableScanLog", "*", "where barcode='$barcode' OR ean='$barcode'");
+    print("barcode----list---$listtimeStamp");
     if (list.length > 0) {
       if (list[0]["barcode"] == barcode || list[0]["ean"] == barcode) {
-        response = barcodeTimeStamp(time, qty, page_id, type, null, barcode);
+        if (listtimeStamp.length > 0) {
+          print("updation---");
+          int updatedqty = listtimeStamp[0]["qty"] + 1;
+          print("hszjj-----${listtimeStamp[0]["qty"].runtimeType}");
+          response = await updateCommonQuery(
+              "tableScanLog",
+              "qty='${updatedqty}'",
+              "where barcode='$barcode' or ean='$barcode' ");
+        } else {
+          print("insertion---${list[0]["rate"].runtimeType}");
+
+          response = await barcodeTimeStamp(
+              time, qty, list[0]["rate"], page_id, type, null, barcode);
+        }
       } else {
         return 0;
       }
@@ -174,6 +191,7 @@ class VstockDB {
 
 ////////////////////////////////////////////////////////
   countCommonQuery(String table, String? condition) async {
+    print("conditions.............$table...$condition");
     String count = "0";
     Database db = await instance.database;
     final result =
@@ -182,7 +200,30 @@ class VstockDB {
     print("result---count---$result");
     return count;
   }
+
 //////////////////////////////////////////////////////////
+  // updateqtyAndRate(
+  //   String table,
+  //   String barcode,
+  // ) async {
+  //   Database db = await instance.database;
+  //   // List<Map<String, dynamic>> listtimeStamp = await selectCommonQuery(
+  //   //     "tableScanLog", "qty", "where barcode='$barcode' OR ean='$barcode'");
+  //   print("condition for update...$listtimeStamp");
+  //   var query = "UPDATE $table SET qty=";
+  //   var res = await db.rawUpdate(query);
+  //   print("query---$query");
+  //   print("response-------$res");
+  //   return res;
+  // }
+
+  updateCommonQuery(String table, String fields, String condition) async {
+    Database db = await instance.database;
+    var query = "UPDATE $table SET $fields $condition";
+    var res = await db.rawUpdate(query);
+    return res;
+  }
+/////////////////////////////////////////
 //   Future<List<Map<String, dynamic>>> queryAllRows() async {
 //     var a = "";
 //     Database db = await instance.database;

@@ -33,10 +33,14 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: ColorThemeComponent.color4,
+      backgroundColor: ColorThemeComponent.listclr,
       appBar: AppBar(
-        backgroundColor: ColorThemeComponent.color4,
-        title: Text("company name"),
+        elevation: 0,
+        backgroundColor: ColorThemeComponent.listclr,
+        title: Text(
+          "Company Name",
+          // style: TextStyle(color: ColorThemeComponent.appbr),
+        ),
         actions: [
           // IconButton(
           //     onPressed: () {
@@ -89,7 +93,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            backgroundColor: Colors.pink,
+            backgroundColor: Color.fromARGB(255, 252, 252, 252),
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
                   .countFrombarcode();
@@ -101,7 +105,10 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                         )),
               );
             },
-            child: Icon(Icons.scanner),
+            child: Icon(
+              Icons.scanner,
+              color: ColorThemeComponent.color4,
+            ),
           ),
         ],
       ),
@@ -114,34 +121,45 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                 width: size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("asset/wave2.png"),
+                    image: AssetImage("asset/grad1.png"),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               Column(
                 children: [
-                  ListTile(
-                    title: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Barcode",
-                            style: TextStyle(
-                                color: ColorThemeComponent.regButtonColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Spacer(),
-                          Text(
-                            "Date & Time",
-                            style: TextStyle(
-                                color: ColorThemeComponent.regButtonColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                  Container(
+                    height: size.height * 0.07,
+                    child: ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Barcode",
+                              style: TextStyle(
+                                  color: ColorThemeComponent.color3,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Spacer(),
+                            Text(
+                              "Date & Time",
+                              style: TextStyle(
+                                  color: ColorThemeComponent.color3,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Spacer(),
+                            Text(
+                              "Qty",
+                              style: TextStyle(
+                                  color: ColorThemeComponent.color3,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -163,6 +181,13 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 Spacer(),
                                 Text(
                                   value.scanList[index]['time'],
+                                  style: TextStyle(
+                                      color: ColorThemeComponent.color3,
+                                      fontSize: 15),
+                                ),
+                                Spacer(),
+                                Text(
+                                  value.scanList[index]['qty'].toString(),
                                   style: TextStyle(
                                       color: ColorThemeComponent.color3,
                                       fontSize: 15),

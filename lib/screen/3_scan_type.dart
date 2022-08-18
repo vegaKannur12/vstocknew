@@ -23,7 +23,8 @@ class _ScanTypeState extends State<ScanType> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Select Scan Type"),
-        backgroundColor: ColorThemeComponent.color4,
+        backgroundColor: ColorThemeComponent.listclr,
+        elevation: 0,
       ),
       drawer: Drawer(
         child: LayoutBuilder(
@@ -38,7 +39,7 @@ class _ScanTypeState extends State<ScanType> {
                   Container(
                     height: size.height * 0.1,
                     width: size.width * 1,
-                    color: ColorThemeComponent.regButtonColor,
+                    color: ColorThemeComponent.listclr,
                     child: Row(
                       children: [
                         SizedBox(
@@ -88,7 +89,7 @@ class _ScanTypeState extends State<ScanType> {
             width: size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("asset/wave2.png"),
+                image: AssetImage("asset/grad1.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -124,7 +125,7 @@ class _ScanTypeState extends State<ScanType> {
                           style: TextStyle(
                             // fontFamily: "fantasy",
                             fontSize: 22,
-                            color: ColorThemeComponent.tileTextColor2,
+                            color: ColorThemeComponent.color3,
                             // color: tappedIndex == index
                             //     ? Colors.black
                             //     : Colors.white

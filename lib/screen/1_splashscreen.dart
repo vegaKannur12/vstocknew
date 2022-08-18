@@ -43,8 +43,8 @@ class _SplashScreenState extends State<SplashScreen> {
       SharedPreferences pref = await SharedPreferences.getInstance();
       companyId = pref.getString('companyId');
 
-      print("company id.........$companyId");
-      await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
+      // await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
+
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => RegistrationScreen()));
       Navigator.push(

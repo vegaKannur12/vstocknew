@@ -55,7 +55,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
                   .getDataFromScanLog();
-                  Navigator.pop(context);
+              Navigator.pop(context);
             }),
         backgroundColor: ColorThemeComponent.color4,
       ),
@@ -283,9 +283,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           _barcodeText.text = _barcodeScanned;
           Provider.of<BarcodeController>(context, listen: false)
               .countFrombarcode();
-          c = int.parse(
-              Provider.of<BarcodeController>(context, listen: false).count);
-          count = c + 1;
+          // c = int.parse(
+          //     Provider.of<BarcodeController>(context, listen: false).count);
+          count = count + 1;
           print("count====$count");
         });
         await FlutterBeep.beep();

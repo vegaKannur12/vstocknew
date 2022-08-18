@@ -21,10 +21,17 @@ class ScanListBarcode extends StatefulWidget {
 }
 
 class _ScanListBarcodeState extends State<ScanListBarcode> {
+  late List<List<dynamic>> scan1;
+
   ShareFilePgm shareFilePgm = ShareFilePgm();
   @override
   void initState() {
-    Provider.of<BarcodeController>(context, listen: false).getDataFromScanLog();
+    scan1 = List<List<dynamic>>.empty(growable: true);
+    Provider.of<BarcodeController>(context, listen: false)
+        .getDataFromScanLog();
+
+    // print("sca11------$res");
+
     // TODO: implement initState
     super.initState();
   }
@@ -66,15 +73,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
             elevation: 20,
             enabled: true,
             onSelected: (value) async {
-              // await createFolderInAppDocDir("csv");
-              // print("attachment:${attachment}");
-              // // print("attachment path:${attachment.path}");
-
-              // setState(() {
-              //   filepaths.add(attachment);
-              // });
-
-              // shareFilePgm.onShareCsv(context, scan1, widget.type);
+              shareFilePgm.onShareCsv(context, scan1, widget.type);
             },
             itemBuilder: (context) => [
               PopupMenuItem(

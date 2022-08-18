@@ -21,28 +21,32 @@ class ShareFilePgm {
   ////////////////////////////////////////////////////
   Future<List<List>> getData(List<List<dynamic>> scan1, String type) async {
     // scan1.clear();
-    print("after clear ----${scan1.length}");
+    print("after clear ----${scan1}");
     List<String> columnNames;
-    data = await VstockDB.instance.selectCommonQuery("tableScanLog","*"," ");
+    data = await VstockDB.instance.selectCommonQuery("tableScanLog", "*", " ");
+    print("data----$data");
     // columnNames = await BarcodeScanlogDB.instance.getColumnnames();
     if (type == "Free Scan" || type == "API Scan") {
-      columnNames = ["Barcode", "Time"];
+      columnNames = ["Barcode", "Date", "Time", "Qty"];
     } else {
-      columnNames = ["Barcode", "Time", "Qty"];
+      columnNames = ["Barcode", "Date", "Time", "Qty"];
     }
     scan1.add(columnNames);
     for (var i = 0; i < data.length; i++) {
       List<dynamic> row = List.empty(growable: true);
+      List date = data[i]["time"].split(' ');
+      print("aggfv-----$date");
       row.add('${data[i]["barcode"]}');
-      row.add('${data[i]["time"]}');
-      type == "Free Scan" || type == "API Scan"?null
-      :
+      row.add(date[0]);
+      row.add(date[1]);
       row.add('${data[i]["qty"]}');
-      
+      // type == "Free Scan" || type == "API Scan"
+      //     ? null
+      //     : row.add('${data[i]["qty"]}');
 
       scan1.add(row);
     }
-    print("scan1 length--${scan1.length}");
+    print("scan1 length--${scan1}");
     return scan1;
   }
 
@@ -51,7 +55,7 @@ class ShareFilePgm {
       String folderName, List<List<dynamic>> scan1, String type) async {
     String filePath;
     //Get this App Document Directory
-    print("scan1----${scan1}");
+    print("scan1folder----${scan1}");
     scan1.clear();
     scanResult = await getData(scan1, type);
     final directory = await getExternalStorageDirectory();
@@ -79,8 +83,7 @@ class ShareFilePgm {
   ///////////////////////////////////////////////////
 
   void onShareCsv(BuildContext context, List<List> scan1, String type) async {
-    print("scan1----${scan1}");
-
+    print("scan1-xcx---${scan1}");
     filepaths.clear();
     print("after clear filepath length---${filepaths.length}");
     final box = context.findRenderObject() as RenderBox?;

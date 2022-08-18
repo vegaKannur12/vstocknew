@@ -22,9 +22,9 @@ class _ScanTypeState extends State<ScanType> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text("Select Scan Type"), 
-          backgroundColor: ColorThemeComponent.color4,
-          ),
+        title: Text("Select Scan Type"),
+        backgroundColor: ColorThemeComponent.color4,
+      ),
       drawer: Drawer(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -38,7 +38,7 @@ class _ScanTypeState extends State<ScanType> {
                   Container(
                     height: size.height * 0.1,
                     width: size.width * 1,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: ColorThemeComponent.regButtonColor,
                     child: Row(
                       children: [
                         SizedBox(
@@ -47,25 +47,32 @@ class _ScanTypeState extends State<ScanType> {
                         ),
                         Icon(
                           Icons.list_outlined,
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: ColorThemeComponent.color3,
                         ),
                         SizedBox(width: size.width * 0.04),
                         Text(
                           "Menus",
-                          style: TextStyle(fontSize: 20, color: Colors.black),
+                          style: TextStyle(
+                              fontSize: 20, color: ColorThemeComponent.color3),
                         ),
                       ],
                     ),
                   ),
-                  Divider(
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    indent: 20,
-                    endIndent: 20,
-                  ),
                   ListTile(
-                    title: Text(
-                      "Download",
-                      style: TextStyle(fontSize: 17),
+                    title: Row(
+                      children: [
+                        Icon(
+                          Icons.download,
+                          color: ColorThemeComponent.color4,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        Text(
+                          "Download",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -74,57 +81,61 @@ class _ScanTypeState extends State<ScanType> {
           },
         ),
       ),
-      body: Container(
-         height: size.height,
-        width: size.width,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("asset/wave2.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: ListView.builder(
-            itemCount: types.length,
-            itemBuilder: ((context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Card(
-                  elevation: 0,
-                  color: Colors.transparent,
-                  // shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.circular(15.0),
-                  // ),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    onTap: () async {
-                      setState(() {
-                        tappedIndex = index;
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ScanListBarcode(
-                                  type: types[index],
-                                  // queryresult: queryresult,
-                                )),
-                      );
-                    },
-                    title: Text(
-                      types[index],
-                      style: TextStyle(
-                        // fontFamily: "fantasy",
-                        fontSize: 22,
-                        color: ColorThemeComponent.tileTextColor2,
-                        // color: tappedIndex == index
-                        //     ? Colors.black
-                        //     : Colors.white
+      body: Stack(
+        children: [
+          Container(
+            height: size.height,
+            width: size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("asset/wave2.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: ListView.builder(
+                itemCount: types.length,
+                itemBuilder: ((context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Card(
+                      elevation: 0,
+                      color: Colors.transparent,
+                      // shape: RoundedRectangleBorder(
+                      //   borderRadius: BorderRadius.circular(15.0),
+                      // ),
+                      child: ListTile(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        onTap: () async {
+                          setState(() {
+                            tappedIndex = index;
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ScanListBarcode(
+                                      type: types[index],
+                                      // queryresult: queryresult,
+                                    )),
+                          );
+                        },
+                        title: Text(
+                          types[index],
+                          style: TextStyle(
+                            // fontFamily: "fantasy",
+                            fontSize: 22,
+                            color: ColorThemeComponent.tileTextColor2,
+                            // color: tappedIndex == index
+                            //     ? Colors.black
+                            //     : Colors.white
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              );
-            })),
+                  );
+                })),
+          ),
+        ],
       ),
     );
   }

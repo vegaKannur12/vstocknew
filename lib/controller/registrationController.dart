@@ -55,13 +55,9 @@ class RegistrationController extends ChangeNotifier {
       print("result-----$result");
       if (result > 0) {
         print("hekoooooo");
+
         Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ScanType(
-                  // companyName: result!.companyName.toString(),
-                  )),
-        );
+            context, MaterialPageRoute(builder: (context) => ScanType()));
       }
 
       notifyListeners();

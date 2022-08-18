@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   String? expiry;
 
   navigate() async {
-    await Future.delayed(Duration(milliseconds: 3000), () async {
+    await Future.delayed(Duration(milliseconds: 1000), () async {
       // var companyDetails = await VstockDB.instance.getCompanyDetails();
       // print("osdodjsodks------${companyDetails}");
 
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
       SharedPreferences pref = await SharedPreferences.getInstance();
       companyId = pref.getString('companyId');
 
-      print(companyId);
+      print("company id.........$companyId");
       await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => RegistrationScreen()));

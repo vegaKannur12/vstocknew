@@ -131,7 +131,7 @@ class VstockDB {
 //   /////////////////////////get all rows////////////
   selectCommonQuery(String table, String field, String condition) async {
     Database db = await instance.database;
-    print("xcx---");
+    print("query variables............$table....$field.....$condition");
     var query = "SELECT $field FROM $table $condition";
     print("query----$query");
     var list = await db.rawQuery(query);

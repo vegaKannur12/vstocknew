@@ -23,6 +23,13 @@ class ScanListBarcode extends StatefulWidget {
 class _ScanListBarcodeState extends State<ScanListBarcode> {
   ShareFilePgm shareFilePgm = ShareFilePgm();
   @override
+  void initState() {
+    Provider.of<BarcodeController>(context, listen: false).getDataFromScanLog();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -98,40 +105,80 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           ),
         ],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("asset/wave2.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Consumer<RegistrationController>(
-          builder: (context, value, child) {
-            return SingleChildScrollView(
-              child: Container(
-                height: size.height * 0.8,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Image.asset(
-                        "asset/No.png",
-                        color: ColorThemeComponent.regButtonColor,
-                        height: size.height * 0.2,
-                        width: size.width * 0.2,
-                      ),
-                    ),
-                    Text(
-                      'No data!!!',
-                      style: TextStyle(
-                          fontSize: 18, color: ColorThemeComponent.textFrmtext),
-                    )
-                  ],
+      body: Consumer<BarcodeController>(
+        builder: (context, value, child) {
+          return Stack(
+            children: [
+              Container(
+                height: size.height,
+                width: size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("asset/wave2.png"),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            );
-          },
-        ),
+              Column(
+                children: [
+                  ListTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Barcode",
+                            style: TextStyle(
+                                color: ColorThemeComponent.regButtonColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Spacer(),
+                          Text(
+                            "Date & Time",
+                            style: TextStyle(
+                                color: ColorThemeComponent.regButtonColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: value.scanList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: Row(
+                              children: [
+                                Text(
+                                  value.scanList[index]['barcode'],
+                                  style: TextStyle(
+                                      color: ColorThemeComponent.color3,
+                                      fontSize: 15),
+                                ),
+                                Spacer(),
+                                Text(
+                                  value.scanList[index]['time'],
+                                  style: TextStyle(
+                                      color: ColorThemeComponent.color3,
+                                      fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
       ),
       // body: Consumer<RegistrationController>(
       //   builder: (context, value, child) {

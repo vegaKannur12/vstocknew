@@ -50,6 +50,13 @@ class _ScanBarcodeState extends State<ScanBarcode> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Provider.of<BarcodeController>(context, listen: false)
+                  .getDataFromScanLog();
+                  Navigator.pop(context);
+            }),
         backgroundColor: ColorThemeComponent.color4,
       ),
       body: Transform.translate(

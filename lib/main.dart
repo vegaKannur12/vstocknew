@@ -50,10 +50,11 @@ class _MyAppState extends State<MyApp> {
         ),
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme,
-        ),),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-    
     );
-  }
+  }  
+  
 }

@@ -44,6 +44,15 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: ColorThemeComponent.color3,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorThemeComponent.newclr,
+            ),
+            onPressed: () {
+             
+              Navigator.pop(context);
+            }),
         title: Consumer<RegistrationController>(
           builder: (context, value, child) {
             return Text(
@@ -150,7 +159,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                               style: GoogleFonts.aBeeZee(
                                   textStyle: TextStyle(
                                       fontSize: 18,
-                                      color: ColorThemeComponent.newclr,
+                                      color: ColorThemeComponent.color4,
                                       fontWeight: FontWeight.bold)),
                             ),
                             Spacer(),
@@ -159,7 +168,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                               style: GoogleFonts.aBeeZee(
                                   textStyle: TextStyle(
                                       fontSize: 18,
-                                      color: ColorThemeComponent.newclr,
+                                      color: ColorThemeComponent.color4,
                                       fontWeight: FontWeight.bold)),
                             ),
                             Spacer(),
@@ -168,7 +177,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                               style: GoogleFonts.aBeeZee(
                                   textStyle: TextStyle(
                                       fontSize: 18,
-                                      color: ColorThemeComponent.newclr,
+                                      color: ColorThemeComponent.color4,
                                       fontWeight: FontWeight.bold)),
                             ),
                           ],

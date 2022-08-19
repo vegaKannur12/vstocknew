@@ -25,6 +25,15 @@ class _ScanTypeState extends State<ScanType> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+         leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorThemeComponent.color3,
+            ),
+            onPressed: () {
+             
+              Navigator.pop(context);
+            }),
         title: Text(
           "Select Scan Type",
           style: TextStyle(color: ColorThemeComponent.color3),
@@ -170,8 +179,8 @@ class _ScanTypeState extends State<ScanType> {
                                     style: GoogleFonts.aBeeZee(
                                         textStyle: TextStyle(
                                             fontSize: 20,
-                                            color: ColorThemeComponent.newclr,
-                                            fontWeight: FontWeight.bold)),
+                                            color: ColorThemeComponent.color4,
+                                            )),
                                     // style: TextStyle(
                                     //   // fontFamily: "fantasy",
                                     //   fontSize: 22,

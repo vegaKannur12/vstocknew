@@ -7,11 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
+import 'package:vstock/components/snackbar.dart';
 import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/screen/3_scan_type.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  RegistrationScreen({Key? key}) : super(key: key);
+  bool isExpired;
+  RegistrationScreen({required this.isExpired});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -26,6 +28,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   ExternalDir externalDir = ExternalDir();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String? uniqId;
+  SnackbarCommon snackBar = SnackbarCommon();
 
   getDeviceInfo() async {
     final deviceInfoPlugin = DeviceInfoPlugin();
@@ -66,6 +69,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isExpired) {
+      Future<Null>.delayed(Duration.zero, () {
+        snackBar.showSnackbar(context, "Expired!!!");
+      });
+    }
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
@@ -149,7 +157,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                           }
                                         },
                                         child: Text(
-                                          "Register",
+                                          widget.isExpired
+                                              ? "Re-Register"
+                                              : "Register",
                                           style: GoogleFonts.aBeeZee(
                                               textStyle: TextStyle(
                                                   fontSize: 16,
@@ -237,7 +247,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       keyboardType: type == "Phone number" ? TextInputType.number : null,
       controller: type == "Company code" ? controller1 : controller2,
       style: GoogleFonts.aBeeZee(
-          textStyle: TextStyle(fontSize: 16,)),
+          textStyle: TextStyle(
+        fontSize: 16,
+      )),
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),

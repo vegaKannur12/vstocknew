@@ -50,14 +50,20 @@ class RegistrationController extends ChangeNotifier {
       //       await externalDir.fileWrite(fp!);
       SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString('companyId', company_code);
+      print("company id........$company_code");
       var result = await VstockDB.instance.insertRegistrationDetails(
           company_code, device_id, "free to scan", regModel);
       print("result-----$result");
       if (result > 0) {
         print("hekoooooo");
-
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ScanType()));
+        Navigator.pop(context);
+        // Navigator.of(context).push(
+        //   PageRouteBuilder(
+        //       opaque: false, // set to false
+        //       pageBuilder: (_, __, ___) => ScanType()),
+        // );
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => ScanType()));
       }
 
       notifyListeners();

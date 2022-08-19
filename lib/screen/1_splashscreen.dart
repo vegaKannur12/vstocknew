@@ -17,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   String? expiry;
 
   navigate() async {
-    await Future.delayed(Duration(milliseconds: 1000), () async {
+    await Future.delayed(Duration(seconds: 1), () async {
+      print("splash................");
       // var companyDetails = await VstockDB.instance.getCompanyDetails();
       // print("osdodjsodks------${companyDetails}");
 
@@ -42,16 +43,38 @@ class _SplashScreenState extends State<SplashScreen> {
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       companyId = pref.getString('companyId');
-
+      print("company id...$companyId");
       // await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
 
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => RegistrationScreen()));
-      Navigator.push(
+      if (companyId != null) {
+        print("null company id");
+        Navigator.of(context).push(
+          PageRouteBuilder(
+              opaque: false, // set to false
+              pageBuilder: (_, __, ___) => RegistrationScreen()),
+        );
+      } else {
+        print("have company id");
+        Navigator.pushReplacement<void, void>(
           context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  companyId == null ? RegistrationScreen() : ScanType()));
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => ScanType(),
+          ),
+        );
+        // Navigator.of(context).push(
+        //   PageRouteBuilder(
+        //       opaque: false, // set to false
+        //       pageBuilder: (_, __, ___) => ScanType()),
+        // );
+      }
+
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) =>
+      //             companyId == null ? RegistrationScreen() : ScanType()));
     });
   }
 
@@ -59,6 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("splash.navigate...............");
     navigate();
   }
 

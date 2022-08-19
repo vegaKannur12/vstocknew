@@ -74,7 +74,7 @@ class VstockDB {
   Future insertRegistrationDetails(String company_code, String device_id,
       String appType, RegistrationModel rgModel) async {
     final db = await database;
-    // print("userId*****${user_id}");
+    print("userId*****${company_code}");
     // print(user_id.runtimeType);
     var query =
         'INSERT INTO tableRegistration(company_code, device_id, appType, company_id, company_name, user_id, expiry_date) VALUES("${company_code}", "${device_id}", "${appType}", "${rgModel.companyId}", "${rgModel.companyName}", "${rgModel.userId}", "${rgModel.expiryDate}")';

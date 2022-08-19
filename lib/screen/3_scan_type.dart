@@ -29,8 +29,7 @@ class _ScanTypeState extends State<ScanType> {
 
   getComDetails() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-   comName= pref.getString('companyName');
-
+    comName = pref.getString('companyName');
   }
 
   @override
@@ -41,7 +40,7 @@ class _ScanTypeState extends State<ScanType> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        //  leading: IconButton(
+        //   leading: IconButton(
         //     icon: Icon(
         //       Icons.arrow_back,
         //       color: ColorThemeComponent.color3,
@@ -52,7 +51,11 @@ class _ScanTypeState extends State<ScanType> {
         //     }),
         title: Text(
           "Select Scan Type",
-          style: TextStyle(color: ColorThemeComponent.color3),
+          style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(
+            fontSize: 20,
+            color: ColorThemeComponent.color3,
+          )),
         ),
         backgroundColor: Color.fromARGB(255, 201, 62, 19),
         // elevation: 0,
@@ -137,23 +140,17 @@ class _ScanTypeState extends State<ScanType> {
                                 bottom: 50,
                               ),
                               color: Color.fromARGB(255, 201, 62, 19),
-                              height: size.height * 0.2,
+                              height: size.height * 0.25,
                               alignment: Alignment.center,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    // Image.asset(
-                    //   'asset/barcode.png',
-                    //   width: 100.0,
-                    //   height: 100.0,
-                    //   fit: BoxFit.cover,
-                    // ),
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.04,
+                  height: size.height * 0.03,
                 ),
                 Expanded(
                   child: ListView.builder(
@@ -197,7 +194,7 @@ class _ScanTypeState extends State<ScanType> {
                                     style: GoogleFonts.aBeeZee(
                                         textStyle: TextStyle(
                                       fontSize: 20,
-                                      color: ColorThemeComponent.color4,
+                                      color: ColorThemeComponent.clrgrey,
                                     )),
                                     // style: TextStyle(
                                     //   // fontFamily: "fantasy",

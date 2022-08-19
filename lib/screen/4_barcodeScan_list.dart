@@ -17,7 +17,7 @@ import '../controller/registrationController.dart';
 class ScanListBarcode extends StatefulWidget {
   String type;
   String comName;
-  ScanListBarcode({required this.type,required this.comName});
+  ScanListBarcode({required this.type, required this.comName});
 
   @override
   State<ScanListBarcode> createState() => _ScanListBarcodeState();
@@ -64,7 +64,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
               Navigator.pop(context);
             }),
         title: Text(
-         widget. comName.toString(),
+          widget.comName.toString(),
           style: TextStyle(
               color: ColorThemeComponent.newclr, fontWeight: FontWeight.bold),
         ),
@@ -130,7 +130,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            backgroundColor: ColorThemeComponent.color4,
+            backgroundColor: ColorThemeComponent.newclr,
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
                   .countFrombarcode();
@@ -144,7 +144,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
             },
             child: Icon(
               Icons.scanner,
-              color: ColorThemeComponent.newclr,
+              color: ColorThemeComponent.color3,
               size: 30,
             ),
           ),
@@ -154,16 +154,6 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         builder: (context, value, child) {
           return Stack(
             children: [
-              Container(
-                height: size.height,
-                width: size.width,
-                decoration: BoxDecoration(
-                    // image: DecorationImage(
-                    //   image: AssetImage("asset/green.png"),
-                    //   fit: BoxFit.cover,
-                    // ),
-                    ),
-              ),
               Column(
                 children: [
                   Container(
@@ -177,27 +167,27 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                               "Barcode",
                               style: GoogleFonts.aBeeZee(
                                   textStyle: TextStyle(
-                                      fontSize: 18,
-                                      color: ColorThemeComponent.color4,
-                                      fontWeight: FontWeight.bold)),
+                                fontSize: 18,
+                                color: ColorThemeComponent.color4,
+                              )),
                             ),
                             Spacer(),
                             Text(
                               "Date & Time",
                               style: GoogleFonts.aBeeZee(
                                   textStyle: TextStyle(
-                                      fontSize: 18,
-                                      color: ColorThemeComponent.color4,
-                                      fontWeight: FontWeight.bold)),
+                                fontSize: 18,
+                                color: ColorThemeComponent.color4,
+                              )),
                             ),
                             Spacer(),
                             Text(
                               "Qty",
                               style: GoogleFonts.aBeeZee(
                                   textStyle: TextStyle(
-                                      fontSize: 18,
-                                      color: ColorThemeComponent.color4,
-                                      fontWeight: FontWeight.bold)),
+                                fontSize: 18,
+                                color: ColorThemeComponent.color4,
+                              )),
                             ),
                           ],
                         ),
@@ -216,21 +206,21 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 Text(
                                   value.scanList[index]['barcode'],
                                   style: TextStyle(
-                                      color: ColorThemeComponent.newclr,
+                                      color: ColorThemeComponent.clrgrey,
                                       fontSize: 15),
                                 ),
                                 Spacer(),
                                 Text(
                                   value.scanList[index]['time'],
                                   style: TextStyle(
-                                      color: ColorThemeComponent.color3,
+                                      color: ColorThemeComponent.clrgrey,
                                       fontSize: 15),
                                 ),
                                 Spacer(),
                                 Text(
                                   value.scanList[index]['qty'].toString(),
                                   style: TextStyle(
-                                      color: ColorThemeComponent.color3,
+                                      color: ColorThemeComponent.clrgrey,
                                       fontSize: 15),
                                 ),
                               ],

@@ -98,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Container(
                   child: Image.asset(
                     "asset/Vega_logo.png",
-                    color: ColorThemeComponent.color3,
+                    color: ColorThemeComponent.newclr,
                   ),
                 ),
                 Text(

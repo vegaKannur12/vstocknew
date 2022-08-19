@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
@@ -149,7 +150,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         },
                                         child: Text(
                                           "Register",
-                                          style: TextStyle(color: Colors.white),
+                                          style: GoogleFonts.aBeeZee(
+                                              textStyle: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                          // style: TextStyle(color: Colors.white),
                                         ),
                                       ),
                                       // child: ElevatedButton(
@@ -231,9 +236,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return TextFormField(
       keyboardType: type == "Phone number" ? TextInputType.number : null,
       controller: type == "Company code" ? controller1 : controller2,
-      style: TextStyle(color: Colors.black
-          // color: ColorThemeComponent.textFrmtext
-          ),
+      style: GoogleFonts.aBeeZee(
+          textStyle: TextStyle(fontSize: 16,)),
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),

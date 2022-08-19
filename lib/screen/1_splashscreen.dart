@@ -17,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   String? expiry;
 
   navigate() async {
-    await Future.delayed(Duration(milliseconds: 1000), () async {
+    await Future.delayed(Duration(seconds: 1), () async {
+      print("splash................");
       // var companyDetails = await VstockDB.instance.getCompanyDetails();
       // print("osdodjsodks------${companyDetails}");
 
@@ -60,6 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("splash.navigate...............");
     navigate();
   }
 

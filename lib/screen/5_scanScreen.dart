@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_beep/flutter_beep.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -49,15 +50,20 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorThemeComponent.newclr,
+            ),
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
                   .getDataFromScanLog();
               Navigator.pop(context);
             }),
-        backgroundColor: ColorThemeComponent.color4,
+        backgroundColor: ColorThemeComponent.color3,
       ),
       body: Transform.translate(
         offset: Offset(0.0, -0.4 * MediaQuery.of(context).viewInsets.bottom),
@@ -83,8 +89,11 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                     children: [
                       Text(
                         "Barcode  : ",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.aBeeZee(
+                            textStyle: TextStyle(
+                                fontSize: 20,
+                                color: ColorThemeComponent.newclr,
+                                fontWeight: FontWeight.bold)),
                       ),
                       if (widget.type == "Free Scan with quantity" ||
                           widget.type == "API Scan with quantity")
@@ -167,7 +176,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                         ),
                         ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: ColorThemeComponent.regButtonColor,
+                              primary: ColorThemeComponent.newclr,
                             ),
                             onPressed: () {
                               if (_textController.text.isEmpty ||
@@ -232,7 +241,11 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                             },
                             child: Text(
                               "save",
-                              style: TextStyle(fontSize: 17),
+                              style: GoogleFonts.aBeeZee(
+                                  textStyle: TextStyle(
+                                      fontSize: 17,
+                                      color: ColorThemeComponent.color3,
+                                      fontWeight: FontWeight.bold)),
                             ))
                       ],
                     ),

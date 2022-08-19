@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/commonColor.dart';
 
 import 'package:vstock/controller/barcodeController.dart';
@@ -14,7 +16,8 @@ import '../controller/registrationController.dart';
 
 class ScanListBarcode extends StatefulWidget {
   String type;
-  ScanListBarcode({required this.type});
+  String comName;
+  ScanListBarcode({required this.type,required this.comName});
 
   @override
   State<ScanListBarcode> createState() => _ScanListBarcodeState();
@@ -22,6 +25,7 @@ class ScanListBarcode extends StatefulWidget {
 
 class _ScanListBarcodeState extends State<ScanListBarcode> {
   late List<List<dynamic>> scan1;
+  String? comName;
 
   ShareFilePgm shareFilePgm = ShareFilePgm();
   @override
@@ -33,24 +37,51 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
 
     // TODO: implement initState
     super.initState();
+    print("comName--xccx---${widget.comName}");
+
+    // getComDetails();
+  }
+
+  getComDetails() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    comName = pref.getString('companyName');
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: ColorThemeComponent.listclr,
+      backgroundColor: ColorThemeComponent.color3,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: ColorThemeComponent.listclr,
-        title: Consumer<RegistrationController>(
-          builder: (context, value, child) {
-            return Text(
-              value.comName.toString(),
-              // style: TextStyle(color: ColorThemeComponent.appbr),
-            );
-          },
+        backgroundColor: ColorThemeComponent.color3,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorThemeComponent.newclr,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        title: Text(
+         widget. comName.toString(),
+          style: TextStyle(
+              color: ColorThemeComponent.newclr, fontWeight: FontWeight.bold),
         ),
+
+        // Consumer<RegistrationController>(
+        //   builder: (context, value, child) {
+        //     return Text(
+        //       value.comName.toString(),
+        //       style: GoogleFonts.aBeeZee(
+        //           textStyle: TextStyle(
+        //               fontSize: 20,
+        //               color: ColorThemeComponent.newclr,
+        //               fontWeight: FontWeight.bold)),
+        //       // style: TextStyle(color: ColorThemeComponent.appbr),
+        //     );
+        //   },
+        // ),
         actions: [
           // IconButton(
           //     onPressed: () {
@@ -66,17 +97,16 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                 MaterialPageRoute(builder: (context) => TableList(list: list)),
               );
             },
-            icon: Icon(Icons.table_bar),
+            icon: Icon(
+              Icons.table_bar,
+              color: ColorThemeComponent.color4,
+            ),
           ),
-          // IconButton(
-          //   onPressed: () {
-          //     _showDialog(context, "all", 0);
-          //   },
-          //   icon: Icon(Icons.delete),
-          // ),
-
           PopupMenuButton(
-            color: Color.fromARGB(255, 241, 235, 235),
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
             elevation: 20,
             enabled: true,
             onSelected: (value) async {
@@ -84,7 +114,12 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
             },
             itemBuilder: (context) => [
               PopupMenuItem(
-                child: Text("Share csv"),
+                child: Text(
+                  "Share csv",
+                  style: TextStyle(
+                    color: ColorThemeComponent.color4,
+                  ),
+                ),
                 value: "first",
               ),
             ],
@@ -95,7 +130,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            backgroundColor: Color.fromARGB(255, 252, 252, 252),
+            backgroundColor: ColorThemeComponent.color4,
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
                   .countFrombarcode();
@@ -109,7 +144,8 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
             },
             child: Icon(
               Icons.scanner,
-              color: ColorThemeComponent.color4,
+              color: ColorThemeComponent.newclr,
+              size: 30,
             ),
           ),
         ],
@@ -122,11 +158,11 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                 height: size.height,
                 width: size.width,
                 decoration: BoxDecoration(
-                  // image: DecorationImage(
-                  //   image: AssetImage("asset/green.png"),
-                  //   fit: BoxFit.cover,
-                  // ),
-                ),
+                    // image: DecorationImage(
+                    //   image: AssetImage("asset/green.png"),
+                    //   fit: BoxFit.cover,
+                    // ),
+                    ),
               ),
               Column(
                 children: [
@@ -139,26 +175,29 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                           children: [
                             Text(
                               "Barcode",
-                              style: TextStyle(
-                                  color: ColorThemeComponent.color3,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                              style: GoogleFonts.aBeeZee(
+                                  textStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: ColorThemeComponent.color4,
+                                      fontWeight: FontWeight.bold)),
                             ),
                             Spacer(),
                             Text(
                               "Date & Time",
-                              style: TextStyle(
-                                  color: ColorThemeComponent.color3,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                              style: GoogleFonts.aBeeZee(
+                                  textStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: ColorThemeComponent.color4,
+                                      fontWeight: FontWeight.bold)),
                             ),
                             Spacer(),
                             Text(
                               "Qty",
-                              style: TextStyle(
-                                  color: ColorThemeComponent.color3,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
+                              style: GoogleFonts.aBeeZee(
+                                  textStyle: TextStyle(
+                                      fontSize: 18,
+                                      color: ColorThemeComponent.color4,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           ],
                         ),
@@ -177,7 +216,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 Text(
                                   value.scanList[index]['barcode'],
                                   style: TextStyle(
-                                      color: ColorThemeComponent.color3,
+                                      color: ColorThemeComponent.newclr,
                                       fontSize: 15),
                                 ),
                                 Spacer(),

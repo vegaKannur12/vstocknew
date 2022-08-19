@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/commonColor.dart';
 
 import 'package:vstock/controller/barcodeController.dart';
@@ -15,7 +16,8 @@ import '../controller/registrationController.dart';
 
 class ScanListBarcode extends StatefulWidget {
   String type;
-  ScanListBarcode({required this.type});
+  String comName;
+  ScanListBarcode({required this.type,required this.comName});
 
   @override
   State<ScanListBarcode> createState() => _ScanListBarcodeState();
@@ -23,6 +25,7 @@ class ScanListBarcode extends StatefulWidget {
 
 class _ScanListBarcodeState extends State<ScanListBarcode> {
   late List<List<dynamic>> scan1;
+  String? comName;
 
   ShareFilePgm shareFilePgm = ShareFilePgm();
   @override
@@ -34,6 +37,14 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
 
     // TODO: implement initState
     super.initState();
+    print("comName--xccx---${widget.comName}");
+
+    // getComDetails();
+  }
+
+  getComDetails() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    comName = pref.getString('companyName');
   }
 
   @override
@@ -50,22 +61,27 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
               color: ColorThemeComponent.newclr,
             ),
             onPressed: () {
-             
               Navigator.pop(context);
             }),
-        title: Consumer<RegistrationController>(
-          builder: (context, value, child) {
-            return Text(
-              value.comName.toString(),
-              style: GoogleFonts.aBeeZee(
-                  textStyle: TextStyle(
-                      fontSize: 20,
-                      color: ColorThemeComponent.newclr,
-                      fontWeight: FontWeight.bold)),
-              // style: TextStyle(color: ColorThemeComponent.appbr),
-            );
-          },
+        title: Text(
+         widget. comName.toString(),
+          style: TextStyle(
+              color: ColorThemeComponent.newclr, fontWeight: FontWeight.bold),
         ),
+
+        // Consumer<RegistrationController>(
+        //   builder: (context, value, child) {
+        //     return Text(
+        //       value.comName.toString(),
+        //       style: GoogleFonts.aBeeZee(
+        //           textStyle: TextStyle(
+        //               fontSize: 20,
+        //               color: ColorThemeComponent.newclr,
+        //               fontWeight: FontWeight.bold)),
+        //       // style: TextStyle(color: ColorThemeComponent.appbr),
+        //     );
+        //   },
+        // ),
         actions: [
           // IconButton(
           //     onPressed: () {
@@ -87,7 +103,10 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
             ),
           ),
           PopupMenuButton(
-           icon: Icon(Icons.more_vert, color: Colors.black,),
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
             elevation: 20,
             enabled: true,
             onSelected: (value) async {

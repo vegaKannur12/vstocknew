@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/waveclipper.dart';
 import 'package:vstock/screen/4_barcodeScan_list.dart';
@@ -16,23 +17,39 @@ class _ScanTypeState extends State<ScanType> {
     "API Scan",
     "API Scan with quantity"
   ];
+  String? comName;
   int? tappedIndex;
   late List<Map<String, dynamic>> queryresult;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getComDetails();
+  }
+
+  getComDetails() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+   comName= pref.getString('companyName');
+
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: ColorThemeComponent.color3,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        //   leading: IconButton(
+        //     icon: Icon(
+        //       Icons.arrow_back,
+        //       color: ColorThemeComponent.color3,
+        //     ),
+        //     onPressed: () {
+
+        //       Navigator.pop(context);
+        //     }),
         title: Text(
           "Select Scan Type",
           style: GoogleFonts.aBeeZee(
@@ -163,6 +180,7 @@ class _ScanTypeState extends State<ScanType> {
                                   MaterialPageRoute(
                                       builder: (context) => ScanListBarcode(
                                             type: types[index],
+                                            comName: comName!,
                                             // queryresult: queryresult,
                                           )),
                                 );

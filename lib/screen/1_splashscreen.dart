@@ -45,26 +45,15 @@ class _SplashScreenState extends State<SplashScreen> {
       companyId = pref.getString('companyId');
 
       print("companyId==$companyId");
-      // await VstockDB.instance.barcodeinsertion(
-      //     "", "ABC-abc-1234", "abc", 100);
+      await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => RegistrationScreen()));
-
-      print("have company id");
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>
-              companyId == null ? RegistrationScreen() : ScanType()));
-      // Navigator.of(context).push(
-      //   PageRouteBuilder(
-      //       opaque: false, // set to false
-      //       pageBuilder: (_, __, ___) => ScanType()),
-      // );
-
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) =>
-      //             companyId == null ? RegistrationScreen() : ScanType()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                companyId == null ? RegistrationScreen() : ScanType()),
+      );
     });
   }
 

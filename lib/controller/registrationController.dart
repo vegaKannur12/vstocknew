@@ -45,6 +45,8 @@ class RegistrationController extends ChangeNotifier {
       //       await externalDir.fileWrite(fp!);
       SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString('companyId', regModel.companyId!);
+      pref.setString('companyName', regModel.companyName!);
+
       var result = await VstockDB.instance.insertRegistrationDetails(
           company_code, device_id, "free to scan", regModel);
       isLoading = false;

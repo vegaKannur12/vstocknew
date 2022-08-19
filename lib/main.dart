@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:vstock/controller/barcodeController.dart';
@@ -7,6 +8,7 @@ import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/screen/1_splashscreen.dart';
 import 'package:vstock/screen/2_registration.dart';
 import 'package:vstock/screen/3_scan_type.dart';
+import 'package:vstock/screen/csvImport.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,15 +39,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // home: SplashScreen(),
-
-      // theme: ThemeData(
-      //   scaffoldBackgroundColor: Colors.grey[200],
-      //   colorScheme: ColorScheme.fromSwatch().copyWith(
-      //     primary: Color(0xFF424242),
-      //     secondary: Color(0xFF424242),
-      //   ),
-      // ),
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'Roboto Mono sample',
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        // fontFamily: 'OpenSans',
+        // primaryColor: P_Settings.bodycolor,
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.indigo,
+        ),
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
+        ),),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     

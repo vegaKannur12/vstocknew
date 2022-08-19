@@ -25,18 +25,21 @@ class _ScanTypeState extends State<ScanType> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-         leading: IconButton(
+        leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
               color: ColorThemeComponent.color3,
             ),
             onPressed: () {
-             
               Navigator.pop(context);
             }),
         title: Text(
           "Select Scan Type",
-          style: TextStyle(color: ColorThemeComponent.color3),
+          style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(
+            fontSize: 20,
+            color: ColorThemeComponent.color3,
+          )),
         ),
         backgroundColor: Color.fromARGB(255, 201, 62, 19),
         // elevation: 0,
@@ -86,7 +89,8 @@ class _ScanTypeState extends State<ScanType> {
                         ),
                         Text(
                           "Download",
-                          style: TextStyle(fontSize: 17,color:ColorThemeComponent.newclr ),
+                          style: TextStyle(
+                              fontSize: 17, color: ColorThemeComponent.newclr),
                         ),
                       ],
                     ),
@@ -178,9 +182,9 @@ class _ScanTypeState extends State<ScanType> {
                                     types[index],
                                     style: GoogleFonts.aBeeZee(
                                         textStyle: TextStyle(
-                                            fontSize: 20,
-                                            color: ColorThemeComponent.color4,
-                                            )),
+                                      fontSize: 20,
+                                      color: ColorThemeComponent.color4,
+                                    )),
                                     // style: TextStyle(
                                     //   // fontFamily: "fantasy",
                                     //   fontSize: 22,

@@ -119,7 +119,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           primary: ColorThemeComponent
-                                              .regButtonColor,
+                                              .newclr,
                                         ),
                                         onPressed: () async {
                                           if (_formKey.currentState!
@@ -248,17 +248,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               BorderSide(color: ColorThemeComponent.textFrmtext, width: 1.0),
         ),
         focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: ColorThemeComponent.regButtonColor),
+          borderSide: BorderSide(color: ColorThemeComponent.newclr),
           //  when the TextFormField in focused
         ),
         icon: Icon(
           type == "Company code" ? Icons.business : Icons.phone,
-          color: ColorThemeComponent.regButtonColor,
+          color: ColorThemeComponent.newclr,
         ),
         // hintText: 'What do people call you?',
         labelText: type,
         labelStyle: TextStyle(
-          color: ColorThemeComponent.regButtonColor,
+          color: ColorThemeComponent.newclr,
         ),
       ),
       validator: (text) {

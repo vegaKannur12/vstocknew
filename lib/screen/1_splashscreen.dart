@@ -43,32 +43,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       companyId = pref.getString('companyId');
-      print("company id...$companyId");
-      // await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
 
+      print("companyId==$companyId");
+      // await VstockDB.instance.barcodeinsertion(
+      //     "", "ABC-abc-1234", "abc", 100);
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => RegistrationScreen()));
-      if (companyId != null) {
-        print("null company id");
-        Navigator.of(context).push(
-          PageRouteBuilder(
-              opaque: false, // set to false
-              pageBuilder: (_, __, ___) => RegistrationScreen()),
-        );
-      } else {
-        print("have company id");
-        Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => ScanType(),
-          ),
-        );
-        // Navigator.of(context).push(
-        //   PageRouteBuilder(
-        //       opaque: false, // set to false
-        //       pageBuilder: (_, __, ___) => ScanType()),
-        // );
-      }
+
+      print("have company id");
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              companyId == null ? RegistrationScreen() : ScanType()));
+      // Navigator.of(context).push(
+      //   PageRouteBuilder(
+      //       opaque: false, // set to false
+      //       pageBuilder: (_, __, ___) => ScanType()),
+      // );
 
       // Navigator.push(
       //     context,
@@ -114,7 +104,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Container(
                   child: Image.asset(
                     "asset/Vega_logo.png",
-                    color: ColorThemeComponent.regButtonColor,
+                    color: ColorThemeComponent.color3,
                   ),
                 ),
                 Text(

@@ -52,7 +52,7 @@ class BarcodeController extends ChangeNotifier {
   ////////////////////////////////////////////
   countFrombarcode() async {
     count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
-    print("ghgashd----$count");
+    print("count----$count");
     notifyListeners();
   }
 
@@ -67,5 +67,6 @@ class BarcodeController extends ChangeNotifier {
     }
     print("result from scanlog.............$scanList");
     notifyListeners();
+    return scanList;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/components/waveclipper.dart';
 import 'package:vstock/screen/4_barcodeScan_list.dart';
 
 class ScanType extends StatefulWidget {
@@ -22,9 +24,13 @@ class _ScanTypeState extends State<ScanType> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Select Scan Type"),
-        backgroundColor: ColorThemeComponent.listclr,
         elevation: 0,
+        title: Text(
+          "Select Scan Type",
+          style: TextStyle(color: ColorThemeComponent.color3),
+        ),
+        backgroundColor: Color.fromARGB(255, 201, 62, 19),
+        // elevation: 0,
       ),
       drawer: Drawer(
         child: LayoutBuilder(
@@ -39,7 +45,7 @@ class _ScanTypeState extends State<ScanType> {
                   Container(
                     height: size.height * 0.1,
                     width: size.width * 1,
-                    color: ColorThemeComponent.listclr,
+                    color: ColorThemeComponent.newclr,
                     child: Row(
                       children: [
                         SizedBox(
@@ -48,7 +54,7 @@ class _ScanTypeState extends State<ScanType> {
                         ),
                         Icon(
                           Icons.list_outlined,
-                          color: ColorThemeComponent.color3,
+                          color: ColorThemeComponent.color4,
                         ),
                         SizedBox(width: size.width * 0.04),
                         Text(
@@ -71,7 +77,7 @@ class _ScanTypeState extends State<ScanType> {
                         ),
                         Text(
                           "Download",
-                          style: TextStyle(fontSize: 17),
+                          style: TextStyle(fontSize: 17,color:ColorThemeComponent.newclr ),
                         ),
                       ],
                     ),
@@ -87,54 +93,103 @@ class _ScanTypeState extends State<ScanType> {
           Container(
             height: size.height,
             width: size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("asset/grad1.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: ListView.builder(
-                itemCount: types.length,
-                itemBuilder: ((context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Card(
-                      elevation: 0,
-                      color: Colors.transparent,
-                      // shape: RoundedRectangleBorder(
-                      //   borderRadius: BorderRadius.circular(15.0),
-                      // ),
-                      child: ListTile(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        onTap: () async {
-                          setState(() {
-                            tappedIndex = index;
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ScanListBarcode(
-                                      type: types[index],
-                                      // queryresult: queryresult,
-                                    )),
-                          );
-                        },
-                        title: Text(
-                          types[index],
-                          style: TextStyle(
-                            // fontFamily: "fantasy",
-                            fontSize: 22,
-                            color: ColorThemeComponent.color3,
-                            // color: tappedIndex == index
-                            //     ? Colors.black
-                            //     : Colors.white
+            child: Column(
+              children: [
+                // SizedBox(
+                //   height: size.height * 0.04,
+                // ),
+                Stack(
+                  children: [
+                    Container(
+                      child: Stack(
+                        children: <Widget>[
+                          ClipPath(
+                            clipper:
+                                WaveClipper(), //set our custom wave clipper.
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                bottom: 50,
+                              ),
+                              color: Color.fromARGB(255, 201, 62, 19),
+                              height: size.height * 0.2,
+                              alignment: Alignment.center,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  );
-                })),
+                    // Image.asset(
+                    //   'asset/barcode.png',
+                    //   width: 100.0,
+                    //   height: 100.0,
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ],
+                ),
+                SizedBox(
+                  height: size.height * 0.04,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: types.length,
+                      itemBuilder: ((context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Card(
+                            elevation: 1,
+                            color: Color.fromARGB(255, 255, 254, 252),
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              onTap: () async {
+                                setState(() {
+                                  tappedIndex = index;
+                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ScanListBarcode(
+                                            type: types[index],
+                                            // queryresult: queryresult,
+                                          )),
+                                );
+                              },
+                              title: Row(
+                                children: [
+                                  Image.asset(
+                                    'asset/barbox.png',
+                                    width: 30.0,
+                                    height: 30.0,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(
+                                    width: size.width * 0.04,
+                                  ),
+                                  Text(
+                                    types[index],
+                                    style: GoogleFonts.aBeeZee(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            color: ColorThemeComponent.newclr,
+                                            fontWeight: FontWeight.bold)),
+                                    // style: TextStyle(
+                                    //   // fontFamily: "fantasy",
+                                    //   fontSize: 22,
+                                    //   color: ColorThemeComponent.color4,
+                                    //   // color: tappedIndex == index
+                                    //   //     ? Colors.black
+                                    //   //     : Colors.white
+                                    // ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      })),
+                ),
+              ],
+            ),
           ),
         ],
       ),

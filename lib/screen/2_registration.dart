@@ -2,13 +2,16 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/controller/registrationController.dart';
+import 'package:vstock/screen/3_scan_type.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+  RegistrationScreen({Key? key}) : super(key: key);
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -80,105 +83,146 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: size.height,
                 width: size.width,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("asset/wave2.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(top: 5, left: 20, right: 20),
-                      child: SingleChildScrollView(
-                        reverse: true,
-                        child: Form(
-                          key: _formKey,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                textForm("Company code"),
-                                SizedBox(
-                                  height: size.height * 0.04,
-                                ),
-                                textForm("Phone number"),
-                                SizedBox(
-                                  height: size.height * 0.04,
-                                ),
-                                Container(
-                                  height: size.height * 0.05,
-                                  width: size.width * 0.3,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary:
-                                          ColorThemeComponent.regButtonColor,
+                    // image: DecorationImage(
+                    //   image: AssetImage("asset/wave2.png"),
+                    //   fit: BoxFit.cover,
+                    // ),
+                    ),
+                child: Consumer<RegistrationController>(
+                  builder: (context, value, child) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 5, left: 20, right: 20),
+                          child: SingleChildScrollView(
+                            reverse: true,
+                            child: Form(
+                              key: _formKey,
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    textForm("Company code"),
+                                    SizedBox(
+                                      height: size.height * 0.04,
                                     ),
-                                    onPressed: () async {
-                                      if (_formKey.currentState!.validate()) {
-                                        print(uniqId);
-                                        String tempFp1 =
-                                            await externalDir.fileRead();
-                                        Provider.of<RegistrationController>(
-                                                context,
-                                                listen: false)
-                                            .postRegistration(
-                                                tempFp1,
-                                                controller1.text,
-                                                uniqId!,
-                                                "1",
-                                                context);
-                                        FocusScope.of(context)
-                                            .requestFocus(FocusNode());
-                                        ScaffoldMessenger.of(context)
-                                            .removeCurrentSnackBar();
-                                        Navigator.of(context).pop();
-                                      }
-                                    },
-                                    child: Text(
-                                      "Register",
-                                      style: TextStyle(color: Colors.white),
+                                    textForm("Phone number"),
+                                    SizedBox(
+                                      height: size.height * 0.04,
                                     ),
-                                  ),
-                                  // child: ElevatedButton(
-                                  //   onPressed: () async {
-                                  //     // Navigator.of(context).pop();
-                                  //     if (_formKey.currentState!.validate()) {
-                                  //       print(uniqId);
-                                  //       String tempFp1 = await externalDir.fileRead();
-                                  //       RegistrationModel? result =
-                                  //           await registrationController.postRegistration(
-                                  //               tempFp1, codeController.text, uniqId, "1");
-                                  //       if (result != null) {
-                                  //         SharedPreferences pref =
-                                  //             await SharedPreferences.getInstance();
-                                  //         pref.setString('companyId', result.companyId!);
-                                  //       }
-                                  //       // ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                  //       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                                  //       Navigator.of(context).pop();
+                                    Container(
+                                      height: size.height * 0.05,
+                                      width: size.width * 0.3,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: ColorThemeComponent
+                                              .regButtonColor,
+                                        ),
+                                        onPressed: () async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            print("dsdzk---$uniqId");
+                                            String tempFp1 =
+                                                await externalDir.fileRead();
+                                            Provider.of<RegistrationController>(
+                                                    context,
+                                                    listen: false)
+                                                .postRegistration(
+                                                    tempFp1,
+                                                    controller1.text,
+                                                    uniqId!,
+                                                    "1",
+                                                    context);
 
-                                  //       Navigator.push(
-                                  //         context,
-                                  //         MaterialPageRoute(
-                                  //             builder: (context) => BarcodeType(
-                                  //                 // companyName: result!.companyName.toString(),
-                                  //                 )),
-                                  //       );
-                                  //     }
-                                  //   },
-                                  //   child: Text(widget.isExpired ? "Re-Register" : "Register"),
-                                  // ),
+                                            print("hdzsdsz");
+
+                                            // print("res-----$res");
+
+                                            FocusScope.of(context)
+                                                .requestFocus(FocusNode());
+                                            ScaffoldMessenger.of(context)
+                                                .removeCurrentSnackBar();
+                                            // Navigator.of(context).pop();
+                                          }
+                                        },
+                                        child: Text(
+                                          "Register",
+                                          style: GoogleFonts.aBeeZee(
+                                              textStyle: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold)),
+                                          // style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      // child: ElevatedButton(
+                                      //   onPressed: () async {
+                                      //     // Navigator.of(context).pop();
+                                      //     if (_formKey.currentState!.validate()) {
+                                      //       print(uniqId);
+                                      //       String tempFp1 = await externalDir.fileRead();
+                                      //       RegistrationModel? result =
+                                      //           await registrationController.postRegistration(
+                                      //               tempFp1, codeController.text, uniqId, "1");
+                                      //       if (result != null) {
+                                      //         SharedPreferences pref =
+                                      //             await SharedPreferences.getInstance();
+                                      //         pref.setString('companyId', result.companyId!);
+                                      //       }
+                                      //       // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                      //       ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                                      //       Navigator.of(context).pop();
+
+                                      //       Navigator.push(
+                                      //         context,
+                                      //         MaterialPageRoute(
+                                      //             builder: (context) => BarcodeType(
+                                      //                 // companyName: result!.companyName.toString(),
+                                      //                 )),
+                                      //       );
+                                      //     }
+                                      //   },
+                                      //   child: Text(widget.isExpired ? "Re-Register" : "Register"),
+                                      // ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
+                        SizedBox(
+                          height: size.height * 0.09,
+                        ),
+                        value.isLoading
+                            ? SpinKitCircle(
+                                // backgroundColor:,
+                                color: ColorThemeComponent.listclr,
+
+                                // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                                // value: 0.25,
+                              )
+                            : Container()
+                        // Consumer<RegistrationController>(
+                        //   builder: (context, value, child) {
+                        //     if (value.isLoading) {
+                        //       return SpinKitCircle(
+                        //         // backgroundColor:,
+                        //         color: ColorThemeComponent.listclr,
+
+                        //         // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                        //         // value: 0.25,
+                        //       );
+                        //     } else {
+                        //       return Container();
+                        //     }
+                        //   },
+                        // ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ],
@@ -192,7 +236,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return TextFormField(
       keyboardType: type == "Phone number" ? TextInputType.number : null,
       controller: type == "Company code" ? controller1 : controller2,
-      style: TextStyle(color: ColorThemeComponent.textFrmtext),
+      style: GoogleFonts.aBeeZee(
+          textStyle: TextStyle(fontSize: 16,)),
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),

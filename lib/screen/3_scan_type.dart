@@ -21,11 +21,26 @@ class _ScanTypeState extends State<ScanType> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("Select Scan Type"),
-        backgroundColor: ColorThemeComponent.listclr,
-        // elevation: 0,
-      ),
+        title: Text(
+          "Select Scan Type",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.transparent,
+        // backgroundColor: ColorThemeComponent.listclr,
+        elevation: 0,
+        leading:Builder(
+                    builder: (context) => IconButton(
+          icon: Icon(
+            Icons.menu,
+            color: ColorThemeComponent.color3,
+          ),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+      )),
       drawer: Drawer(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -87,12 +102,12 @@ class _ScanTypeState extends State<ScanType> {
           Container(
             height: size.height,
             width: size.width,
-            decoration: BoxDecoration(
-              // image: DecorationImage(
-              //   image: AssetImage("asset/green.png"),
-              //   fit: BoxFit.cover,
-              // ),
-            ),
+            // decoration: BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage("asset/whiteb.png"),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
             child: ListView.builder(
                 itemCount: types.length,
                 itemBuilder: ((context, index) {

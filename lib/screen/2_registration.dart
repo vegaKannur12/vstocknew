@@ -81,12 +81,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               Container(
                 height: size.height,
                 width: size.width,
-                decoration: BoxDecoration(
-                    // image: DecorationImage(
-                    //   image: AssetImage("asset/wave2.png"),
-                    //   fit: BoxFit.cover,
-                    // ),
-                    ),
+                // decoration: BoxDecoration(
+                //     image: DecorationImage(
+                //       image: AssetImage("asset/bottom.png"),
+                //       fit: BoxFit.cover,
+                //     ),
+                //     ),
                 child: Consumer<RegistrationController>(
                   builder: (context, value, child) {
                     return Column(

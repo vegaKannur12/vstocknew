@@ -138,7 +138,47 @@ class VstockDB {
     print("dmks----$list");
     return list;
   }
+  ///////////////////////////////////////
+ insertImportedData(List<List<dynamic>> user) async {
+    final db = await database;
+    print("user length----${user.length}");
+    var buffer = new StringBuffer();
 
+    // for (var item in user) {
+    //   print(item);
+    //   if(buffer.isNotEmpty){
+    //      buffer.write(",\n");
+    //   }
+    //   buffer.write("('");
+    //   buffer.write(item[0]);
+    //   buffer.write("', '");
+    //   buffer.write(item[1]);
+    //   buffer.write("')");
+
+    // }
+    user.removeAt(0);
+    print("user-------${user}");
+    print("length===${user.length}");
+    for (var item in user) {
+      print(item);
+      if (buffer.isNotEmpty) {
+        buffer.write(",\n");
+      }
+      buffer.write("('");
+      for (var i = 0; i < item.length; i++) {
+        buffer.write(item[i]);
+        if (i != item.length - 1) buffer.write("', '");
+      }
+      buffer.write("')");
+    }
+    print("buffer  ${buffer.toString()}");
+    var query = "INSERT INTO barcode(barcode,ean,rate)"
+        " VALUES ${buffer.toString()}";
+    var res = await db.rawInsert(query);
+    print(query);
+    print(res);
+    // return res;
+  }
 //////////////////////compare local db and scanned code/////////////
   compareScannedbarcode(
       String time, int qty, int page_id, String type, String barcode) async {

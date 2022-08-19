@@ -48,23 +48,7 @@ class _MyAppState extends State<MyApp> {
       // ),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-      // builder: (context, child) {
-      //   return Overlay(
-      //     initialEntries: [
-      //       OverlayEntry(
-      //         builder: (context) {
-      //           return ResponsiveWrapper.builder(
-      //             SplashScreen(),
-      //             defaultScale: true,
-      //             breakpoints: [
-      //               ResponsiveBreakpoint.autoScale(1000),
-      //             ],
-      //           );
-      //         },
-      //       ),
-      //     ],
-      //   );
-      // },
+    
     );
   }
 }

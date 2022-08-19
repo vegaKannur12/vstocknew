@@ -46,7 +46,6 @@ class BarcodeController extends ChangeNotifier {
 
     // }
     print("res----${res}");
-
     notifyListeners();
   }
 

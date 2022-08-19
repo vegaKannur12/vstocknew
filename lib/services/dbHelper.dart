@@ -191,6 +191,7 @@ class VstockDB {
 
 ////////////////////////////////////////////////////////
   countCommonQuery(String table, String? condition) async {
+    print("conditions.............$table...$condition");
     String count = "0";
     Database db = await instance.database;
     final result =

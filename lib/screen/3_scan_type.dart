@@ -37,38 +37,41 @@ class _ScanTypeState extends State<ScanType> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      // extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: true,
       // appBar: AppBar(
-      //   elevation: 0,
-      //   //   leading: IconButton(
-      //   //     icon: Icon(
-      //   //       Icons.arrow_back,
-      //   //       color: ColorThemeComponent.color3,
-      //   //     ),
-      //   //     onPressed: () {
-
-      //   //       Navigator.pop(context);
-      //   //     }),
-      //   title: Text(
-      //     "Select Scan Type",
-      //     style: GoogleFonts.aBeeZee(
-      //         textStyle: TextStyle(
-      //       fontSize: 20,
-      //       color: ColorThemeComponent.color3,
-      //     )),
-      //   ),
-      //   flexibleSpace: Container(
-      //     decoration: const BoxDecoration(
-      //       gradient: LinearGradient(
-      //         begin: Alignment.bottomLeft,
-      //         end: Alignment.topRight,
-      //         colors: <Color>[Colors.purple, Colors.blue],
-      //       ),
-      //     ),
-      //   ),
-      //   // backgroundColor: Color.fromARGB(255, 201, 62, 19),
-      //   // elevation: 0,
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: ColorThemeComponent.color3),
       // ),
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorThemeComponent.color3,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        title: Text(
+          "Select Scan Type",
+          style: GoogleFonts.aBeeZee(
+              textStyle: TextStyle(
+            fontSize: 20,
+            color: ColorThemeComponent.color3,
+          )),
+        ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: <Color>[Colors.purple, Colors.blue],
+            ),
+          ),
+        ),
+        backgroundColor: Color.fromARGB(255, 201, 62, 19),
+      ),
       drawer: Drawer(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -97,7 +100,8 @@ class _ScanTypeState extends State<ScanType> {
                         Text(
                           "Menus",
                           style: TextStyle(
-                              fontSize: 20, color: ColorThemeComponent.color3),
+                            fontSize: 20,
+                          ),
                         ),
                       ],
                     ),
@@ -156,7 +160,7 @@ class _ScanTypeState extends State<ScanType> {
                                 ),
                               ),
                               // color: Color.fromARGB(255, 201, 62, 19),
-                              height: size.height * 0.25,
+                              height: size.height * 0.27,
                               alignment: Alignment.center,
                             ),
                           ),
@@ -166,7 +170,7 @@ class _ScanTypeState extends State<ScanType> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.02,
                 ),
                 Expanded(
                   child: ListView.builder(

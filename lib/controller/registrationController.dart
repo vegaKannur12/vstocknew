@@ -13,19 +13,18 @@ class RegistrationController extends ChangeNotifier {
   String? comName;
   bool isLoading = false;
   /////////////////////////////////////////////////////////////////////
-  postRegistration(String fingerprints, String company_code, String device_id,
-      String app_id, BuildContext context) async {
+  postRegistration(String company_code, String? fingerprints, String phoneno,
+      String deviceinfo, BuildContext context) async {
     try {
-      print("divuxe-----$device_id");
+      print("divuxe-----$deviceinfo");
       isLoading = true;
       notifyListeners();
       Uri url = Uri.parse("http://trafiqerp.in/ydx/send_regkey");
       Map<String, dynamic> body = {
         'company_code': company_code,
-        // 'fcode': fingerprints,
-        // 'deviceinfo': device_id,
-        'device_id': device_id,
-        'app_id': app_id,
+        'fcode': fingerprints,
+        'deviceinfo': deviceinfo,
+        'phoneno': phoneno
       };
       http.Response response = await http.post(
         url,
@@ -48,7 +47,7 @@ class RegistrationController extends ChangeNotifier {
       pref.setString('companyName', regModel.companyName!);
 
       var result = await VstockDB.instance.insertRegistrationDetails(
-          company_code, device_id, "free to scan", regModel);
+          company_code, deviceinfo, "free to scan", regModel);
       isLoading = false;
       notifyListeners();
 

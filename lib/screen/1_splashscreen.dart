@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/waveclipper.dart';
@@ -15,32 +16,36 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   String? companyId;
+  late DateTime tempDate;
+  DateTime now = DateTime.now();
+
   String? expiry;
+  bool isExpired = false;
 
   navigate() async {
     await Future.delayed(Duration(seconds: 1), () async {
       print("splash................");
-      // var companyDetails = await VstockDB.instance.getCompanyDetails();
-      // print("osdodjsodks------${companyDetails}");
+      var companyDetails = await VstockDB.instance
+          .selectCommonQuery('tableRegistration', '*', '');
+      print("osdodjsodks------${companyDetails}");
 
-      // if (companyDetails != null && companyDetails.isNotEmpty) {
-      //   for (var item in companyDetails) {
-      //     expiry = item["expiry_date"];
-      //   }
-      //   //expiry = companyDetails[0]["expiry_date"];
-      //   // tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(expiry);
-      //   // isExpired = tempDate.isBefore(now);
+      if (companyDetails != null && companyDetails.isNotEmpty) {
+        // for (var item in companyDetails) {
+        //   expiry = item["expiry_date"];
+        // }
+        expiry = companyDetails[0]["expiry_date"];
+        tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(expiry!);
+        isExpired = tempDate.isBefore(now);
+        print("expired---------${isExpired}");
+      }
 
-      //   print("expired---------${isExpired}");
-      // }
-
-      // DateTime dayDate = DateTime.parse(expiry.split('-').reversed.join());
-      //print("jfkdjfid${isExpired}");
-      // if (isExpired == true) {
-      //   print("jhdjdjdsj");
-      //   SharedPreferences pref = await SharedPreferences.getInstance();
-      //   companyId = pref.remove('companyId');
-      // }
+      // DateTime dayDate = DateTime.parse(expiry!.split('-').reversed.join());
+      print("jfkdjfid${isExpired}");
+      if (isExpired == true) {
+        print("jhdjdjdsj");
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.remove('companyId');
+      }
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       companyId = pref.getString('companyId');
@@ -53,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                companyId == null ? RegistrationScreen() : ScanType()),
+                companyId == null ? RegistrationScreen(isExpired: isExpired,) : ScanType()),
       );
     });
   }

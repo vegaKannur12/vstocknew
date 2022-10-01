@@ -2,322 +2,318 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:vstock/components/commonColor.dart';
-import 'package:vstock/components/externalDir.dart';
-import 'package:vstock/components/waveclipper.dart';
-import 'package:vstock/controller/registrationController.dart';
-import 'package:vstock/screen/3_scan_type.dart';
 import 'package:lottie/lottie.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  RegistrationScreen({Key? key}) : super(key: key);
+import 'package:provider/provider.dart';
+import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/components/waveclipper.dart';
+import 'package:vstock/controller/registrationController.dart';
 
+import '../components/externalDir.dart';
+
+class RegistrationScreen extends StatefulWidget {
+  @override
+  bool isExpired;
+  RegistrationScreen({required this.isExpired});
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  bool isExpired = false;
-  final _formKey = new GlobalKey<FormState>();
-  TextEditingController controller1 = TextEditingController();
-  TextEditingController controller2 = TextEditingController();
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  Map<String, dynamic> _deviceData = <String, dynamic>{};
+  final _formKey = GlobalKey<FormState>();
   FocusNode? fieldFocusNode;
-  ExternalDir externalDir = ExternalDir();
+  TextEditingController codeController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  String? uniqId;
 
-  getDeviceInfo() async {
-    final deviceInfoPlugin = DeviceInfoPlugin();
-    final deviceInfo = await deviceInfoPlugin.deviceInfo;
-    final map = deviceInfo.toMap();
+  String? manufacturer;
+  String? model;
+  String? fp;
+  String? textFile;
+  ExternalDir externalDir = ExternalDir();
+  late String uniqId;
 
-    //String id = map["androidId"];
-    String model = map["model"];
-    String id = map["id"];
-    String manufacturer = map["manufacturer"];
-    uniqId = model + manufacturer;
-    //print(uniqId);
+  Future<void> initPlatformState() async {
+    var deviceData = <String, dynamic>{};
+
+    try {
+      if (Platform.isAndroid) {
+        deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+        manufacturer = deviceData["manufacturer"];
+        model = deviceData["model"];
+      }
+    } on PlatformException {
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _deviceData = deviceData;
+    });
   }
 
-  // _showSnackbar(BuildContext context) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       backgroundColor: Color.fromARGB(255, 143, 17, 8),
-  //       duration: const Duration(seconds: 1),
-  //       content: Text('Expired!!!!'),
-  //       action: SnackBarAction(
-  //         label: 'Dissmiss',
-  //         textColor: Colors.yellow,
-  //         onPressed: () {
-  //           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
+  Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+    return <String, dynamic>{
+      'manufacturer': build.manufacturer,
+      'model': build.model,
+    };
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDeviceInfo();
+    deletemenu();
+    initPlatformState();
+  }
+
+  deletemenu() async {
+    print("delete");
+    // await OrderAppDB.instance.deleteFromTableCommonQuery('menuTable', "");
   }
 
   @override
   Widget build(BuildContext context) {
+    // final textfile = externalDirtext.getPublicDirectoryPath("");
+    // print("Textfile data....$textfile");
+    double topInsets = MediaQuery.of(context).viewInsets.top;
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
       child: Scaffold(
-        // backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: ColorThemeComponent.color3,
         key: _scaffoldKey,
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         body: InkWell(
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },
-          child: Consumer<RegistrationController>(
-            builder: (context, value, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    child: Stack(
-                      children: <Widget>[
-                        ClipPath(
-                          clipper: WaveClipper(), //set our custom wave clipper.
-                          child: Container(
-                            padding: EdgeInsets.only(
-                              bottom: 50,
-                            ),
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Colors.purple, Colors.blue],
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Consumer<RegistrationController>(
+              builder: (context, value, child) {
+                return Column(
+                  children: [
+                    Container(
+                      child: Stack(
+                        children: <Widget>[
+                          ClipPath(
+                            clipper:
+                                WaveClipper(), //set our custom wave clipper.
+                            child: Container(
+                              padding: EdgeInsets.only(
+                                bottom: 50,
                               ),
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.purple, Colors.blue],
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                ),
+                              ),
+                              height: size.height * 0.25,
+                              alignment: Alignment.center,
                             ),
-                            height: size.height * 0.25,
-                            alignment: Alignment.center,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 1),
-                  //   child: Container(
-                  //     height: size.height * 0.20,
-                  //     child: Lottie.asset(
-                  //       'asset/companylot.json',
-                  //       // height: size.height*0.3,
-                  //       // width: size.height*0.3,
-                  //     ),
-                  //   ),
-                  // ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 100, left: 20, right: 20),
-                    child: SingleChildScrollView(
-                      reverse: true,
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 100, left: 20, right: 20),
                       child: Form(
                         key: _formKey,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              textForm("Company code"),
-                              SizedBox(
-                                height: size.height * 0.04,
-                              ),
-                              textForm("Phone number"),
-                              SizedBox(
-                                height: size.height * 0.04,
-                              ),
-                              Container(
-                                height: size.height * 0.05,
-                                width: size.width * 0.3,
-                                color: Colors.transparent,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.all(0.0),
-                                    elevation: 0,
+                        child: Column(
+                          children: [
+                            customTextField("Company key", codeController,
+                                "company key", context),
+                            customTextField("Phone number", phoneController,
+                                "phone", context),
+
+                            SizedBox(
+                              height: size.height * 0.04,
+                            ),
+                            Container(
+                              height: size.height * 0.05,
+                              width: size.width * 0.3,
+                              color: Colors.transparent,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(0.0),
+                                
+                                  elevation: 0,
+                                ),
+                                onPressed: () async {
+                                  String deviceInfo =
+                                      "$manufacturer" + '' + "$model";
+                                  print("device info-----$deviceInfo");
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => LoginPage()),
+                                  // );
+
+                                  // await OrderAppDB.instance
+                                  //     .deleteFromTableCommonQuery('menuTable', "");
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  if (_formKey.currentState!.validate()) {
+                                    String tempFp1 =
+                                        await externalDir.fileRead();
+                                    // String? tempFp1=externalDir.tempFp;
+
+                                    // if(externalDir.tempFp==null){
+                                    //    tempFp="";
+                                    // }
+                                    print("tempFp---${tempFp1}");
+                                    // textFile = await externalDir
+                                    //     .getPublicDirectoryPath();
+                                    // print("textfile........$textFile");
+
+                                    Provider.of<RegistrationController>(context,
+                                            listen: false)
+                                        .postRegistration(
+                                            codeController.text,
+                                            tempFp1,
+                                            phoneController.text,
+                                            deviceInfo,
+                                            context);
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
+                                    ScaffoldMessenger.of(context)
+                                        .removeCurrentSnackBar();
+                                    // Navigator.of(context).pop();
+                                  }
+                                },
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        colors: [Colors.purple, Colors.blue]),
                                   ),
-                                  onPressed: () async {
-                                    if (_formKey.currentState!.validate()) {
-                                      print("dsdzk---$uniqId");
-                                      String tempFp1 =
-                                          await externalDir.fileRead();
-                                      Provider.of<RegistrationController>(
-                                              context,
-                                              listen: false)
-                                          .postRegistration(
-                                              tempFp1,
-                                              controller1.text,
-                                              uniqId!,
-                                              "1",
-                                              context);
-
-                                      print("hdzsdsz");
-
-                                      // print("res-----$res");
-
-                                      FocusScope.of(context)
-                                          .requestFocus(FocusNode());
-                                      ScaffoldMessenger.of(context)
-                                          .removeCurrentSnackBar();
-                                      // Navigator.of(context).pop();
-                                    }
-                                  },
-                                  child: Ink(
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                          colors: [Colors.purple, Colors.blue]),
-                                    ),
-                                    child: Container(
-                                      height: size.height * 0.05,
-                                      width: size.width * 0.3,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Register",
-                                        style: GoogleFonts.aBeeZee(
-                                            textStyle: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
-                                        // style: TextStyle(color: Colors.white),
-                                      ),
+                                  child: Container(
+                                    height: size.height * 0.05,
+                                    width: size.width * 0.3,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      "Register",
+                                      style: GoogleFonts.aBeeZee(
+                                          textStyle: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold)),
+                                      // style: TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
                               ),
-                              // child: ElevatedButton(
-                              //   style: ElevatedButton.styleFrom(
-                              //     primary: ColorThemeComponent.mainclr,
-                              //   ),
-                              //   onPressed: () async {
-                              //     if (_formKey.currentState!
-                              //         .validate()) {
-                              //       print("dsdzk---$uniqId");
-                              //       String tempFp1 =
-                              //           await externalDir.fileRead();
-                              //       Provider.of<RegistrationController>(
-                              //               context,
-                              //               listen: false)
-                              //           .postRegistration(
-                              //               tempFp1,
-                              //               controller1.text,
-                              //               uniqId!,
-                              //               "1",
-                              //               context);
+                            ),
 
-                              //       print("hdzsdsz");
+                            // SizedBox(
+                            //   height: size.height * 0.09,
+                            // ),
 
-                              //       // print("res-----$res");
+                            // Consumer<Controller>(
+                            //   builder: (context, value, child) {
+                            //     if (value.isLoading) {
+                            //       return SpinKitCircle(
+                            //           // backgroundColor:,
+                            //           color: Colors.black
 
-                              //       FocusScope.of(context)
-                              //           .requestFocus(FocusNode());
-                              //       ScaffoldMessenger.of(context)
-                              //           .removeCurrentSnackBar();
-                              //       // Navigator.of(context).pop();
-                              //     }
-                              //   },
-                              //   child: Text(
-                              //     "Register",
-                              //     style: GoogleFonts.aBeeZee(
-                              //         textStyle: TextStyle(
-                              //             fontSize: 16,
-                              //             fontWeight: FontWeight.bold)),
-                              //     // style: TextStyle(color: Colors.white),
-                              //   ),
-                              // ),
-                            ],
-                          ),
+                            //           // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                            //           // value: 0.25,
+                            //           );
+                            //     } else {
+                            //       return Container();
+                            //     }
+                            //   },
+                            // ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.09,
-                  ),
-                  value.isLoading
-                      ? SpinKitCircle(
-                          // backgroundColor:,
-                          color: ColorThemeComponent.mainclr,
-
-                          // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
-                          // value: 0.25,
-                        )
-                      : Container()
-                  // Consumer<RegistrationController>(
-                  //   builder: (context, value, child) {
-                  //     if (value.isLoading) {
-                  //       return SpinKitCircle(
-                  //         // backgroundColor:,
-                  //         color: ColorThemeComponent.listclr,
-
-                  //         // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
-                  //         // value: 0.25,
-                  //       );
-                  //     } else {
-                  //       return Container();
-                  //     }
-                  //   },
-                  // ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget textForm(String type) {
-    return TextFormField(
-      keyboardType: type == "Phone number" ? TextInputType.number : null,
-      controller: type == "Company code" ? controller1 : controller2,
-      style: GoogleFonts.aBeeZee(
-          textStyle: TextStyle(
-        fontSize: 16,
-      )),
-      decoration: InputDecoration(
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-          //  when the TextFormField in unfocused
-        ),
-        border: UnderlineInputBorder(
-          borderSide:
-              BorderSide(color: ColorThemeComponent.textFrmtext, width: 1.0),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: ColorThemeComponent.newclr),
-          //  when the TextFormField in focused
-        ),
-        icon: Icon(
-          type == "Company code" ? Icons.business : Icons.phone,
-          color: ColorThemeComponent.mainclr,
-        ),
-        // hintText: 'What do people call you?',
-        labelText: type,
-        labelStyle: TextStyle(
-          color: ColorThemeComponent.mainclr,
-        ),
-      ),
-      validator: (text) {
-        if (text == null || text.isEmpty) {
-          return 'Please Enter $type';
-        }
-        return null;
-      },
+  Widget customTextField(String hinttext, TextEditingController controllerValue,
+      String type, BuildContext context) {
+    double topInsets = MediaQuery.of(context).viewInsets.top;
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      height: size.height * 0.09,
+      child: Padding(
+          padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
+          child: TextFormField(
+            keyboardType: type == "phone" ? TextInputType.number : null,
+            style: TextStyle(color: ColorThemeComponent.gradclr2),
+            // scrollPadding:
+            //     EdgeInsets.only(bottom: topInsets + size.height * 0.34),
+            controller: controllerValue,
+            decoration: InputDecoration(
+                contentPadding: EdgeInsets.zero,
+                prefixIcon: type == "company key"
+                    ? Icon(
+                        Icons.business,
+                        color: ColorThemeComponent.gradclr2,
+                      )
+                    : Icon(
+                        Icons.phone,
+                        color: ColorThemeComponent.gradclr2,
+                      ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: ColorThemeComponent.gradclr2, width: 1.0),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25.0),
+                  borderSide: BorderSide(
+                    color: ColorThemeComponent.gradclr2,
+                    width: 2.0,
+                  ),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                  borderSide: BorderSide(
+                    width: 1,
+                    color: Colors.red,
+                  ),
+                ),
+                errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: Colors.red,
+                    )),
+                hintStyle: TextStyle(
+                  fontSize: 15,
+                  color: ColorThemeComponent.gradclr2,
+                ),
+                hintText: hinttext.toString()),
+            validator: (text) {
+              if (text == null || text.isEmpty) {
+                return 'Please Enter ${hinttext}';
+              }
+              return null;
+            },
+          )),
     );
   }
+}
 
-  ////////////////////////////////////////////////////////
-  Future<bool> _onBackPressed(BuildContext context) async {
-    return await showDialog(context: context, builder: (context) => exit(0));
-  }
+Future<bool> _onBackPressed(BuildContext context) async {
+  return await showDialog(context: context, builder: (context) => exit(0));
 }

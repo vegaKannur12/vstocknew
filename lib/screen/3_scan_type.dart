@@ -37,38 +37,38 @@ class _ScanTypeState extends State<ScanType> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        //   leading: IconButton(
-        //     icon: Icon(
-        //       Icons.arrow_back,
-        //       color: ColorThemeComponent.color3,
-        //     ),
-        //     onPressed: () {
+      // extendBodyBehindAppBar: true,
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   //   leading: IconButton(
+      //   //     icon: Icon(
+      //   //       Icons.arrow_back,
+      //   //       color: ColorThemeComponent.color3,
+      //   //     ),
+      //   //     onPressed: () {
 
-        //       Navigator.pop(context);
-        //     }),
-        title: Text(
-          "Select Scan Type",
-          style: GoogleFonts.aBeeZee(
-              textStyle: TextStyle(
-            fontSize: 20,
-            color: ColorThemeComponent.color3,
-          )),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: <Color>[Colors.purple, Colors.blue],
-            ),
-          ),
-        ),
-        // backgroundColor: Color.fromARGB(255, 201, 62, 19),
-        // elevation: 0,
-      ),
+      //   //       Navigator.pop(context);
+      //   //     }),
+      //   title: Text(
+      //     "Select Scan Type",
+      //     style: GoogleFonts.aBeeZee(
+      //         textStyle: TextStyle(
+      //       fontSize: 20,
+      //       color: ColorThemeComponent.color3,
+      //     )),
+      //   ),
+      //   flexibleSpace: Container(
+      //     decoration: const BoxDecoration(
+      //       gradient: LinearGradient(
+      //         begin: Alignment.bottomLeft,
+      //         end: Alignment.topRight,
+      //         colors: <Color>[Colors.purple, Colors.blue],
+      //       ),
+      //     ),
+      //   ),
+      //   // backgroundColor: Color.fromARGB(255, 201, 62, 19),
+      //   // elevation: 0,
+      // ),
       drawer: Drawer(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -77,12 +77,12 @@ class _ScanTypeState extends State<ScanType> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: size.height * 0.045,
+                    height: size.height * 0.09,
                   ),
                   Container(
                     height: size.height * 0.1,
                     width: size.width * 1,
-                    color: ColorThemeComponent.newclr,
+                    color: ColorThemeComponent.gradclr2,
                     child: Row(
                       children: [
                         SizedBox(
@@ -91,7 +91,7 @@ class _ScanTypeState extends State<ScanType> {
                         ),
                         Icon(
                           Icons.list_outlined,
-                          color: ColorThemeComponent.color4,
+                          color: ColorThemeComponent.color3,
                         ),
                         SizedBox(width: size.width * 0.04),
                         Text(
@@ -115,7 +115,7 @@ class _ScanTypeState extends State<ScanType> {
                         Text(
                           "Download",
                           style: TextStyle(
-                              fontSize: 17, color: ColorThemeComponent.newclr),
+                              fontSize: 17, color: ColorThemeComponent.color4),
                         ),
                       ],
                     ),

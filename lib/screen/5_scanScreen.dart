@@ -316,7 +316,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           count = count + 1;
           print("count====$count");
         });
-        await FlutterBeep.beep();
+        await FlutterBeep.beep(true);
         controller.pauseCamera();
         now = DateTime.now();
         print(DateTime.now());

@@ -252,6 +252,19 @@ class VstockDB {
   }
 
 //////////////////////////////////////////////////////////
+  deleteFromTableCommonQuery(String table, String? condition) async {
+    print("table--condition -$table---$condition");
+    Database db = await instance.database;
+    if (condition == null || condition.isEmpty || condition == "") {
+      print("no condition");
+      await db.delete('$table');
+    } else {
+      print("condition");
+
+      await db.rawDelete('DELETE FROM "$table" WHERE $condition');
+    }
+  }
+//////////////////////////////////////////////////////////
   // updateqtyAndRate(
   //   String table,
   //   String barcode,

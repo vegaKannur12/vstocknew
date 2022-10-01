@@ -51,6 +51,8 @@ class _SplashScreenState extends State<SplashScreen> {
       companyId = pref.getString('companyId');
 
       print("companyId==$companyId");
+      //  await  VstockDB.instance
+      //                           .deleteFromTableCommonQuery("barcode", "");
       await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => RegistrationScreen()));

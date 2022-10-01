@@ -148,7 +148,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(0.0),
-                                
                                   elevation: 0,
                                 ),
                                 onPressed: () async {

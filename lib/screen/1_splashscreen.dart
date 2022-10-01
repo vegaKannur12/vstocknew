@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/components/waveclipper.dart';
 import 'package:vstock/screen/2_registration.dart';
 import 'package:vstock/screen/3_scan_type.dart';
 import 'package:vstock/services/dbHelper.dart';
@@ -79,15 +80,14 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Stack(
         children: [
           Container(
-              height: size.height,
-              width: size.width,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("asset/wave2.png"),
-                  fit: BoxFit.cover,
-                ),
-              )),
-          Center(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.purple, Colors.blue],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              ),
+            ),
+            child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,7 +98,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Container(
                   child: Image.asset(
                     "asset/Vega_logo.png",
-                    color: ColorThemeComponent.newclr,
+                    color: ColorThemeComponent.color3,
                   ),
                 ),
                 Text(
@@ -106,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   style: TextStyle(
                     fontFamily: "Roboto",
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Colors.red,
                   ),
                 ),
                 SizedBox(
@@ -117,7 +117,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 //         );
               ],
             ),
+          ), 
           ),
+         
         ],
       ),
     );

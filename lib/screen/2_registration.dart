@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/components/snackbar.dart';
+import 'package:vstock/components/waveclipper.dart';
 import 'package:vstock/controller/registrationController.dart';
 import 'package:vstock/screen/3_scan_type.dart';
+import 'package:lottie/lottie.dart';
 
 class RegistrationScreen extends StatefulWidget {
   bool isExpired;
@@ -85,157 +87,197 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           onTap: () {
             FocusScope.of(context).requestFocus(FocusNode());
           },
-          child: Stack(
-            children: [
-              Container(
-                height: size.height,
-                width: size.width,
-                // decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //       image: AssetImage("asset/bottom.png"),
-                //       fit: BoxFit.cover,
-                //     ),
-                //     ),
-                child: Consumer<RegistrationController>(
-                  builder: (context, value, child) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 5, left: 20, right: 20),
-                          child: SingleChildScrollView(
-                            reverse: true,
-                            child: Form(
-                              key: _formKey,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    textForm("Company code"),
-                                    SizedBox(
-                                      height: size.height * 0.04,
-                                    ),
-                                    textForm("Phone number"),
-                                    SizedBox(
-                                      height: size.height * 0.04,
-                                    ),
-                                    Container(
-                                      height: size.height * 0.05,
-                                      width: size.width * 0.3,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: ColorThemeComponent
-                                              .newclr,
-                                        ),
-                                        onPressed: () async {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            print("dsdzk---$uniqId");
-                                            String tempFp1 =
-                                                await externalDir.fileRead();
-                                            Provider.of<RegistrationController>(
-                                                    context,
-                                                    listen: false)
-                                                .postRegistration(
-                                                    tempFp1,
-                                                    controller1.text,
-                                                    uniqId!,
-                                                    "1",
-                                                    context);
-
-                                            print("hdzsdsz");
-
-                                            // print("res-----$res");
-
-                                            FocusScope.of(context)
-                                                .requestFocus(FocusNode());
-                                            ScaffoldMessenger.of(context)
-                                                .removeCurrentSnackBar();
-                                            // Navigator.of(context).pop();
-                                          }
-                                        },
-                                        child: Text(
-                                          widget.isExpired
-                                              ? "Re-Register"
-                                              : "Register",
-                                          style: GoogleFonts.aBeeZee(
-                                              textStyle: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold)),
-                                          // style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                      // child: ElevatedButton(
-                                      //   onPressed: () async {
-                                      //     // Navigator.of(context).pop();
-                                      //     if (_formKey.currentState!.validate()) {
-                                      //       print(uniqId);
-                                      //       String tempFp1 = await externalDir.fileRead();
-                                      //       RegistrationModel? result =
-                                      //           await registrationController.postRegistration(
-                                      //               tempFp1, codeController.text, uniqId, "1");
-                                      //       if (result != null) {
-                                      //         SharedPreferences pref =
-                                      //             await SharedPreferences.getInstance();
-                                      //         pref.setString('companyId', result.companyId!);
-                                      //       }
-                                      //       // ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                      //       ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                                      //       Navigator.of(context).pop();
-
-                                      //       Navigator.push(
-                                      //         context,
-                                      //         MaterialPageRoute(
-                                      //             builder: (context) => BarcodeType(
-                                      //                 // companyName: result!.companyName.toString(),
-                                      //                 )),
-                                      //       );
-                                      //     }
-                                      //   },
-                                      //   child: Text(widget.isExpired ? "Re-Register" : "Register"),
-                                      // ),
-                                    ),
-                                  ],
-                                ),
+          child: Consumer<RegistrationController>(
+            builder: (context, value, child) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    child: Stack(
+                      children: <Widget>[
+                        ClipPath(
+                          clipper: WaveClipper(), //set our custom wave clipper.
+                          child: Container(
+                            padding: EdgeInsets.only(
+                              bottom: 50,
+                            ),
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [Colors.purple, Colors.blue],
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
                               ),
                             ),
+                            height: size.height * 0.25,
+                            alignment: Alignment.center,
                           ),
                         ),
-                        SizedBox(
-                          height: size.height * 0.09,
-                        ),
-                        value.isLoading
-                            ? SpinKitCircle(
-                                // backgroundColor:,
-                                color: ColorThemeComponent.listclr,
-
-                                // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
-                                // value: 0.25,
-                              )
-                            : Container()
-                        // Consumer<RegistrationController>(
-                        //   builder: (context, value, child) {
-                        //     if (value.isLoading) {
-                        //       return SpinKitCircle(
-                        //         // backgroundColor:,
-                        //         color: ColorThemeComponent.listclr,
-
-                        //         // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
-                        //         // value: 0.25,
-                        //       );
-                        //     } else {
-                        //       return Container();
-                        //     }
-                        //   },
-                        // ),
                       ],
-                    );
-                  },
-                ),
-              ),
-            ],
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 1),
+                  //   child: Container(
+                  //     height: size.height * 0.20,
+                  //     child: Lottie.asset(
+                  //       'asset/companylot.json',
+                  //       // height: size.height*0.3,
+                  //       // width: size.height*0.3,
+                  //     ),
+                  //   ),
+                  // ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 100, left: 20, right: 20),
+                    child: SingleChildScrollView(
+                      reverse: true,
+                      child: Form(
+                        key: _formKey,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              textForm("Company code"),
+                              SizedBox(
+                                height: size.height * 0.04,
+                              ),
+                              textForm("Phone number"),
+                              SizedBox(
+                                height: size.height * 0.04,
+                              ),
+                              Container(
+                                height: size.height * 0.05,
+                                width: size.width * 0.3,
+                                color: Colors.transparent,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    padding: const EdgeInsets.all(0.0),
+                                    elevation: 0,
+                                  ),
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      print("dsdzk---$uniqId");
+                                      String tempFp1 =
+                                          await externalDir.fileRead();
+                                      Provider.of<RegistrationController>(
+                                              context,
+                                              listen: false)
+                                          .postRegistration(
+                                              tempFp1,
+                                              controller1.text,
+                                              uniqId!,
+                                              "1",
+                                              context);
+
+                                      print("hdzsdsz");
+
+                                      // print("res-----$res");
+
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      ScaffoldMessenger.of(context)
+                                          .removeCurrentSnackBar();
+                                      // Navigator.of(context).pop();
+                                    }
+                                  },
+                                  child: Ink(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          colors: [Colors.purple, Colors.blue]),
+                                    ),
+                                    child: Container(
+                                      height: size.height * 0.05,
+                                      width: size.width * 0.3,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Register",
+                                        style: GoogleFonts.aBeeZee(
+                                            textStyle: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold)),
+                                        // style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // child: ElevatedButton(
+                              //   style: ElevatedButton.styleFrom(
+                              //     primary: ColorThemeComponent.mainclr,
+                              //   ),
+                              //   onPressed: () async {
+                              //     if (_formKey.currentState!
+                              //         .validate()) {
+                              //       print("dsdzk---$uniqId");
+                              //       String tempFp1 =
+                              //           await externalDir.fileRead();
+                              //       Provider.of<RegistrationController>(
+                              //               context,
+                              //               listen: false)
+                              //           .postRegistration(
+                              //               tempFp1,
+                              //               controller1.text,
+                              //               uniqId!,
+                              //               "1",
+                              //               context);
+
+                              //       print("hdzsdsz");
+
+                              //       // print("res-----$res");
+
+                              //       FocusScope.of(context)
+                              //           .requestFocus(FocusNode());
+                              //       ScaffoldMessenger.of(context)
+                              //           .removeCurrentSnackBar();
+                              //       // Navigator.of(context).pop();
+                              //     }
+                              //   },
+                              //   child: Text(
+                              //     "Register",
+                              //     style: GoogleFonts.aBeeZee(
+                              //         textStyle: TextStyle(
+                              //             fontSize: 16,
+                              //             fontWeight: FontWeight.bold)),
+                              //     // style: TextStyle(color: Colors.white),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.09,
+                  ),
+                  value.isLoading
+                      ? SpinKitCircle(
+                          // backgroundColor:,
+                          color: ColorThemeComponent.mainclr,
+
+                          // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                          // value: 0.25,
+                        )
+                      : Container()
+                  // Consumer<RegistrationController>(
+                  //   builder: (context, value, child) {
+                  //     if (value.isLoading) {
+                  //       return SpinKitCircle(
+                  //         // backgroundColor:,
+                  //         color: ColorThemeComponent.listclr,
+
+                  //         // valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                  //         // value: 0.25,
+                  //       );
+                  //     } else {
+                  //       return Container();
+                  //     }
+                  //   },
+                  // ),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -265,12 +307,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
         icon: Icon(
           type == "Company code" ? Icons.business : Icons.phone,
-          color: ColorThemeComponent.newclr,
+          color: ColorThemeComponent.mainclr,
         ),
         // hintText: 'What do people call you?',
         labelText: type,
         labelStyle: TextStyle(
-          color: ColorThemeComponent.newclr,
+          color: ColorThemeComponent.mainclr,
         ),
       ),
       validator: (text) {

@@ -38,6 +38,11 @@ class _ScanTypeState extends State<ScanType> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0.0,
+      //   iconTheme: IconThemeData(color: ColorThemeComponent.color3),
+      // ),
       appBar: AppBar(
         elevation: 0,
         //   leading: IconButton(
@@ -57,7 +62,16 @@ class _ScanTypeState extends State<ScanType> {
             color: ColorThemeComponent.color3,
           )),
         ),
-        backgroundColor: Color.fromARGB(255, 201, 62, 19),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: <Color>[Colors.purple, Colors.blue],
+            ),
+          ),
+        ),
+        // backgroundColor: Color.fromARGB(255, 201, 62, 19),
         // elevation: 0,
       ),
       drawer: Drawer(
@@ -87,8 +101,7 @@ class _ScanTypeState extends State<ScanType> {
                         SizedBox(width: size.width * 0.04),
                         Text(
                           "Menus",
-                          style: TextStyle(
-                              fontSize: 20, color: ColorThemeComponent.color3),
+                          style: TextStyle(fontSize: 20, ),
                         ),
                       ],
                     ),
@@ -139,8 +152,15 @@ class _ScanTypeState extends State<ScanType> {
                               padding: EdgeInsets.only(
                                 bottom: 50,
                               ),
-                              color: Color.fromARGB(255, 201, 62, 19),
-                              height: size.height * 0.25,
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.purple, Colors.blue],
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                ),
+                              ),
+                              // color: Color.fromARGB(255, 201, 62, 19),
+                              height: size.height * 0.27,
                               alignment: Alignment.center,
                             ),
                           ),
@@ -150,7 +170,7 @@ class _ScanTypeState extends State<ScanType> {
                   ],
                 ),
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.02,
                 ),
                 Expanded(
                   child: ListView.builder(

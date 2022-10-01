@@ -12,4 +12,8 @@ class ColorThemeComponent {
   static final clrgrey = Color.fromARGB(179, 17, 17, 17);
   static final color3 = Colors.white;
   static final color4 = Colors.black;
+  static final mainclr = Colors.blue;
+  static final gradclr1 =Colors.purple;
+  static final gradclr2 =Colors.blue;
+
 }

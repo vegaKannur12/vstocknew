@@ -54,11 +54,11 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
       backgroundColor: ColorThemeComponent.color3,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: ColorThemeComponent.color3,
+        // backgroundColor: ColorThemeComponent.color3,
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: ColorThemeComponent.newclr,
+              color: ColorThemeComponent.color3,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -66,9 +66,17 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         title: Text(
           widget.comName.toString(),
           style: TextStyle(
-              color: ColorThemeComponent.newclr, fontWeight: FontWeight.bold),
+              color: ColorThemeComponent.color3, fontWeight: FontWeight.bold),
         ),
-
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: <Color>[Colors.purple, Colors.blue],
+            ),
+          ),
+        ),
         // Consumer<RegistrationController>(
         //   builder: (context, value, child) {
         //     return Text(
@@ -130,7 +138,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            backgroundColor: ColorThemeComponent.newclr,
+            // backgroundColor: ColorThemeComponent.newclr,
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
                   .countFrombarcode();

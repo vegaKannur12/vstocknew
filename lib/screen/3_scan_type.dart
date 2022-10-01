@@ -57,7 +57,16 @@ class _ScanTypeState extends State<ScanType> {
             color: ColorThemeComponent.color3,
           )),
         ),
-        backgroundColor: Color.fromARGB(255, 201, 62, 19),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
+              colors: <Color>[Colors.purple, Colors.blue],
+            ),
+          ),
+        ),
+        // backgroundColor: Color.fromARGB(255, 201, 62, 19),
         // elevation: 0,
       ),
       drawer: Drawer(
@@ -139,7 +148,14 @@ class _ScanTypeState extends State<ScanType> {
                               padding: EdgeInsets.only(
                                 bottom: 50,
                               ),
-                              color: Color.fromARGB(255, 201, 62, 19),
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.purple, Colors.blue],
+                                  begin: Alignment.bottomLeft,
+                                  end: Alignment.topRight,
+                                ),
+                              ),
+                              // color: Color.fromARGB(255, 201, 62, 19),
                               height: size.height * 0.25,
                               alignment: Alignment.center,
                             ),

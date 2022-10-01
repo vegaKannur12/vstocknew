@@ -56,7 +56,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: ColorThemeComponent.newclr,
+              color: ColorThemeComponent.mainclr,
             ),
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
@@ -66,23 +66,24 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         backgroundColor: ColorThemeComponent.color3,
       ),
       body: Transform.translate(
-        offset: Offset(0.0, -0.4 * MediaQuery.of(context).viewInsets.bottom),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
-                child: QRView(
-                  key: qrKey,
-                  onQRViewCreated: _onQRViewCreated,
+        offset: Offset(0.0, -0.5 * MediaQuery.of(context).viewInsets.bottom),
+        child: Container(
+          height: size.height * 0.75,
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
+                  child: QRView(
+                    key: qrKey,
+                    onQRViewCreated: _onQRViewCreated,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: size.height * 0.04,
-            ),
-            Expanded(
-              child: Column(
+              SizedBox(
+                height: size.height * 0.04,
+              ),
+              Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +93,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                         style: GoogleFonts.aBeeZee(
                             textStyle: TextStyle(
                                 fontSize: 20,
-                                color: ColorThemeComponent.newclr,
+                                color: ColorThemeComponent.gradclr2,
                                 fontWeight: FontWeight.bold)),
                       ),
                       if (widget.type == "Free Scan with quantity" ||
@@ -174,9 +175,14 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                         SizedBox(
                           height: size.height * 0.03,
                         ),
-                        ElevatedButton(
+                        Container(
+                          height: size.height * 0.045,
+                          width: size.width * 0.2,
+                          color: Colors.transparent,
+                          child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: ColorThemeComponent.newclr,
+                              padding: const EdgeInsets.all(0.0),
+                              elevation: 0,
                             ),
                             onPressed: () {
                               if (_textController.text.isEmpty ||
@@ -232,21 +238,29 @@ class _ScanBarcodeState extends State<ScanBarcode> {
 
                               _textController.clear();
                               _barcodeText.clear();
-                              // _barcodeScanned = " hihi";
-
-                              // setState(() {
-
-                              // });
                               controller!.resumeCamera();
                             },
-                            child: Text(
-                              "save",
-                              style: GoogleFonts.aBeeZee(
-                                  textStyle: TextStyle(
-                                      fontSize: 17,
-                                      color: ColorThemeComponent.color3,
-                                      fontWeight: FontWeight.bold)),
-                            ))
+                            child: Ink(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [Colors.purple, Colors.blue]),
+                              ),
+                              child: Container(
+                                height: size.height * 0.05,
+                                width: size.width * 0.3,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Save",
+                                  style: GoogleFonts.aBeeZee(
+                                      textStyle: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                  // style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
 
@@ -274,9 +288,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                   //   ),
                   // ),
                 ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

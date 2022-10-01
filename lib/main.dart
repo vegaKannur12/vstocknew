@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: ScanType(),
     );
   }  
   

@@ -25,18 +25,22 @@ class BarcodeController extends ChangeNotifier {
       int count,
       int page_id,
       String type,
-      BuildContext context) async {
+      BuildContext context,
+      bool validation,String time) async {
+    var res;
     print("enterd insertion section---$_barcodeScanned--$formattedDate--$qty");
-    var res = await VstockDB.instance.compareScannedbarcode(
-        formattedDate!, qty, page_id, type, _barcodeScanned!);
-    print("response----$res --${res.runtimeType}");
+ 
+      res = await VstockDB.instance.compareScannedbarcode(
+          formattedDate!, qty, page_id, type, _barcodeScanned!,validation);
+      print("response----$res --${res.runtimeType}");
 
-    if (res == 0) {
-      snackbarCommon.showSnackbar(context, "Invalid Barcode!!!");
-    } else {
-      print("fjdxfn-----");
-      // count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
-    }
+      if (res == 0) {
+        snackbarCommon.showSnackbar(context, "Invalid Barcode!!!");
+      } else {
+        print("fjdxfn-----");
+        // count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
+      }
+   
 
     // BarcodeScannerModel barcodeModel=BarcodeScannerModel();
 

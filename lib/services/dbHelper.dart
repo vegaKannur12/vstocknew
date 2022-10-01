@@ -93,7 +93,7 @@ class VstockDB {
 
     if (type == "Free Scan" || type == "Free Scan with quantity") {
       query =
-          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcode}", "${time}", ${qty}, ${page_id},"","","","","","","","")';
+          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcode}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","","")';
     }
     if (type == "API Scan" || type == "API Scan with quantity") {
       query =
@@ -138,8 +138,9 @@ class VstockDB {
     print("dmks----$list");
     return list;
   }
+
   ///////////////////////////////////////
- insertImportedData(List<List<dynamic>> user) async {
+  insertImportedData(List<List<dynamic>> user) async {
     final db = await database;
     print("user length----${user.length}");
     var buffer = new StringBuffer();
@@ -179,40 +180,49 @@ class VstockDB {
     print(res);
     // return res;
   }
+
 //////////////////////compare local db and scanned code/////////////
-  compareScannedbarcode(
-      String time, int qty, int page_id, String type, String barcode) async {
+  compareScannedbarcode(String time, int qty, int page_id, String type,
+      String barcode, bool validation) async {
     Database db = await instance.database;
     var response;
-    List<Map<String, dynamic>> list =
-        await selectCommonQuery("barcode", "*", "");
-    print("list---$list");
 
-    List<Map<String, dynamic>> listtimeStamp = await selectCommonQuery(
-        "tableScanLog", "*", "where barcode='$barcode' OR ean='$barcode'");
-    print("barcode----list---$listtimeStamp");
-    if (list.length > 0) {
-      if (list[0]["barcode"] == barcode || list[0]["ean"] == barcode) {
-        if (listtimeStamp.length > 0) {
-          print("updation---");
-          int updatedqty = listtimeStamp[0]["qty"] + 1;
-          print("hszjj-----${listtimeStamp[0]["qty"].runtimeType}");
-          response = await updateCommonQuery(
-              "tableScanLog",
-              "qty='${updatedqty}'",
-              "where barcode='$barcode' or ean='$barcode' ");
+    if (validation) {
+      List<Map<String, dynamic>> list =
+          await selectCommonQuery("barcode", "*", "");
+      print("list---$list");
+
+      List<Map<String, dynamic>> listtimeStamp = await selectCommonQuery(
+          "tableScanLog", "*", "where barcode='$barcode' OR ean='$barcode'");
+      print("barcode----list---$listtimeStamp");
+
+      if (list.length > 0) {
+        if (list[0]["barcode"] == barcode || list[0]["ean"] == barcode) {
+          if (listtimeStamp.length > 0) {
+            print("updation---");
+            int updatedqty = listtimeStamp[0]["qty"] + 1;
+            print("hszjj-----${listtimeStamp[0]["qty"].runtimeType}");
+            response = await updateCommonQuery(
+                "tableScanLog",
+                "qty='${updatedqty}'",
+                "where barcode='$barcode' or ean='$barcode' ");
+          } else {
+            print("insertion---${list[0]["rate"].runtimeType}");
+
+            response = await barcodeTimeStamp(
+                time, qty, list[0]["rate"], page_id, type, null, barcode);
+          }
         } else {
-          print("insertion---${list[0]["rate"].runtimeType}");
-
-          response = await barcodeTimeStamp(
-              time, qty, list[0]["rate"], page_id, type, null, barcode);
+          return 0;
         }
       } else {
         return 0;
       }
     } else {
-      return 0;
+      response =
+          await barcodeTimeStamp(time, qty, 0.0, page_id, type, null, barcode);
     }
+
     print("response----$response");
     return response;
   }

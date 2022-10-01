@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 1), () async {
       print("splash................");
       var companyDetails = await VstockDB.instance
-          .selectCommonQuery('tableRegistration', '*', '');
+          .selectCommonQuery('companyRegistrationTable', '*', '');
       print("osdodjsodks------${companyDetails}");
 
       if (companyDetails != null && companyDetails.isNotEmpty) {

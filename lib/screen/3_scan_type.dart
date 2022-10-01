@@ -193,7 +193,7 @@ class _ScanTypeState extends State<ScanType> {
                                   MaterialPageRoute(
                                       builder: (context) => ScanListBarcode(
                                             type: types[index],
-                                            comName: comName!,
+                                            comName: "",
                                             // queryresult: queryresult,
                                           )),
                                 );

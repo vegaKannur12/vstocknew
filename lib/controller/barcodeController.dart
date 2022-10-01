@@ -18,9 +18,9 @@ class BarcodeController extends ChangeNotifier {
   SnackbarCommon snackbarCommon = SnackbarCommon();
   List<Map<String, dynamic>> scanList = [];
   ////////////////////////////////////////////////
+  
   insertintoTableScanlog(
       String? _barcodeScanned,
-      String? formattedDate,
       int qty,
       int count,
       int page_id,
@@ -28,10 +28,10 @@ class BarcodeController extends ChangeNotifier {
       BuildContext context,
       bool validation,String time) async {
     var res;
-    print("enterd insertion section---$_barcodeScanned--$formattedDate--$qty");
+    print("enterd insertion section---$_barcodeScanned--$time--$qty---$type----$validation");
  
       res = await VstockDB.instance.compareScannedbarcode(
-          formattedDate!, qty, page_id, type, _barcodeScanned!,validation);
+          time, qty, page_id, type, _barcodeScanned!,validation);
       print("response----$res --${res.runtimeType}");
 
       if (res == 0) {

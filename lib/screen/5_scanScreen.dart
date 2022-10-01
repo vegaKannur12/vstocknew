@@ -25,7 +25,8 @@ class ScanBarcode extends StatefulWidget {
 class _ScanBarcodeState extends State<ScanBarcode> {
   SnackbarCommon snackbr = SnackbarCommon();
   DateTime now = DateTime.now();
-
+  String? formattedDate;
+  bool validation = true;
   String? date;
   List<Data>? result;
   QRViewController? controller;
@@ -319,6 +320,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         controller.pauseCamera();
         now = DateTime.now();
         print(DateTime.now());
+        formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
         if (_barcodeScanned != null && _barcodeScanned.isNotEmpty) {
           print("barcode----------------${_barcodeScanned}");
 
@@ -327,7 +329,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           if (widget.type == "Free Scan") {
             Provider.of<BarcodeController>(context, listen: false)
                 .insertintoTableScanlog(_barcodeText.text, date, 1, countInt, 1,
-                    "Free Scan", context);
+                    "Free Scan", context, validation, formattedDate!);
           }
           if (widget.type == "API Scan") {
             //  var result=await Provider.of<ProviderController>(context, listen: false).searchInTableScanLog(_barcodeScanned);

@@ -25,8 +25,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   SnackbarCommon snackbr = SnackbarCommon();
   DateTime now = DateTime.now();
   String? formattedDate;
-  bool validation = false;
-
+  bool validation = true;
+  List s = [];
   List<Data>? result;
   QRViewController? controller;
   String _barcodeScanned = "";
@@ -85,29 +85,34 @@ class _ScanBarcodeState extends State<ScanBarcode> {
               Column(
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        "Barcode  : ",
-                        style: GoogleFonts.aBeeZee(
-                            textStyle: TextStyle(
-                                fontSize: 20,
-                                color: ColorThemeComponent.gradclr2,
-                                fontWeight: FontWeight.bold)),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 58.0),
+                        child: Text(
+                          "Barcode  : ",
+                          style: GoogleFonts.aBeeZee(
+                              textStyle: TextStyle(
+                                  fontSize: 20,
+                                  color: ColorThemeComponent.gradclr2,
+                                  fontWeight: FontWeight.bold)),
+                        ),
                       ),
                       if (widget.type == "Free Scan with quantity" ||
                           widget.type == "API Scan with quantity")
-                        Container(
-                          height: size.height * 0.05,
-                          width: size.width * 0.1,
-                          child: TextFormField(
-                            style: TextStyle(
-                                fontSize: 19, fontWeight: FontWeight.bold),
-                            controller: _barcodeText,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
+                        Flexible(
+                          child: Container(
+                            // height: size.height * 0.05,
+                            // width: size.width * 0.1,
+                            child: TextFormField(
+                              style: TextStyle(
+                                  fontSize: 19, fontWeight: FontWeight.bold),
+                              controller: _barcodeText,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                              // decoration: In,
                             ),
-                            // decoration: In,
                           ),
                         ),
                       if (widget.type == "Free Scan" ||
@@ -209,18 +214,25 @@ class _ScanBarcodeState extends State<ScanBarcode> {
 
                               if (_barcodeText.text.isNotEmpty) {
                                 if (widget.type == "Free Scan with quantity") {
+                                  int qunatity;
+                                  if (_textController.text == null ||
+                                      _textController.text.isEmpty) {
+                                    qunatity = 1;
+                                  } else {
+                                    qunatity = int.parse(_textController.text);
+                                  }
+                                  print("qunatity------$qunatity");
                                   Provider.of<BarcodeController>(context,
                                           listen: false)
                                       .insertintoTableScanlog(
                                           _barcodeText.text,
-                                          int.tryParse(
-                                              _textController.text.toString())!,
+                                          qunatity,
                                           countInt,
                                           2,
                                           "Free Scan with quantity",
                                           context,
                                           validation,
-                                          formattedDate!);
+                                          s[0],s[1]);
                                 }
                                 if (widget.type == "API Scan with quantity") {
                                   if (_barcodeScanned != null ||
@@ -321,7 +333,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         controller.pauseCamera();
         now = DateTime.now();
         print(DateTime.now());
-        formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+        formattedDate = DateFormat('yyyy-MM-dd kk:mm').format(now);
+
+        s = formattedDate!.split(" ");
         if (_barcodeScanned != null && _barcodeScanned.isNotEmpty) {
           print("barcode----------------${_barcodeScanned}");
 
@@ -330,7 +344,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           if (widget.type == "Free Scan") {
             Provider.of<BarcodeController>(context, listen: false)
                 .insertintoTableScanlog(_barcodeText.text, 1, countInt, 1,
-                    "Free Scan", context, validation, formattedDate!);
+                    "Free Scan", context, validation, s[0],s[1]);
           }
           if (widget.type == "API Scan") {
             //  var result=await Provider.of<ProviderController>(context, listen: false).searchInTableScanLog(_barcodeScanned);

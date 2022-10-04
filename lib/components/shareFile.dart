@@ -34,11 +34,10 @@ class ShareFilePgm {
     scan1.add(columnNames);
     for (var i = 0; i < data.length; i++) {
       List<dynamic> row = List.empty(growable: true);
-      List date = data[i]["time"].split(' ');
-      print("aggfv-----$date");
+  
       row.add('${data[i]["barcode"]}');
-      row.add(date[0]);
-      row.add(date[1]);
+      row.add('${data[i]["date"]}');
+      row.add('${data[i]["time"]}');
       row.add('${data[i]["qty"]}');
       // type == "Free Scan" || type == "API Scan"
       //     ? null

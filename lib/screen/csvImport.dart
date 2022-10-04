@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
@@ -29,6 +30,7 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
       setState(() {
         fileName = basename(file!.path);
       });
+      print("fileNma------$fileName");
       // fileName = file!.path.split('/').last;
       print(fileName);
       final input = file!.openRead();
@@ -46,22 +48,68 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      floatingActionButton:
+          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        FloatingActionButton(
+          child: Text("csv"),
+          onPressed: pick_file,
+          heroTag: null,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        FloatingActionButton(
+          child: Text("db"),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Show()),
+            );
+          },
+          heroTag: null,
+        ),
+        FloatingActionButton(
+          child: Icon(Icons.delete),
+          onPressed: () async {
+            await VstockDB.instance
+                .deleteFromTableCommonQuery("barcode", "");
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => Show()),
+            // );
+          },
+          heroTag: null,
+        )
+      ]),
       body: Center(
-        child: Column(
-          children: [
-            ElevatedButton(child: Text("pick csv"), onPressed: pick_file),
-            Text(fileName.toString()),
-            ElevatedButton(
-                child: Text("show db "),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Show()),
-                  );
-                }),
-          ],
+        child: Container(
+          child: Text(
+            fileName == null ? "File Name...." : fileName.toString(),
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       ),
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       ElevatedButton(
+      //         child: Text("pick csv"),
+      //         onPressed: pick_file,
+      //       ),
+      //       Text(fileName.toString()),
+      //       ElevatedButton(
+      //           child: Text("show db "),
+      //           onPressed: () {
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(builder: (context) => Show()),
+      //             );
+      //           }),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
@@ -88,53 +136,64 @@ class _ShowState extends State<Show> {
         ],
       ),
       body: FutureBuilder(
-          future: VstockDB.instance.selectCommonQuery("barcode","*",""),
+          future: VstockDB.instance.selectCommonQuery("barcode", "*", ""),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text("Loading....");
+              return Center(child: Text("Loading...."));
             }
             if (snapshot.data == null) {
               // _isEnabled = false;
               return Center(
                 child: Text("No Data"),
               );
+            } else {
+              print("snapshot count-------${snapshot.data!.length}");
+              return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          //SizedBox(height: size.height*0.03,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                  // width: size.width * 0.25,
+                                  child:
+                                      Text(snapshot.data![index]["barcode"])),
+                              Container(
+                                  // width: size.width * 0.3,
+                                  child: Text(snapshot.data![index]["ean"])),
+                              Container(
+                                  // width: size.width * 0.3,/
+                                  child:
+                                      Text(snapshot.data![index]["product"])),
+                              Container(
+                                  // width: size.width * 0.3,
+                                  child: Text(snapshot.data![index]["rate"]
+                                      .toString())),
+                              // Container(
+                              //   child: IconButton(
+                              //       onPressed: () {
+                              //         BarcodeScanlogDB.instance
+                              //             .delete(snapshot.data![index]["id"]);
+                              //         controller.add(true);
+                              //       },
+                              //       icon: Icon(Icons.delete)),
+                              // ),
+                              // Container(
+                              //   child: Text(snapshot.data![index]["qty"]
+                              //       .toString()),
+                              // )
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  });
             }
-            return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        //SizedBox(height: size.height*0.03,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                                width: size.width * 0.25,
-                                child: Text(snapshot.data![index]["name"])),
-                            Container(
-                                width: size.width * 0.3,
-                                child: Text(snapshot.data![index]["place"])),
-                            // Container(
-                            //   child: IconButton(
-                            //       onPressed: () {
-                            //         BarcodeScanlogDB.instance
-                            //             .delete(snapshot.data![index]["id"]);
-                            //         controller.add(true);
-                            //       },
-                            //       icon: Icon(Icons.delete)),
-                            // ),
-                            // Container(
-                            //   child: Text(snapshot.data![index]["qty"]
-                            //       .toString()),
-                            // )
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                });
           }),
     );
   }

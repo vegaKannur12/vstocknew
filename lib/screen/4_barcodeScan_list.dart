@@ -160,102 +160,214 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
       ),
       body: Consumer<BarcodeController>(
         builder: (context, value, child) {
-          return Stack(
-            children: [
-              Column(
+          if (value.isLoading) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            if (value.scanList.length == 0) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: size.height * 0.07,
-                    child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Barcode",
-                              style: GoogleFonts.aBeeZee(
-                                  textStyle: TextStyle(
-                                fontSize: 18,
-                                color: ColorThemeComponent.color4,
-                              )),
-                            ),
-                            // Spacer(),
-                            Text(
-                              "Date & Time",
-                              style: GoogleFonts.aBeeZee(
-                                  textStyle: TextStyle(
-                                fontSize: 18,
-                                color: ColorThemeComponent.color4,
-                              )),
-                            ),
-                            // Spacer(),
-                            Text(
-                              "Qty",
-                              style: GoogleFonts.aBeeZee(
-                                  textStyle: TextStyle(
-                                fontSize: 18,
-                                color: ColorThemeComponent.color4,
-                              )),
-                            ),
-                          ],
-                        ),
+                  Center(
+                    child: Container(
+                      child: Image.asset(
+                        'asset/nodata.png',
+                        height: 70,
+                        width: 100,
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: value.scanList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
+                  Text(
+                    "No data !!!",
+                    style: GoogleFonts.aBeeZee(
+                        textStyle: TextStyle(
+                      fontSize: 18,
+                      color: ColorThemeComponent.color4,
+                    )),
+                  )
+                ],
+              );
+            } else {
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        height: size.height * 0.05,
+                        child: ListTile(
                           title: Padding(
                             padding: const EdgeInsets.only(left: 20, right: 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Flexible(
-                                  // flex: 3,
-                                  child: Container(
-                                    width: size.width*0.4,
-                                    child: Text(
-                                      value.scanList[index]['barcode'],
-                                      style: TextStyle(
-                                          color: ColorThemeComponent.clrgrey,
-                                          fontSize: 15),
-                                    ),
-                                  ),
+                                Text(
+                                  "Barcode",
+                                  style: GoogleFonts.aBeeZee(
+                                      textStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: ColorThemeComponent.color4,
+                                  )),
                                 ),
                                 // Spacer(),
-                                Flexible(
-                                  flex: 2,
-                                  child: Text(
-                                    value.scanList[index]['time'],
-                                    style: TextStyle(
-                                        color: ColorThemeComponent.clrgrey,
-                                        fontSize: 15),
-                                  ),
+                                Text(
+                                  "Date & Time",
+                                  style: GoogleFonts.aBeeZee(
+                                      textStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: ColorThemeComponent.color4,
+                                  )),
                                 ),
                                 // Spacer(),
-                                Flexible(
-                                  // flex: 1,
-                                  child: Text(
-                                    value.scanList[index]['qty'].toString(),
-                                    style: TextStyle(
-                                        color: ColorThemeComponent.clrgrey,
-                                        fontSize: 15),
-                                  ),
+                                Text(
+                                  "Qty",
+                                  style: GoogleFonts.aBeeZee(
+                                      textStyle: TextStyle(
+                                    fontSize: 18,
+                                    color: ColorThemeComponent.color4,
+                                  )),
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: value.scanList.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      // flex: 3,
+                                      child: Container(
+                                        width: size.width * 0.4,
+                                        child: Text(
+                                          value.scanList[index]['barcode'],
+                                          style: TextStyle(
+                                              color:
+                                                  ColorThemeComponent.clrgrey,
+                                              fontSize: 15),
+                                        ),
+                                      ),
+                                    ),
+                                    // Spacer(),
+                                    Flexible(
+                                      flex: 2,
+                                      child: Text(
+                                        value.scanList[index]['date'] +
+                                            ' ' +
+                                            value.scanList[index]['time'],
+                                        style: TextStyle(
+                                            color: ColorThemeComponent.clrgrey,
+                                            fontSize: 15),
+                                      ),
+                                    ),
+                                    widget.type == "Free Scan with quantity" ||
+                                            widget.type ==
+                                                "API Scan with quantity"
+                                        ? Flexible(
+                                            child: Container(
+                                              width: size.width * 0.1,
+                                              child: TextField(
+                                                autofocus: true,
+                                                onTap: () {
+                                                  // Provider.of<Controller>(context,
+                                                  //         listen: false)
+                                                  //     .addDeletebagItem(
+                                                  //         itemId,
+                                                  //         srate1.toString(),
+                                                  //         srate2.toString(),
+                                                  //         value.qty[index].text,
+                                                  //         "0",
+                                                  //         "0",
+                                                  //         context,
+                                                  //         "save");
+
+                                                  value.qty[index].selection =
+                                                      TextSelection(
+                                                          baseOffset: 0,
+                                                          extentOffset: value
+                                                              .qty[index]
+                                                              .value
+                                                              .text
+                                                              .length);
+                                                },
+
+                                                // autofocus: true,
+                                                style: GoogleFonts.aBeeZee(
+                                                  textStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText2,
+                                                  fontSize: 17,
+                                                  // fontWeight: FontWeight.bold,
+                                                  // color: P_Settings.loginPagetheme,
+                                                ),
+                                                decoration: InputDecoration(
+                                                  isDense: true,
+                                                  contentPadding:
+                                                      EdgeInsets.all(0),
+                                                  //border: InputBorder.none
+                                                ),
+
+                                                // maxLines: 1,
+                                                // minLines: 1,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                onSubmitted: (values) async {
+                                                  await VstockDB.instance
+                                                      .updateCommonQuery(
+                                                          " tableScanLog",
+                                                          " qty = '${values}'",
+                                                          " where barcode='${value.scanList[index]['barcode']}'");
+                                                  print("values----$values");
+                                                  double valueqty = 0.0;
+                                                  // value.discount_amount[index].text=;
+                                                  if (values.isNotEmpty) {
+                                                    print("emtyyyy");
+                                                    valueqty =
+                                                        double.parse(values);
+                                                  } else {
+                                                    valueqty = 0.00;
+                                                  }
+                                                },
+                                                textAlign: TextAlign.right,
+                                                controller: value.qty[index],
+                                              ),
+                                            ),
+                                          )
+                                        : Flexible(
+                                            // flex: 1,
+                                            child: Text(
+                                              value.scanList[index]['qty']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: ColorThemeComponent
+                                                      .clrgrey,
+                                                  fontSize: 15),
+                                            ),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ],
-              ),
-            ],
-          );
+              );
+            }
+          }
         },
       ),
       // body: Consumer<RegistrationController>(

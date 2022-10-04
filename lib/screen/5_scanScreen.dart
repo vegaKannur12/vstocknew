@@ -15,7 +15,6 @@ import 'package:vstock/model/barcodeScannerModel.dart';
 
 class ScanBarcode extends StatefulWidget {
   String type;
-
   ScanBarcode({required this.type});
 
   @override
@@ -26,8 +25,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   SnackbarCommon snackbr = SnackbarCommon();
   DateTime now = DateTime.now();
   String? formattedDate;
-  bool validation = true;
-  String? date;
+  bool validation = false;
+
   List<Data>? result;
   QRViewController? controller;
   String _barcodeScanned = "";
@@ -40,7 +39,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   @override
   void initState() {
-    date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
     // TODO: implement initState
     super.initState();
     // c = int.parse(
@@ -207,19 +205,22 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                 snackbr.showSnackbar(
                                     context, "Invalid Barcode!!!");
                               }
-                              print(
-                                  "save button------${_barcodeText.text}, ${date}");
+                              print("save button------${_barcodeText.text}, ");
 
                               if (_barcodeText.text.isNotEmpty) {
                                 if (widget.type == "Free Scan with quantity") {
-                                  // Provider.of<BarcodeController>(context,
-                                  //         listen: false)
-                                  //     .insertintoTableScanlog(
-                                  //         _barcodeText.text,
-
-                                  //         countInt,
-                                  //         2,
-                                  //         "Free Scan with quantity");
+                                  Provider.of<BarcodeController>(context,
+                                          listen: false)
+                                      .insertintoTableScanlog(
+                                          _barcodeText.text,
+                                          int.tryParse(
+                                              _textController.text.toString())!,
+                                          countInt,
+                                          2,
+                                          "Free Scan with quantity",
+                                          context,
+                                          validation,
+                                          formattedDate!);
                                 }
                                 if (widget.type == "API Scan with quantity") {
                                   if (_barcodeScanned != null ||
@@ -328,7 +329,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           //  await BarcodeScanlogDB.instance.barcodeTimeStamp(_barcodeScanned, formattedDate, count,1);
           if (widget.type == "Free Scan") {
             Provider.of<BarcodeController>(context, listen: false)
-                .insertintoTableScanlog(_barcodeText.text, date, 1, countInt, 1,
+                .insertintoTableScanlog(_barcodeText.text, 1, countInt, 1,
                     "Free Scan", context, validation, formattedDate!);
           }
           if (widget.type == "API Scan") {

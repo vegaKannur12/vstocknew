@@ -37,7 +37,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
 
     // TODO: implement initState
     super.initState();
-    print("comName--xccx---${widget.comName}");
+    print("comName--xccx---${widget.type}");
 
     // getComDetails();
   }
@@ -170,6 +170,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                       title: Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "Barcode",
@@ -179,7 +180,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 color: ColorThemeComponent.color4,
                               )),
                             ),
-                            Spacer(),
+                            // Spacer(),
                             Text(
                               "Date & Time",
                               style: GoogleFonts.aBeeZee(
@@ -188,7 +189,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 color: ColorThemeComponent.color4,
                               )),
                             ),
-                            Spacer(),
+                            // Spacer(),
                             Text(
                               "Qty",
                               style: GoogleFonts.aBeeZee(
@@ -210,26 +211,39 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                           title: Padding(
                             padding: const EdgeInsets.only(left: 20, right: 20),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  value.scanList[index]['barcode'],
-                                  style: TextStyle(
-                                      color: ColorThemeComponent.clrgrey,
-                                      fontSize: 15),
+                                Flexible(
+                                  // flex: 3,
+                                  child: Container(
+                                    width: size.width*0.4,
+                                    child: Text(
+                                      value.scanList[index]['barcode'],
+                                      style: TextStyle(
+                                          color: ColorThemeComponent.clrgrey,
+                                          fontSize: 15),
+                                    ),
+                                  ),
                                 ),
-                                Spacer(),
-                                Text(
-                                  value.scanList[index]['time'],
-                                  style: TextStyle(
-                                      color: ColorThemeComponent.clrgrey,
-                                      fontSize: 15),
+                                // Spacer(),
+                                Flexible(
+                                  flex: 2,
+                                  child: Text(
+                                    value.scanList[index]['time'],
+                                    style: TextStyle(
+                                        color: ColorThemeComponent.clrgrey,
+                                        fontSize: 15),
+                                  ),
                                 ),
-                                Spacer(),
-                                Text(
-                                  value.scanList[index]['qty'].toString(),
-                                  style: TextStyle(
-                                      color: ColorThemeComponent.clrgrey,
-                                      fontSize: 15),
+                                // Spacer(),
+                                Flexible(
+                                  // flex: 1,
+                                  child: Text(
+                                    value.scanList[index]['qty'].toString(),
+                                    style: TextStyle(
+                                        color: ColorThemeComponent.clrgrey,
+                                        fontSize: 15),
+                                  ),
                                 ),
                               ],
                             ),

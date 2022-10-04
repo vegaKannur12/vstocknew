@@ -47,7 +47,7 @@ dependencies:
   flutter_spinkit: ^5.1.0
   package_info_plus: ^1.4.0
   shared_preferences: ^2.0.13
-  # open_file: ^3.2.1
+  connectivity_plus: ^2.3.0 # network connectivity checking
   permission_handler: ^9.2.0
   flutter_email_sender: ^5.1.0
   syncfusion_flutter_datagrid: ^20.2.36

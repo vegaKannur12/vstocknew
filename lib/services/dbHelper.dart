@@ -57,30 +57,39 @@ class VstockDB {
           ''');
 ////////////// registration table ////////////
     await db.execute('''
-          CREATE TABLE tableRegistration (
+          CREATE TABLE companyRegistrationTable (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            company_code TEXT NOT NULL,
-            device_id TEXT NOT NULL,
-            appType TEXT NOT NULL,
-            company_id TEXT NOT NULL,
-            company_name TEXT NOT NULL,
-            user_id TEXT NOT NULL,
-            expiry_date TEXT NOT NULL
+            cid TEXT NOT NULL,
+            fp TEXT NOT NULL,
+            os TEXT NOT NULL,
+            type TEXT,
+            app_type TEXT,
+            cpre TEXT,
+            ctype TEXT,
+            cnme TEXT,
+            ad1 TEXT,
+            ad2 TEXT,
+            ad3 TEXT,
+            pcode TEXT,
+            land TEXT,
+            mob TEXT,
+            em TEXT,
+            gst TEXT,
+            ccode TEXT,
+            scode TEXT,
+            msg TEXT
           )
           ''');
   }
 
 //   ///////////////////////////////////////////////
-  Future insertRegistrationDetails(String company_code, String device_id,
-      String appType, RegistrationModel rgModel) async {
+  Future insertRegistrationDetails(RegistrationData data) async {
     final db = await database;
-    print("userId*****${company_code}");
-    // print(user_id.runtimeType);
-    var query =
-        'INSERT INTO tableRegistration(company_code, device_id, appType, company_id, company_name, user_id, expiry_date) VALUES("${company_code}", "${device_id}", "${appType}", "${rgModel.companyId}", "${rgModel.companyName}", "${rgModel.userId}", "${rgModel.expiryDate}")';
-    var res = await db.rawInsert(query);
-    print(query);
-    print(res);
+    var query1 =
+        'INSERT INTO companyRegistrationTable(cid, fp, os, type, app_type, cpre, ctype, cnme, ad1, ad2, ad3, pcode, land, mob, em, gst, ccode, scode, msg) VALUES("${data.cid}", "${data.fp}", "${data.os}","${data.type}","${data.apptype}","${data.c_d![0].cpre}", "${data.c_d![0].ctype}", "${data.c_d![0].cnme}", "${data.c_d![0].ad1}", "${data.c_d![0].ad2}", "${data.c_d![0].ad3}", "${data.c_d![0].pcode}", "${data.c_d![0].land}", "${data.c_d![0].mob}", "${data.c_d![0].em}", "${data.c_d![0].gst}", "${data.c_d![0].ccode}", "${data.c_d![0].scode}", "${data.msg}" )';
+    var res = await db.rawInsert(query1);
+    print(query1);
+    print("registered ----$res");
     return res;
   }
 

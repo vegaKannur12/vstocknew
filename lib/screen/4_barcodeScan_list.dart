@@ -73,7 +73,8 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
             gradient: LinearGradient(
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
-              colors: <Color>[Colors.purple, Colors.blue],
+              colors: <Color>[Color.fromARGB(255, 28, 13, 31),
+                                    Color.fromARGB(255, 68, 164, 241)],
             ),
           ),
         ),
@@ -174,6 +175,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                         'asset/nodata.png',
                         height: 70,
                         width: 100,
+                        // color: ColorThemeComponent,
                       ),
                     ),
                   ),
@@ -182,7 +184,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                     style: GoogleFonts.aBeeZee(
                         textStyle: TextStyle(
                       fontSize: 18,
-                      color: ColorThemeComponent.color4,
+                      color: ColorThemeComponent.greyclr,
                     )),
                   )
                 ],

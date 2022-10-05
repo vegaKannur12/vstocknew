@@ -59,8 +59,11 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                companyId == null ? RegistrationScreen(isExpired: isExpired,) : ScanType()),
+            builder: (context) => companyId == null
+                ? RegistrationScreen(
+                    isExpired: isExpired,
+                  )
+                : ScanType()),
       );
     });
   }
@@ -84,44 +87,46 @@ class _SplashScreenState extends State<SplashScreen> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.purple, Colors.blue],
+                colors: [
+                  Color.fromARGB(255, 28, 13, 31),
+                  Color.fromARGB(255, 68, 164, 241)
+                ],
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
               ),
             ),
             child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: size.height * 0.35,
-                ),
-                Container(
-                  child: Image.asset(
-                    "asset/Vega_logo.png",
-                    color: ColorThemeComponent.color3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: size.height * 0.35,
                   ),
-                ),
-                Text(
-                  "Barcode Scanner",
-                  style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
+                  Container(
+                    child: Image.asset(
+                      "asset/Vega_logo.png",
+                      color: ColorThemeComponent.color3,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: size.height * 0.3,
-                ),
-                //  Text(
-                //           'Version: ${snapshot.data!.version}',
-                //         );
-              ],
+                  Text(
+                    "Barcode Scanner",
+                    style: TextStyle(
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.3,
+                  ),
+                  //  Text(
+                  //           'Version: ${snapshot.data!.version}',
+                  //         );
+                ],
+              ),
             ),
-          ), 
           ),
-         
         ],
       ),
     );

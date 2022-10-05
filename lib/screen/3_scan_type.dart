@@ -86,7 +86,10 @@ class _ScanTypeState extends State<ScanType> {
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.purple, Colors.blue],
+                        colors: [
+                          Color.fromARGB(255, 28, 13, 31),
+                          Color.fromARGB(255, 68, 164, 241)
+                        ],
                         begin: Alignment.bottomLeft,
                         end: Alignment.topRight,
                       ),
@@ -187,7 +190,10 @@ class _ScanTypeState extends State<ScanType> {
                               ),
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [Colors.purple, Colors.blue],
+                                  colors: [
+                                    Color.fromARGB(255, 28, 13, 31),
+                                    Color.fromARGB(255, 68, 164, 241)
+                                  ],
                                   begin: Alignment.bottomLeft,
                                   end: Alignment.topRight,
                                 ),

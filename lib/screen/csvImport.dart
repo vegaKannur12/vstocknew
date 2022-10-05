@@ -4,7 +4,11 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:vstock/components/commonColor.dart';
+import 'package:vstock/controller/barcodeController.dart';
 
 import 'package:vstock/services/dbHelper.dart';
 // import 'package:saveimage/db_helper.dart';
@@ -30,7 +34,7 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
       setState(() {
         fileName = basename(file!.path);
       });
-      print("fileNma------$fileName");
+      print("File Name...$fileName");
       // fileName = file!.path.split('/').last;
       print(fileName);
       final input = file!.openRead();
@@ -48,7 +52,22 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: Text(
+          "Download File",
+          style: TextStyle(color: ColorThemeComponent.color4),
+        ),
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: ColorThemeComponent.color4,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ),
       floatingActionButton:
           Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         FloatingActionButton(
@@ -69,11 +88,13 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
           },
           heroTag: null,
         ),
+        SizedBox(
+          height: 10,
+        ),
         FloatingActionButton(
           child: Icon(Icons.delete),
           onPressed: () async {
-            await VstockDB.instance
-                .deleteFromTableCommonQuery("barcode", "");
+            await VstockDB.instance.deleteFromTableCommonQuery("barcode", "");
             // Navigator.push(
             //   context,
             //   MaterialPageRoute(builder: (context) => Show()),
@@ -82,13 +103,17 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
           heroTag: null,
         )
       ]),
-      body: Center(
-        child: Container(
-          child: Text(
-            fileName == null ? "File Name...." : fileName.toString(),
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
+      body: Consumer(
+        builder: (context, value, child) {
+          return Center(
+            child: Container(
+              child: Text(
+                fileName == null ? "Select File ..." : fileName.toString(),
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          );
+        },
       ),
       // body: Center(
       //   child: Column(

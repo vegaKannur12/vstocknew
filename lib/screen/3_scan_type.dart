@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/waveclipper.dart';
 import 'package:vstock/screen/4_barcodeScan_list.dart';
+import 'package:vstock/screen/csvImport.dart';
 
 class ScanType extends StatefulWidget {
   @override
@@ -38,40 +39,40 @@ class _ScanTypeState extends State<ScanType> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      //   iconTheme: IconThemeData(color: ColorThemeComponent.color3),
-      // ),
       appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: ColorThemeComponent.color3,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        title: Text(
-          "Select Scan Type",
-          style: GoogleFonts.aBeeZee(
-              textStyle: TextStyle(
-            fontSize: 20,
-            color: ColorThemeComponent.color3,
-          )),
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: <Color>[Colors.purple, Colors.blue],
-            ),
-          ),
-        ),
-        backgroundColor: Color.fromARGB(255, 201, 62, 19),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: ColorThemeComponent.color3),
       ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   leading: IconButton(
+      //       icon: Icon(
+      //         Icons.arrow_back,
+      //         color: ColorThemeComponent.color3,
+      //       ),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       }),
+      //   title: Text(
+      //     "Select Scan Type",
+      //     style: GoogleFonts.aBeeZee(
+      //         textStyle: TextStyle(
+      //       fontSize: 20,
+      //       color: ColorThemeComponent.color3,
+      //     )),
+      //   ),
+      //   flexibleSpace: Container(
+      //     decoration: const BoxDecoration(
+      //       gradient: LinearGradient(
+      //         begin: Alignment.bottomLeft,
+      //         end: Alignment.topRight,
+      //         colors: <Color>[Colors.purple, Colors.blue],
+      //       ),
+      //     ),
+      //   ),
+      //   backgroundColor: Color.fromARGB(255, 201, 62, 19),
+      // ),
       drawer: Drawer(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -83,9 +84,16 @@ class _ScanTypeState extends State<ScanType> {
                     height: size.height * 0.09,
                   ),
                   Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Colors.purple, Colors.blue],
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                      ),
+                    ),
                     height: size.height * 0.1,
                     width: size.width * 1,
-                    color: ColorThemeComponent.gradclr2,
+                    // color: ColorThemeComponent.gradclr1,
                     child: Row(
                       children: [
                         SizedBox(
@@ -107,6 +115,13 @@ class _ScanTypeState extends State<ScanType> {
                     ),
                   ),
                   ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ImportCsvtodb()),
+                      );
+                    },
                     title: Row(
                       children: [
                         Icon(
@@ -118,6 +133,24 @@ class _ScanTypeState extends State<ScanType> {
                         ),
                         Text(
                           "Download",
+                          style: TextStyle(
+                              fontSize: 17, color: ColorThemeComponent.color4),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    title: Row(
+                      children: [
+                        Icon(
+                          Icons.upload,
+                          color: ColorThemeComponent.color4,
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        Text(
+                          "Upload",
                           style: TextStyle(
                               fontSize: 17, color: ColorThemeComponent.color4),
                         ),

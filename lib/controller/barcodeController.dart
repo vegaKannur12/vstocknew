@@ -11,6 +11,8 @@ import 'package:vstock/services/dbHelper.dart';
 import '../screen/3_scan_type.dart';
 
 class BarcodeController extends ChangeNotifier {
+  List<TextEditingController> qty = [];
+
   ExternalDir externalDir = ExternalDir();
   String? comName;
   bool isLoading = false;
@@ -18,7 +20,7 @@ class BarcodeController extends ChangeNotifier {
   SnackbarCommon snackbarCommon = SnackbarCommon();
   List<Map<String, dynamic>> scanList = [];
   ////////////////////////////////////////////////
-  
+
   insertintoTableScanlog(
       String? _barcodeScanned,
       int qty,
@@ -26,21 +28,23 @@ class BarcodeController extends ChangeNotifier {
       int page_id,
       String type,
       BuildContext context,
-      bool validation,String time) async {
+      bool validation,
+      String date,
+      String time) async {
     var res;
-    print("enterd insertion section---$_barcodeScanned--$time--$qty---$type----$validation");
- 
-      res = await VstockDB.instance.compareScannedbarcode(
-          time, qty, page_id, type, _barcodeScanned!,validation);
-      print("response----$res --${res.runtimeType}");
+    print(
+        "enterd insertion section---$_barcodeScanned--$time--$qty---$type----$validation");
 
-      if (res == 0) {
-        snackbarCommon.showSnackbar(context, "Invalid Barcode!!!");
-      } else {
-        print("fjdxfn-----");
-        // count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
-      }
-   
+    res = await VstockDB.instance.compareScannedbarcode(
+      date,  time, qty, page_id, type, _barcodeScanned!, validation);
+    print("response----$res --${res.runtimeType}");
+
+    if (res == 0) {
+      snackbarCommon.showSnackbar(context, "Invalid Barcode!!!");
+    } else {
+      print("fjdxfn-----");
+      // count = await VstockDB.instance.countCommonQuery("tableScanLog", "");
+    }
 
     // BarcodeScannerModel barcodeModel=BarcodeScannerModel();
 
@@ -63,6 +67,7 @@ class BarcodeController extends ChangeNotifier {
   /////////////////////////////////////////////////
   getDataFromScanLog() async {
     print("entered fetching section---");
+    isLoading = true;
     var res =
         await VstockDB.instance.selectCommonQuery("tableScanlog", "*", " ");
     scanList.clear();
@@ -70,6 +75,15 @@ class BarcodeController extends ChangeNotifier {
       scanList.add(item);
     }
     print("result from scanlog.............$scanList");
+
+    qty = List.generate(
+      scanList.length,
+      (index) => TextEditingController(),
+    );
+    for (var i = 0; i < scanList.length; i++) {
+      qty[i].text = scanList[i]["qty"].toString();
+    }
+    isLoading = false;
     notifyListeners();
     return scanList;
   }

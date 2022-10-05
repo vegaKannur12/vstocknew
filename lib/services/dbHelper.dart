@@ -32,6 +32,7 @@ class VstockDB {
           CREATE TABLE tableScanLog (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             barcode TEXT NOT NULL,
+            date TEXT NOT NULL,
             time TEXT NOT NULL,
             qty INTEGER NOT NULL,
             page_id INTEGER NOT NULL,
@@ -94,19 +95,19 @@ class VstockDB {
   }
 
   ////////////////////////////////////////////////
-  Future barcodeTimeStamp(String? time, int? qty, double rate, int page_id,
-      String type, Data? barcodeData, String barcode) async {
+  Future barcodeTimeStamp(String? date, String? time, int? qty, double rate,
+      int page_id, String type, Data? barcodeData, String barcode) async {
     var query;
     print("entered insertion table");
     final db = await database;
 
     if (type == "Free Scan" || type == "Free Scan with quantity") {
       query =
-          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcode}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","","")';
+          'INSERT INTO tableScanLog(barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcode}", "${date}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","","")';
     }
     if (type == "API Scan" || type == "API Scan with quantity") {
       query =
-          'INSERT INTO tableScanLog(barcode, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcodeData!.barcode}", "${time}", ${qty}, ${page_id},"${barcodeData.model}","${barcodeData.brand}","${barcodeData.description}","${barcodeData.rate}","${barcodeData.size}","${barcodeData.product}","${barcodeData.pcode}","${barcodeData.ean}")';
+          'INSERT INTO tableScanLog(barcode,date, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcodeData!.barcode}","${date}", "${time}", ${qty}, ${page_id},"${barcodeData.model}","${barcodeData.brand}","${barcodeData.description}","${barcodeData.rate}","${barcodeData.size}","${barcodeData.product}","${barcodeData.pcode}","${barcodeData.ean}")';
     }
 
     var res = await db.rawInsert(query);
@@ -151,9 +152,10 @@ class VstockDB {
   ///////////////////////////////////////
   insertImportedData(List<List<dynamic>> user) async {
     final db = await database;
-    print("user length----${user.length}");
+    print("user length----${user}");
     var buffer = new StringBuffer();
-
+    var query;
+    var res;
     // for (var item in user) {
     //   print(item);
     //   if(buffer.isNotEmpty){
@@ -182,17 +184,22 @@ class VstockDB {
       buffer.write("')");
     }
     print("buffer  ${buffer.toString()}");
-    var query = "INSERT INTO barcode(barcode,ean,rate)"
-        " VALUES ${buffer.toString()}";
-    var res = await db.rawInsert(query);
+    try {
+      query = "INSERT INTO barcode ( barcode,ean,product,rate ) "
+          " VALUES ${buffer.toString()}";
+      res = await db.rawInsert(query);
+    } catch (e) {
+      print("e------$e");
+    }
+
     print(query);
-    print(res);
+    print("res------$res");
     // return res;
   }
 
 //////////////////////compare local db and scanned code/////////////
-  compareScannedbarcode(String time, int qty, int page_id, String type,
-      String barcode, bool validation) async {
+  compareScannedbarcode(String date, String time, int qty, int page_id,
+      String type, String barcode, bool validation) async {
     Database db = await instance.database;
     var response;
 
@@ -219,7 +226,7 @@ class VstockDB {
             print("insertion---${list[0]["rate"].runtimeType}");
 
             response = await barcodeTimeStamp(
-                time, qty, list[0]["rate"], page_id, type, null, barcode);
+                date, time, qty, list[0]["rate"], page_id, type, null, barcode);
           }
         } else {
           return 0;
@@ -228,8 +235,8 @@ class VstockDB {
         return 0;
       }
     } else {
-      response =
-          await barcodeTimeStamp(time, qty, 0.0, page_id, type, null, barcode);
+      response = await barcodeTimeStamp(
+          date, time, qty, 0.0, page_id, type, null, barcode);
     }
 
     print("response----$response");
@@ -279,9 +286,24 @@ class VstockDB {
   updateCommonQuery(String table, String fields, String condition) async {
     Database db = await instance.database;
     var query = "UPDATE $table SET $fields $condition";
+    print("updated query==$query");
     var res = await db.rawUpdate(query);
     return res;
   }
+
+  deleteFromTableCommonQuery(String table, String? condition) async {
+    print("table--condition -$table---$condition");
+    Database db = await instance.database;
+    if (condition == null || condition.isEmpty || condition == "") {
+      print("no condition");
+      await db.delete('$table');
+    } else {
+      print("condition");
+
+      await db.rawDelete('DELETE FROM "$table" WHERE $condition');
+    }
+  }
+
 /////////////////////////////////////////
 //   Future<List<Map<String, dynamic>>> queryAllRows() async {
 //     var a = "";

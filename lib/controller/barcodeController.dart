@@ -12,10 +12,11 @@ import '../screen/3_scan_type.dart';
 
 class BarcodeController extends ChangeNotifier {
   List<TextEditingController> qty = [];
-
+  
   ExternalDir externalDir = ExternalDir();
   String? comName;
   bool isLoading = false;
+  bool loadFile = false;
   String count = "0";
   SnackbarCommon snackbarCommon = SnackbarCommon();
   List<Map<String, dynamic>> scanList = [];

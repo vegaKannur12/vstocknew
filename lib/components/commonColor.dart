@@ -13,7 +13,11 @@ class ColorThemeComponent {
   static final color3 = Colors.white;
   static final color4 = Colors.black;
   static final mainclr = Colors.blue;
-  static final gradclr1 =Colors.purple;
-  static final gradclr2 =Colors.blue;
+  static final List gradintclr = [
+    Color.fromARGB(255, 28, 13, 31),
+    Color.fromARGB(255, 68, 164, 241)
+  ];
 
+  static final gradclr1 = Color.fromARGB(255, 28, 13, 31);
+  static final greyclr = Color.fromARGB(255, 139, 146, 151);
 }

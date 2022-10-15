@@ -55,7 +55,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: ColorThemeComponent.mainclr,
+              color: ColorThemeComponent.color4,
             ),
             onPressed: () {
               Provider.of<BarcodeController>(context, listen: false)
@@ -94,7 +94,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                           style: GoogleFonts.aBeeZee(
                               textStyle: TextStyle(
                                   fontSize: 20,
-                                  color: ColorThemeComponent.gradclr2,
+                                  color: ColorThemeComponent.gradclr1,
                                   fontWeight: FontWeight.bold)),
                         ),
                       ),
@@ -232,7 +232,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                           "Free Scan with quantity",
                                           context,
                                           validation,
-                                          s[0],s[1]);
+                                          s[0],
+                                          s[1]);
                                 }
                                 if (widget.type == "API Scan with quantity") {
                                   if (_barcodeScanned != null ||
@@ -256,8 +257,10 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                             },
                             child: Ink(
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    colors: [Colors.purple, Colors.blue]),
+                                gradient: LinearGradient(colors: [
+                                  Color.fromARGB(255, 28, 13, 31),
+                                  Color.fromARGB(255, 68, 164, 241)
+                                ]),
                               ),
                               child: Container(
                                 height: size.height * 0.05,
@@ -329,7 +332,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           count = count + 1;
           print("count====$count");
         });
-        await FlutterBeep.beep();
+        await FlutterBeep.beep(true);
         controller.pauseCamera();
         now = DateTime.now();
         print(DateTime.now());
@@ -344,7 +347,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           if (widget.type == "Free Scan") {
             Provider.of<BarcodeController>(context, listen: false)
                 .insertintoTableScanlog(_barcodeText.text, 1, countInt, 1,
-                    "Free Scan", context, validation, s[0],s[1]);
+                    "Free Scan", context, validation, s[0], s[1]);
           }
           if (widget.type == "API Scan") {
             //  var result=await Provider.of<ProviderController>(context, listen: false).searchInTableScanLog(_barcodeScanned);

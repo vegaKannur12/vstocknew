@@ -114,7 +114,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               ),
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [Colors.purple, Colors.blue],
+                                  colors: [
+                                    Color.fromARGB(255, 28, 13, 31),
+                                    Color.fromARGB(255, 68, 164, 241)
+                                  ],
                                   begin: Alignment.bottomLeft,
                                   end: Alignment.topRight,
                                 ),
@@ -148,7 +151,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(0.0),
-                                
                                   elevation: 0,
                                 ),
                                 onPressed: () async {
@@ -195,8 +197,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 },
                                 child: Ink(
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        colors: [Colors.purple, Colors.blue]),
+                                    gradient: LinearGradient(colors: [
+                                      Color.fromARGB(255, 28, 13, 31),
+                                      Color.fromARGB(255, 68, 164, 241)
+                                    ]),
                                   ),
                                   child: Container(
                                     height: size.height * 0.05,
@@ -258,7 +262,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
           child: TextFormField(
             keyboardType: type == "phone" ? TextInputType.number : null,
-            style: TextStyle(color: ColorThemeComponent.gradclr2),
+            style: TextStyle(color: ColorThemeComponent.greyclr),
             // scrollPadding:
             //     EdgeInsets.only(bottom: topInsets + size.height * 0.34),
             controller: controllerValue,
@@ -267,21 +271,21 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 prefixIcon: type == "company key"
                     ? Icon(
                         Icons.business,
-                        color: ColorThemeComponent.gradclr2,
+                        color: ColorThemeComponent.gradclr1,
                       )
                     : Icon(
                         Icons.phone,
-                        color: ColorThemeComponent.gradclr2,
+                        color: ColorThemeComponent.gradclr1,
                       ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
-                      color: ColorThemeComponent.gradclr2, width: 1.0),
+                      color: ColorThemeComponent.gradclr1, width: 1.0),
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25.0),
                   borderSide: BorderSide(
-                    color: ColorThemeComponent.gradclr2,
+                    color: ColorThemeComponent.gradclr1,
                     width: 2.0,
                   ),
                 ),
@@ -300,7 +304,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     )),
                 hintStyle: TextStyle(
                   fontSize: 15,
-                  color: ColorThemeComponent.gradclr2,
+                  color: ColorThemeComponent.gradclr1,
                 ),
                 hintText: hinttext.toString()),
             validator: (text) {

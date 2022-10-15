@@ -63,7 +63,7 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          "Download File",
+          "Download File Here ...",
           style: TextStyle(color: ColorThemeComponent.color4),
         ),
         leading: IconButton(
@@ -126,15 +126,40 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: size.width * 0.4,
-                    height: size.height * 0.04,
-                    child: ElevatedButton.icon(
-                      icon: Icon(Icons.file_present),
-                      style: ElevatedButton.styleFrom(
-                          primary: ColorThemeComponent.tileTextColor),
-                      onPressed: pick_file,
-                      label: Text("Select File !!! "),
+                  GestureDetector(
+                    onTap: pick_file,
+                    child: Container(
+                      width: size.width * 0.4,
+                      height: size.height * 0.04,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 28, 13, 31),
+                            Color.fromARGB(255, 68, 164, 241)
+                          ],
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.file_present,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            "Select File !!! ",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      // child: ElevatedButton.icon(
+                      //   icon: Icon(Icons.file_present),
+
+                      //   onPressed: pick_file,
+                      //   label: Text("Select File !!! "),
+                      // ),
                     ),
                   ),
                   SizedBox(

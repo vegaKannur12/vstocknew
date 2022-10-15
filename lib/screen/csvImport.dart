@@ -26,8 +26,14 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
   String? fileName;
 
   pick_file() async {
-    result = await FilePicker.platform.pickFiles();
-
+    result = await FilePicker.platform.pickFiles(
+      allowedExtensions: ['csv'],
+      type: FileType.custom,
+    );
+// FilePickerResult result = await FilePicker.platform.pickFiles(
+//     allowedExtensions: ['csv'],
+//     type: FileType.custom,
+//   );
     if (result != null) {
       file = File(result!.files.single.path!);
       print(file);
@@ -38,6 +44,7 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
       // fileName = file!.path.split('/').last;
       print(fileName);
       final input = file!.openRead();
+      print("input......$input");
       final fields = await input
           .transform(utf8.decoder)
           .transform(new CsvToListConverter())
@@ -70,46 +77,74 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
       ),
       floatingActionButton:
           Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        FloatingActionButton(
-          child: Text("csv"),
-          onPressed: pick_file,
-          heroTag: null,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        FloatingActionButton(
-          child: Text("db"),
+        // FloatingActionButton(
+        //   child: Text("csv"),
+        //   onPressed: pick_file,
+        //   heroTag: null,
+        // ),
+        // SizedBox(
+        //   height: 10,
+        // ),
+        FloatingActionButton.extended(
           onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Show()),
             );
           },
-          heroTag: null,
+          label: const Text('DB'),
+          icon: const Icon(Icons.download),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
         ),
+        // FloatingActionButton(
+        //   child: Text("db"),
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => Show()),
+        //     );
+        //   },
+        //   heroTag: null,
+        // ),
         SizedBox(
           height: 10,
         ),
-        FloatingActionButton(
-          child: Icon(Icons.delete),
-          onPressed: () async {
-            await VstockDB.instance.deleteFromTableCommonQuery("barcode", "");
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => Show()),
-            // );
-          },
-          heroTag: null,
-        )
+        // FloatingActionButton.extended(
+        //   onPressed: () {
+        //     VstockDB.instance.deleteFromTableCommonQuery("barcode", "");
+        //   },
+        //   label: const Text(''),
+        //   icon: const Icon(Icons.delete),
+        //   backgroundColor: Color.fromARGB(255, 0, 0, 0),
+        // ),
       ]),
       body: Consumer(
         builder: (context, value, child) {
+          Size size = MediaQuery.of(context).size;
           return Center(
             child: Container(
-              child: Text(
-                fileName == null ? "Select File ..." : fileName.toString(),
-                style: TextStyle(fontSize: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: size.width * 0.4,
+                    height: size.height * 0.04,
+                    child: ElevatedButton.icon(
+                      icon: Icon(Icons.file_present),
+                      style: ElevatedButton.styleFrom(
+                          primary: ColorThemeComponent.tileTextColor),
+                      onPressed: pick_file,
+                      label: Text("Select File !!! "),
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Text(
+                    fileName == null ? " " : fileName.toString(),
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
               ),
             ),
           );

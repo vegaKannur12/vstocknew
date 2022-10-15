@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vstock/components/alertdialog.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/waveclipper.dart';
 import 'package:vstock/screen/4_barcodeScan_list.dart';
@@ -18,6 +19,7 @@ class _ScanTypeState extends State<ScanType> {
     "API Scan",
     "API Scan with quantity"
   ];
+  AlertCommon alert = AlertCommon();
   String? comName;
   int? tappedIndex;
   late List<Map<String, dynamic>> queryresult;
@@ -112,6 +114,7 @@ class _ScanTypeState extends State<ScanType> {
                           "Menus",
                           style: TextStyle(
                             fontSize: 20,
+                            color: ColorThemeComponent.color3,
                           ),
                         ),
                       ],
@@ -119,11 +122,16 @@ class _ScanTypeState extends State<ScanType> {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.push(
+                      print("haiiii");
+                      alert.buildPopupDialog(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => ImportCsvtodb()),
+                        size,
                       );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => ImportCsvtodb()),
+                      // );
                     },
                     title: Row(
                       children: [

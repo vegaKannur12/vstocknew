@@ -185,7 +185,7 @@ class VstockDB {
     }
     print("buffer  ${buffer.toString()}");
     try {
-      query = "INSERT INTO barcode ( barcode,ean,product,rate ) "
+      query = "INSERT  OR IGNORE INTO barcode ( barcode,ean,product,rate ) "
           " VALUES ${buffer.toString()}";
       res = await db.rawInsert(query);
     } catch (e) {

@@ -21,37 +21,53 @@ class AlertCommon {
                 children: [
                   Text("Download options"),
                   SizedBox(
-                    height: size.height * 0.01,
+                    height: size.height * 0.015,
                   ),
                   SizedBox(
-                    width: size.width * 0.6,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: ColorThemeComponent.tileTextColor),
-                      onPressed: () async {
-                        Navigator.pop(context);
-                      },
-                      child: Text("API"),
+                    width: size.width * 0.5,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Color.fromARGB(255, 28, 13, 31),
+                          Color.fromARGB(255, 68, 164, 241)
+                        ]),
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.transparent),
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                        child: Text("API"),
+                      ),
                     ),
                   ),
                   SizedBox(
-                    height: size.height * 0.01,
+                    height: size.height * 0.015,
                   ),
                   SizedBox(
-                    width: size.width * 0.6,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: ColorThemeComponent.tileTextColor2),
-                      onPressed: () {
-                        print("csvvvvv");
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ImportCsvtodb()),
-                        );
-                        Navigator.of(context).pop();
-                      },
-                      child: Text("CSV"),
+                    width: size.width * 0.5,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Color.fromARGB(255, 28, 13, 31),
+                          Color.fromARGB(255, 68, 164, 241)
+                        ]),
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.transparent),
+                        onPressed: () {
+                          print("csvvvvv");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ImportCsvtodb()),
+                          );
+                          // Navigator.of(context).pop();
+                        },
+                        child: Text("CSV"),
+                      ),
                     ),
                   ),
                 ],

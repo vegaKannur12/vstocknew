@@ -26,16 +26,17 @@ class ShareFilePgm {
     data = await VstockDB.instance.selectCommonQuery("tableScanLog", "*", " ");
     print("data----$data");
     // columnNames = await BarcodeScanlogDB.instance.getColumnnames();
-    if (type == "Free Scan" || type == "API Scan") {
-      columnNames = ["Barcode", "Date", "Time", "Qty"];
+    if (type == 1 || type == 3) {
+      columnNames = ["Barcode","Ean" , "Date", "Time", "Qty"];
     } else {
-      columnNames = ["Barcode", "Date", "Time", "Qty"];
+      columnNames = ["Barcode", "Ean" ,"Date", "Time", "Qty"];
     }
     scan1.add(columnNames);
     for (var i = 0; i < data.length; i++) {
       List<dynamic> row = List.empty(growable: true);
   
       row.add('${data[i]["barcode"]}');
+      row.add('${data[i]["ean"]}');
       row.add('${data[i]["date"]}');
       row.add('${data[i]["time"]}');
       row.add('${data[i]["qty"]}');

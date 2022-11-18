@@ -5,6 +5,7 @@ import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/waveclipper.dart';
 import 'package:vstock/screen/2_registration.dart';
 import 'package:vstock/screen/3_scan_type.dart';
+import 'package:vstock/screen/companyRegistration.dart';
 import 'package:vstock/services/dbHelper.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,39 +30,35 @@ class _SplashScreenState extends State<SplashScreen> {
           .selectCommonQuery('companyRegistrationTable', '*', '');
       print("osdodjsodks------${companyDetails}");
 
-      if (companyDetails != null && companyDetails.isNotEmpty) {
-        // for (var item in companyDetails) {
-        //   expiry = item["expiry_date"];
-        // }
-        expiry = companyDetails[0]["expiry_date"];
-        tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(expiry!);
-        isExpired = tempDate.isBefore(now);
-        print("expired---------${isExpired}");
-      }
+      // if (companyDetails != null && companyDetails.isNotEmpty) {
+      //   // for (var item in companyDetails) {
+      //   //   expiry = item["expiry_date"];
+      //   // }
+      //   expiry = companyDetails[0]["expiry_date"];
+      //   tempDate = new DateFormat("yyyy-MM-dd hh:mm:ss").parse(expiry!);
+      //   isExpired = tempDate.isBefore(now);
+      //   print("expired---------${isExpired}");
+      // }
 
       // DateTime dayDate = DateTime.parse(expiry!.split('-').reversed.join());
-      print("jfkdjfid${isExpired}");
-      if (isExpired == true) {
-        print("jhdjdjdsj");
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.remove('companyId');
-      }
+      // print("jfkdjfid${isExpired}");
+      // if (isExpired == true) {
+      //   print("jhdjdjdsj");
+      //   SharedPreferences pref = await SharedPreferences.getInstance();
+      //   pref.remove('companyId');
+      // }
 
       SharedPreferences pref = await SharedPreferences.getInstance();
-      companyId = pref.getString('companyId');
+      companyId = pref.getString('cid');
 
-      print("companyId==$companyId");
-      //  await  VstockDB.instance
-      //                           .deleteFromTableCommonQuery("barcode", "");
-      await VstockDB.instance.barcodeinsertion("", "ABC-abc-1234", "abc", 100);
-      // Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => RegistrationScreen()));
+      // print("companyId==$companyId");
+    
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => companyId == null
-                ? RegistrationScreen(
-                    isExpired: isExpired,
+                ? CompanyRegistration(
+                    // isExpired: isExpired,
                   )
                 : ScanType()),
       );
@@ -85,16 +82,18 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 28, 13, 31),
-                  Color.fromARGB(255, 68, 164, 241)
-                ],
-                begin: Alignment.bottomLeft,
-                end: Alignment.topRight,
-              ),
-            ),
+            color: ColorThemeComponent.appbar,
+            // decoration: const BoxDecoration(
+            //   color: ColorThemeComponent.appbar
+            //   // gradient: LinearGradient(
+            //   //   colors: [
+            //   //     Color.fromARGB(255, 28, 13, 31),
+            //   //     Color.fromARGB(255, 68, 164, 241)
+            //   //   ],
+            //   //   begin: Alignment.bottomLeft,
+            //   //   end: Alignment.topRight,
+            //   // ),
+            // ),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     style: TextStyle(
                       fontFamily: "Roboto",
                       fontWeight: FontWeight.bold,
-                      color: Colors.red,
+                      color: Colors.white,
                     ),
                   ),
                   SizedBox(

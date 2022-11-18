@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vstock/components/alertdialog.dart';
 import 'package:vstock/components/commonColor.dart';
 
 import 'package:vstock/controller/barcodeController.dart';
@@ -25,19 +27,20 @@ class ScanListBarcode extends StatefulWidget {
 
 class _ScanListBarcodeState extends State<ScanListBarcode> {
   late List<List<dynamic>> scan1;
+  AlertCommon alert = AlertCommon();
+
   String? comName;
 
   ShareFilePgm shareFilePgm = ShareFilePgm();
   @override
   void initState() {
     scan1 = List<List<dynamic>>.empty(growable: true);
-    Provider.of<BarcodeController>(context, listen: false).getDataFromScanLog();
 
     // print("sca11------$res");
 
     // TODO: implement initState
     super.initState();
-    print("comName--xccx---${widget.type}");
+    print("comName--xccx---${widget.type}-----$comName");
 
     // getComDetails();
   }
@@ -54,13 +57,24 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
       backgroundColor: ColorThemeComponent.color3,
       appBar: AppBar(
         elevation: 0,
-        // backgroundColor: ColorThemeComponent.color3,
+        backgroundColor: ColorThemeComponent.appbar,
         leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
               color: ColorThemeComponent.color3,
             ),
-            onPressed: () {
+            onPressed: () async {
+              Provider.of<BarcodeController>(context, listen: false)
+                  .setBarcode();
+              Provider.of<BarcodeController>(context, listen: false)
+                  .listSelected = {};
+              String count = await VstockDB.instance.countCommonQuery(
+                'tableScanLog',
+                '',
+              );
+              print("jkzs-----$count");
+              Provider.of<BarcodeController>(context, listen: false)
+                  .setCount(int.parse(count));
               Navigator.pop(context);
             }),
         title: Text(
@@ -68,16 +82,16 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           style: TextStyle(
               color: ColorThemeComponent.color3, fontWeight: FontWeight.bold),
         ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-              colors: <Color>[Color.fromARGB(255, 28, 13, 31),
-                                    Color.fromARGB(255, 68, 164, 241)],
-            ),
-          ),
-        ),
+        // flexibleSpace: Container(
+        //   decoration: const BoxDecoration(
+        //     gradient: LinearGradient(
+        //       begin: Alignment.bottomLeft,
+        //       end: Alignment.topRight,
+        //       colors: <Color>[Color.fromARGB(255, 28, 13, 31),
+        //                             Color.fromARGB(255, 68, 164, 241)],
+        //     ),
+        //   ),
+        // ),
         // Consumer<RegistrationController>(
         //   builder: (context, value, child) {
         //     return Text(
@@ -135,30 +149,32 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
           ),
         ],
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            // backgroundColor: ColorThemeComponent.newclr,
-            onPressed: () {
-              Provider.of<BarcodeController>(context, listen: false)
-                  .countFrombarcode();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ScanBarcode(
-                          type: widget.type,
-                        )),
-              );
-            },
-            child: Icon(
-              Icons.scanner,
-              color: ColorThemeComponent.color3,
-              size: 30,
-            ),
-          ),
-        ],
-      ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: ColorThemeComponent.appbar,
+          onPressed: () async {
+            String count = await VstockDB.instance.countCommonQuery(
+              'tableScanLog',
+              '',
+            );
+            Provider.of<BarcodeController>(context, listen: false) 
+                .listSelected = {};
+            print("jkzs-----$count");
+            Provider.of<BarcodeController>(context, listen: false)
+                .setCount(int.parse(count));
+            Provider.of<BarcodeController>(context, listen: false).setBarcode();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ScanBarcode(
+                        type: widget.type,
+                      )),
+            );
+          },
+          child: Image.asset(
+            "asset/bar.png",
+            color: ColorThemeComponent.color3,
+            height: size.height * 0.04,
+          )),
       body: Consumer<BarcodeController>(
         builder: (context, value, child) {
           if (value.isLoading) {
@@ -171,203 +187,26 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                 children: [
                   Center(
                     child: Container(
-                      child: Image.asset(
-                        'asset/nodata.png',
-                        height: 70,
-                        width: 100,
+                      child: Lottie.asset(
+                        'asset/nodata.json',
+                        height: size.height * 0.3,
+                        // width: 100,
                         // color: ColorThemeComponent,
                       ),
                     ),
                   ),
-                  Text(
-                    "No data !!!",
-                    style: GoogleFonts.aBeeZee(
-                        textStyle: TextStyle(
-                      fontSize: 18,
-                      color: ColorThemeComponent.greyclr,
-                    )),
-                  )
+                  // Text(
+                  //   "No data !!!",
+                  //   style: GoogleFonts.aBeeZee(
+                  //       textStyle: TextStyle(
+                  //     fontSize: 18,
+                  //     color: ColorThemeComponent.greyclr,
+                  //   )),
+                  // )
                 ],
               );
             } else {
-              return Stack(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        height: size.height * 0.05,
-                        child: ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Barcode",
-                                  style: GoogleFonts.aBeeZee(
-                                      textStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: ColorThemeComponent.color4,
-                                  )),
-                                ),
-                                // Spacer(),
-                                Text(
-                                  "Date & Time",
-                                  style: GoogleFonts.aBeeZee(
-                                      textStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: ColorThemeComponent.color4,
-                                  )),
-                                ),
-                                // Spacer(),
-                                Text(
-                                  "Qty",
-                                  style: GoogleFonts.aBeeZee(
-                                      textStyle: TextStyle(
-                                    fontSize: 18,
-                                    color: ColorThemeComponent.color4,
-                                  )),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Divider(
-                        thickness: 1,
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: value.scanList.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      // flex: 3,
-                                      child: Container(
-                                        width: size.width * 0.4,
-                                        child: Text(
-                                          value.scanList[index]['barcode'],
-                                          style: TextStyle(
-                                              color:
-                                                  ColorThemeComponent.clrgrey,
-                                              fontSize: 15),
-                                        ),
-                                      ),
-                                    ),
-                                    // Spacer(),
-                                    Flexible(
-                                      flex: 2,
-                                      child: Text(
-                                        value.scanList[index]['date'] +
-                                            ' ' +
-                                            value.scanList[index]['time'],
-                                        style: TextStyle(
-                                            color: ColorThemeComponent.clrgrey,
-                                            fontSize: 15),
-                                      ),
-                                    ),
-                                    widget.type == "Free Scan with quantity" ||
-                                            widget.type ==
-                                                "API Scan with quantity"
-                                        ? Flexible(
-                                            child: Container(
-                                              width: size.width * 0.1,
-                                              child: TextField(
-                                                autofocus: true,
-                                                onTap: () {
-                                                  // Provider.of<Controller>(context,
-                                                  //         listen: false)
-                                                  //     .addDeletebagItem(
-                                                  //         itemId,
-                                                  //         srate1.toString(),
-                                                  //         srate2.toString(),
-                                                  //         value.qty[index].text,
-                                                  //         "0",
-                                                  //         "0",
-                                                  //         context,
-                                                  //         "save");
-
-                                                  value.qty[index].selection =
-                                                      TextSelection(
-                                                          baseOffset: 0,
-                                                          extentOffset: value
-                                                              .qty[index]
-                                                              .value
-                                                              .text
-                                                              .length);
-                                                },
-
-                                                // autofocus: true,
-                                                style: GoogleFonts.aBeeZee(
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyText2,
-                                                  fontSize: 17,
-                                                  // fontWeight: FontWeight.bold,
-                                                  // color: P_Settings.loginPagetheme,
-                                                ),
-                                                decoration: InputDecoration(
-                                                  isDense: true,
-                                                  contentPadding:
-                                                      EdgeInsets.all(0),
-                                                  //border: InputBorder.none
-                                                ),
-
-                                                // maxLines: 1,
-                                                // minLines: 1,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                onSubmitted: (values) async {
-                                                  await VstockDB.instance
-                                                      .updateCommonQuery(
-                                                          " tableScanLog",
-                                                          " qty = '${values}'",
-                                                          " where barcode='${value.scanList[index]['barcode']}'");
-                                                  print("values----$values");
-                                                  double valueqty = 0.0;
-                                                  // value.discount_amount[index].text=;
-                                                  if (values.isNotEmpty) {
-                                                    print("emtyyyy");
-                                                    valueqty =
-                                                        double.parse(values);
-                                                  } else {
-                                                    valueqty = 0.00;
-                                                  }
-                                                },
-                                                textAlign: TextAlign.right,
-                                                controller: value.qty[index],
-                                              ),
-                                            ),
-                                          )
-                                        : Flexible(
-                                            // flex: 1,
-                                            child: Text(
-                                              value.scanList[index]['qty']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  color: ColorThemeComponent
-                                                      .clrgrey,
-                                                  fontSize: 15),
-                                            ),
-                                          ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
+              return bodyData(size);
             }
           }
         },
@@ -497,4 +336,245 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
       // ),
     );
   }
+
+  Widget bodyData(Size size) => Consumer<BarcodeController>(
+        builder: (context, value, child) {
+          print("valuee---cgcfgfcg---${value.scanList}");
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: DataTable(
+
+                  // sortColumnIndex: 1,
+                  // sortAscending: true,
+                  columns: <DataColumn>[
+                    DataColumn(
+                      label: Text(
+                        "Barcode",
+                        style: GoogleFonts.aBeeZee(
+                          textStyle: Theme.of(context).textTheme.bodyText2,
+                          fontSize: 17,
+                          // fontWeight: FontWeight.bold,
+                          // color: P_Settings.loginPagetheme,
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        "Date & Time",
+                        style: GoogleFonts.aBeeZee(
+                          textStyle: Theme.of(context).textTheme.bodyText2,
+                          fontSize: 17,
+                          // fontWeight: FontWeight.bold,
+                          // color: P_Settings.loginPagetheme,
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        "Qty",
+                        style: GoogleFonts.aBeeZee(
+                          textStyle: Theme.of(context).textTheme.bodyText2,
+                          fontSize: 17,
+                          // fontWeight: FontWeight.bold,
+                          // color: P_Settings.loginPagetheme,
+                        ),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(""),
+                    ),
+                  ],
+                  rows: value.scanList
+                      .map(
+                        (list) => DataRow(
+                          cells: [
+                            DataCell(
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('${list['barcode'].toString()}'),
+                                  list['ean'].toString() == null ||
+                                          list['ean'].toString().isEmpty
+                                      ? Container()
+                                      : Text(
+                                          '(${list['ean'].toString()})',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                ],
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                list['date'] + ' ' + list['time'],
+                              ),
+                            ),
+                            DataCell(
+                              Container(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  list['qty'].toString(),
+                                  // textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    color: ColorThemeComponent.clrgrey,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // DataCell(
+                            //   widget.type == "Free Scan with quantity" ||
+                            //           widget.type == "API Scan with quantity"
+                            //       ? Container(
+                            //           // width: size.width * 0.1,
+                            //           // child: Text("${list['qty']}"),
+                            //           child: TextFormField(
+                            //             // initialValue: "${list["qty"]}",
+
+                            //             // autofocus: true,
+                            //             onTap: () {
+                            //               // Provider.of<Controller>(context,
+                            //               //         listen: false)
+                            //               //     .addDeletebagItem(
+                            //               //         itemId,
+                            //               //         srate1.toString(),
+                            //               //         srate2.toString(),
+                            //               //         value.qty[index].text,
+                            //               //         "0",
+                            //               //         "0",
+                            //               //         context,
+                            //               //         "save");
+
+                            //               // value.qty[index].selection =
+                            //               //     TextSelection(
+                            //               //         baseOffset: 0,
+                            //               //         extentOffset: value.qty[index]
+                            //               //             .value.text.length);
+                            //             },
+
+                            //             // autofocus: true,
+                            //             style: GoogleFonts.aBeeZee(
+                            //               textStyle: Theme.of(context)
+                            //                   .textTheme
+                            //                   .bodyText2,
+                            //               fontSize: 17,
+                            //               // fontWeight: FontWeight.bold,
+                            //               // color: P_Settings.loginPagetheme,
+                            //             ),
+                            //             decoration: InputDecoration(
+                            //               isDense: true,
+                            //               hintText: list["qty"].toString(),
+                            //               contentPadding: EdgeInsets.all(0),
+                            //               //border: InputBorder.none
+                            //             ),
+
+                            //             // maxLines: 1,
+                            //             // minLines: 1,
+                            //             keyboardType: TextInputType.number,
+                            //             onFieldSubmitted: (values) async {
+                            //               await VstockDB.instance.updateCommonQuery(
+                            //                   " tableScanLog",
+                            //                   " qty = '${values}'",
+                            //                   " where barcode='${list['barcode']}'");
+                            //               print("values----$values");
+                            //               double valueqty = 0.0;
+                            //               // value.discount_amount[index].text=;
+                            //               if (values.isNotEmpty) {
+                            //                 print("emtyyyy");
+                            //                 valueqty = double.parse(values);
+                            //               } else {
+                            //                 valueqty = 0.00;
+                            //               }
+                            //             },
+                            //             textAlign: TextAlign.right,
+                            //             // controller: value.qty[index],
+                            //           ),
+                            //         )
+                            //       : Container(
+                            //           alignment: Alignment.centerRight,
+                            //           child: Text(
+                            //             list['qty'].toString(),
+                            //             // textAlign: TextAlign.end,
+                            //             style: TextStyle(
+                            //               color: ColorThemeComponent.clrgrey,
+                            //               fontSize: 15,
+                            //             ),
+                            //           ),
+                            //         ),
+                            //   // showEditIcon: true,
+                            // ),
+                            DataCell(GestureDetector(
+                              onTap: () {
+                                print("jlkzxklzkl----${list["rowId"]}");
+                                // int rowId = int.parse(list["rowId"]);
+                                buildPopupDialog(context, size, list["barcode"],
+                                    list["rowId"]);
+
+                                // buildPopupDialog(
+                                //     context, size, list["barcode"]);
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                                size: 17,
+                              ),
+                            ))
+                          ],
+                        ),
+                      )
+                      .toList()),
+            ),
+          );
+        },
+      );
+}
+
+Future buildPopupDialog(
+    BuildContext context, Size size, String content, int rowId) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext ctx) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text("Do you want to delete $content ???"),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: ColorThemeComponent.appbar),
+                    onPressed: () async {
+                      await VstockDB.instance.deleteFromTableCommonQuery(
+                          "tableScanLog",
+                          "rowId='$rowId' AND barcode='$content'");
+                      Provider.of<BarcodeController>(context, listen: false)
+                          .getDataFromScanLog();
+                      Navigator.pop(context);
+                    },
+                    child: Text("Ok")),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: ColorThemeComponent.appbar),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Cancel")),
+                ),
+              ],
+            ),
+          ],
+        );
+      });
 }

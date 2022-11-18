@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ColorThemeComponent {
+  // static final  appbar = Color.fromARGB(0, 131, 80, 4);
+  static final  appbar = Color.fromARGB(244, 118, 3, 156);
+  static final  loginReg = Color(0xFFFBF9FC);
+
+
   static final regButtonColor = Color.fromARGB(255, 153, 69, 97);
   static final listclr = Color.fromARGB(255, 4, 19, 3);
   static final appbr = Color.fromARGB(255, 219, 62, 62);

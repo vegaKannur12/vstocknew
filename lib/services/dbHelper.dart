@@ -1,5 +1,13 @@
+import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import "package:flutter/material.dart";
+import 'package:vstock/components/commonColor.dart';
+
+import 'package:vstock/controller/barcodeController.dart';
 import 'package:vstock/model/barcodeScannerModel.dart';
 import 'package:vstock/model/registrationModel.dart';
 
@@ -11,7 +19,7 @@ class VstockDB {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB("barcodeScan.db");
+    _database = await _initDB("Vstock.db");
     return _database!;
   }
 
@@ -31,6 +39,7 @@ class VstockDB {
     await db.execute('''
           CREATE TABLE tableScanLog (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            rowId INTEGER NOT NULL,
             barcode TEXT NOT NULL,
             date TEXT NOT NULL,
             time TEXT NOT NULL,
@@ -95,19 +104,33 @@ class VstockDB {
   }
 
   ////////////////////////////////////////////////
-  Future barcodeTimeStamp(String? date, String? time, int? qty, double rate,
-      int page_id, String type, Data? barcodeData, String barcode) async {
+  Future barcodeTimeStamp(
+      String? date,
+      String? time,
+      int? qty,
+      double rate,
+      int page_id,
+      String type,
+      Data? barcodeData,
+      String barcode,
+      int rowId,
+      String ean) async {
     var query;
-    print("entered insertion table");
+    print("entered insertion table--------$barcode");
     final db = await database;
 
-    if (type == "Free Scan" || type == "Free Scan with quantity") {
-      query =
-          'INSERT INTO tableScanLog(barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcode}", "${date}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","","")';
+    if (type == "1" || type == "2") {
+      if (ean == null || ean.isEmpty) {
+        query =
+            'INSERT INTO tableScanLog(rowId, barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES($rowId, "${barcode}", "${date}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","","")';
+      } else {
+        query =
+            'INSERT INTO tableScanLog(rowId, barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES($rowId, "${barcode}", "${date}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","",$ean)';
+      }
     }
-    if (type == "API Scan" || type == "API Scan with quantity") {
+    if (type == "3" || type == "4") {
       query =
-          'INSERT INTO tableScanLog(barcode,date, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES("${barcodeData!.barcode}","${date}", "${time}", ${qty}, ${page_id},"${barcodeData.model}","${barcodeData.brand}","${barcodeData.description}","${barcodeData.rate}","${barcodeData.size}","${barcodeData.product}","${barcodeData.pcode}","${barcodeData.ean}")';
+          'INSERT INTO tableScanLog(rowId, barcode,date, time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES($rowId, "${barcodeData!.barcode}","${date}", "${time}", ${qty}, ${page_id},"${barcodeData.model}","${barcodeData.brand}","${barcodeData.description}","${barcodeData.rate}","${barcodeData.size}","${barcodeData.product}","${barcodeData.pcode}","${barcodeData.ean}")';
     }
 
     var res = await db.rawInsert(query);
@@ -150,12 +173,84 @@ class VstockDB {
   }
 
   ///////////////////////////////////////
+  // insertImportedData(List<List<dynamic>> user) async {
+  //   final db = await database;
+  //   print("user length----${user}");
+  //   var buffer = new StringBuffer();
+  //   var query;
+  //   var res;
+  //   // for (var item in user) {
+  //   //   print(item);
+  //   //   if(buffer.isNotEmpty){
+  //   //      buffer.write(",\n");
+  //   //   }
+  //   //   buffer.write("('");
+  //   //   buffer.write(item[0]);
+  //   //   buffer.write("', '");
+  //   //   buffer.write(item[1]);
+  //   //   buffer.write("')");
+
+  //   // }
+  //   user.removeAt(0);
+  //   print("user-------${user}");
+  //   print("length===${user.length}");
+  //   for (var item in user) {
+  //     print(item);
+  //     if (buffer.isNotEmpty) {
+  //       buffer.write(",\n");
+  //     }
+  //     buffer.write("('");
+  //     for (var i = 0; i < item.length; i++) {
+  //       buffer.write(item[i]);
+  //       if (i != item.length - 1) buffer.write("', '");
+  //     }
+  //     buffer.write("')");
+  //   }
+  //   print("buffer  ${buffer.toString()}");
+
+  //   query = "INSERT  OR IGNORE INTO barcode ( barcode,ean,product,rate ) "
+  //       " VALUES ${buffer.toString()}";
+  //   res = await db.rawInsert(query);
+
+  //   print(query);
+  //   print("res------$res");
+  //   // return res;
+  // }
+///////////////////////////////////////////////////////////////////////////////////////
   insertImportedData(List<List<dynamic>> user) async {
     final db = await database;
+
     print("user length----${user}");
     var buffer = new StringBuffer();
     var query;
     var res;
+    buffer.clear();
+    List<List<dynamic>> newList = [];
+    bool flag = false;
+    for (var item in user) {
+      List<dynamic> tempList = [];
+
+      for (int i = 0; i < item.length; i++) {
+        if (item[i].toString() == null ||
+            item[i].toString() == "" ||
+            item[i].toString().isEmpty) {
+          print("item[i]-------${item[i]}");
+          flag = true;
+        } else {
+          flag = false;
+          // tempList.add(item[i]);
+          break;
+        }
+      }
+      print("flag-----$flag");
+      if (flag == false) {
+        tempList = item;
+        print("itemnjsnj--cz--$tempList");
+        newList.add(tempList);
+      }
+    }
+
+    print("newList------${newList.length}");
     // for (var item in user) {
     //   print(item);
     //   if(buffer.isNotEmpty){
@@ -168,10 +263,9 @@ class VstockDB {
     //   buffer.write("')");
 
     // }
-    user.removeAt(0);
-    print("user-------${user}");
-    print("length===${user.length}");
-    for (var item in user) {
+    newList.removeAt(0);
+
+    for (var item in newList) {
       print(item);
       if (buffer.isNotEmpty) {
         buffer.write(",\n");
@@ -189,57 +283,106 @@ class VstockDB {
           " VALUES ${buffer.toString()}";
       res = await db.rawInsert(query);
     } catch (e) {
-      print("e------$e");
+      print("e---$e");
+      return 0;
     }
 
     print(query);
     print("res------$res");
-    // return res;
+
+    return res;
   }
 
 //////////////////////compare local db and scanned code/////////////
-  compareScannedbarcode(String date, String time, int qty, int page_id,
-      String type, String barcode, bool validation) async {
+  compareScannedbarcode(
+      String date,
+      String time,
+      int qty,
+      int page_id,
+      String type,
+      String barcode,
+      bool validation,
+      BuildContext context,
+      int rowId,
+      bool buttonPressed,
+      QRViewController controller) async {
     Database db = await instance.database;
     var response;
-
+    print(
+        "parameters----------------------$date------$time----$qty-----$type-----$barcode----$validation");
+    List<Map<String, dynamic>> list = await selectCommonQuery("barcode", "*",
+        " where barcode='${barcode.toUpperCase()}' OR ean='${barcode.toUpperCase()}'");
     if (validation) {
-      List<Map<String, dynamic>> list =
-          await selectCommonQuery("barcode", "*", "");
       print("list---$list");
 
       List<Map<String, dynamic>> listtimeStamp = await selectCommonQuery(
-          "tableScanLog", "*", "where barcode='$barcode' OR ean='$barcode'");
+          "tableScanLog",
+          "*",
+          "where barcode='${barcode.toUpperCase()}' OR ean='${barcode.toUpperCase()}'");
       print("barcode----list---$listtimeStamp");
 
       if (list.length > 0) {
-        if (list[0]["barcode"] == barcode || list[0]["ean"] == barcode) {
-          if (listtimeStamp.length > 0) {
-            print("updation---");
-            int updatedqty = listtimeStamp[0]["qty"] + 1;
-            print("hszjj-----${listtimeStamp[0]["qty"].runtimeType}");
-            response = await updateCommonQuery(
-                "tableScanLog",
-                "qty='${updatedqty}'",
-                "where barcode='$barcode' or ean='$barcode' ");
-          } else {
-            print("insertion---${list[0]["rate"].runtimeType}");
+        print(
+            "list param-------$barcode.toUpperCase()}----------------${list[0]["ean"]}-");
+        if (list[0]["barcode"] == barcode.toUpperCase() ||
+            list[0]["ean"] == barcode.toUpperCase()) {
+          // Provider.of<BarcodeController>(context, listen: false).barcodeScanned=barcode;
+          if (list.length > 1) {
+            Future.delayed(const Duration(seconds: 6), () async {
+              print('One second has passed.');
+              controller.pauseCamera();
+              //
+            });
+            controller.resumeCamera();
 
-            response = await barcodeTimeStamp(
-                date, time, qty, list[0]["rate"], page_id, type, null, barcode);
+            response = buildPopupDialog(context, list, date, time, page_id,
+                type, qty, rowId, controller);
+          } else {
+            print("yesss");
+            // if (listtimeStamp.length > 0) {
+            //   print("updation---");
+            //   int updatedqty = listtimeStamp[0]["qty"] + qty;
+            //   print("hszjj-----${listtimeStamp[0]["qty"].runtimeType}");
+            //   response = await updateCommonQuery(
+            //       "tableScanLog",
+            //       "qty='${updatedqty}'",
+            //       "where barcode='$barcode' or ean='$barcode' ");
+            // } else {
+            //   print("insertion-gggg--${list[0]["rate"].runtimeType}");
+            // if (type == "Free Scan") {
+            // Provider.of<BarcodeController>(context, listen: false)
+            //     .setSelectedList(true);
+            Provider.of<BarcodeController>(context, listen: false)
+                .setListselected(list[0]);
+            if (buttonPressed) {
+              Provider.of<BarcodeController>(context, listen: false)
+                  .setSelectedList(false);
+            }
+            response = await barcodeTimeStamp(date, time, qty, list[0]["rate"],
+                page_id, type, null, list[0]["barcode"], rowId, list[0]["ean"]);
+
+            // Provider.of<BarcodeController>(context, listen: false).count1=rowId;
+
+            Provider.of<BarcodeController>(context, listen: false).response =
+                response;
+
+            // }
           }
+
+          // }
         } else {
           return 0;
         }
       } else {
+        // Provider.of<BarcodeController>(context, listen: false).barcodeScanned="";
         return 0;
       }
     } else {
-      response = await barcodeTimeStamp(
-          date, time, qty, 0.0, page_id, type, null, barcode);
+      response = await barcodeTimeStamp(date, time, qty, 0.0, page_id, type,
+          null, barcode, rowId, list[0]["ean"]);
     }
 
-    print("response----$response");
+    print("response--ccc--$response");
     return response;
   }
 
@@ -275,7 +418,7 @@ class VstockDB {
       print("no condition");
       await db.delete('$table');
     } else {
-      print("condition");
+      print("condition----$condition");
 
       await db.rawDelete('DELETE FROM "$table" WHERE $condition');
     }
@@ -439,4 +582,154 @@ class VstockDB {
 //         .rawUpdate('UPDATE tableScanLog SET qty=$updatedQty WHERE id=$id');
 //     return res;
 //   }
+
+  Future buildPopupDialog(
+      BuildContext context,
+      List<Map<String, dynamic>> list,
+      String date,
+      String time,
+      int page_id,
+      String type,
+      int qty,
+      int rowId,
+      QRViewController controller) async {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            content: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: DataTable(
+                    columns: <DataColumn>[
+                      DataColumn(
+                        label: Text(
+                          "Barcode",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                            // fontWeight: FontWeight.bold,
+                            // color: P_Settings.loginPagetheme,
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          "Ean",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                            // fontWeight: FontWeight.bold,
+                            // color: P_Settings.loginPagetheme,
+                          ),
+                        ),
+                      ),
+                      DataColumn(
+                        label: Text(
+                          "Rate",
+                          style: GoogleFonts.aBeeZee(
+                            textStyle: Theme.of(context).textTheme.bodyText2,
+                            fontSize: 17,
+                            // fontWeight: FontWeight.bold,
+                            // color: P_Settings.loginPagetheme,
+                          ),
+                        ),
+                      ),
+                    ],
+                    rows: list
+                        .map(
+                          (list) => DataRow(
+                            cells: [
+                              DataCell(
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        '${list['barcode'].toString()}',
+                                        style: TextStyle(
+                                          color: ColorThemeComponent.clrgrey,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              DataCell(
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    list['ean'],
+                                    style: TextStyle(
+                                      color: ColorThemeComponent.clrgrey,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              DataCell(
+                                Container(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                    list['rate'].toString(),
+                                    // textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      color: ColorThemeComponent.clrgrey,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                        .toList()),
+              ),
+            ),
+          );
+        });
+  }
+
+  /////////////////////////////////////////////////////////////////////
+  getMaxCommonQuery(String table, String field, String? condition) async {
+    var res;
+    int max;
+    var result;
+    Database db = await instance.database;
+    print("condition---${condition}");
+    if (condition == " ") {
+      result = await db.rawQuery("SELECT * FROM '$table'");
+    } else {
+      result = await db.rawQuery("SELECT * FROM '$table' WHERE $condition");
+    }
+    // print("result max---$result");
+    if (result != null && result.isNotEmpty) {
+      print("if");
+
+      if (condition == " ") {
+        res = await db.rawQuery("SELECT MAX($field) max_val FROM '$table'");
+      } else {
+        res = await db.rawQuery(
+            "SELECT MAX($field) max_val FROM '$table' WHERE $condition");
+      }
+
+      print('res[0]["max_val"] ----${res[0]["max_val"]}');
+      // int convertedMax = int.parse(res[0]["max_val"]);
+      max = res[0]["max_val"] + 1;
+      print("max value.........$max");
+      print("SELECT MAX($field) max_val FROM '$table' WHERE $condition");
+    } else {
+      print("else");
+      max = 1;
+    }
+    print("max common-----$res");
+
+    print(res);
+    return max;
+  }
 }

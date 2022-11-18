@@ -44,12 +44,13 @@ class AlertCommon {
                           primary: ColorThemeComponent.tileTextColor2),
                       onPressed: () {
                         print("csvvvvv");
+                        
+                        Navigator.of(ctx).pop();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ImportCsvtodb()),
                         );
-                        // Navigator.of(context).pop();
                       },
                       child: Text("CSV"),
                     ),

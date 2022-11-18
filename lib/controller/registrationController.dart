@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vstock/components/customSnackbar.dart';
 import 'package:vstock/components/externalDir.dart';
 import 'package:vstock/components/network_connectivity.dart';
 import 'package:vstock/components/snackbar.dart';
@@ -64,7 +65,7 @@ class RegistrationController extends ChangeNotifier {
 
           if (sof == "1") {
             print("apptype----$appType");
-            if (appType == 'SM') {
+            if (appType == 'OA') {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               /////////////// insert into local db /////////////////////
               late CD dataDetails;
@@ -98,8 +99,8 @@ class RegistrationController extends ChangeNotifier {
 
               print("fnjdxf----$user");
 
-              // await VstockDB.instance
-              //     .deleteFromTableCommonQuery("companyRegistrationTable", "");
+              await VstockDB.instance
+                  .deleteFromTableCommonQuery("companyRegistrationTable", "");
               var res =
                   await VstockDB.instance.insertRegistrationDetails(regModel);
               // getMaxSerialNumber(os);
@@ -109,14 +110,14 @@ class RegistrationController extends ChangeNotifier {
                 MaterialPageRoute(builder: (context) => ScanType()),
               );
             } else {
-              SnackbarCommon snackbar = SnackbarCommon();
-              snackbar.showSnackbar(context, "Invalid Apk Key");
+              CustomSnackbar snackbar = CustomSnackbar();
+              snackbar.showSnackbar(context, "Invalid Apk Key", "");
             }
           }
           /////////////////////////////////////////////////////
           if (sof == "0") {
-            SnackbarCommon snackbar = SnackbarCommon();
-            snackbar.showSnackbar(context, msg.toString());
+            CustomSnackbar snackbar = CustomSnackbar();
+            snackbar.showSnackbar(context, msg.toString(), "");
           }
 
           notifyListeners();

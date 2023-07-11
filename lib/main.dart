@@ -14,7 +14,8 @@ import 'package:vstock/screen/5_scanScreen.dart';
 import 'package:vstock/screen/companyRegistration.dart';
 import 'package:vstock/screen/csvImport.dart';
 
-
+// company key ------ L8MCASZWOTOA
+//-------E7SEYE4UOAOTOA
 void requestPermission() async {
   var status = await Permission.storage.status;
   // var statusbl= await Permission.bluetooth.status;
@@ -55,9 +56,7 @@ void main() {
     ],
     child: MyApp(),
   ));
-
 }
-
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -70,7 +69,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-       
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:vstock/services/dbHelper.dart';
 // import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -23,7 +22,7 @@ class _TableListState extends State<TableList> {
             title: Text(widget.list[index]["name"]),
             onTap: () async {
               List<Map<String, dynamic>> list = await VstockDB.instance
-                  .selectCommonQuery(widget.list[index]["name"],"*","");
+                  .selectCommonQuery(widget.list[index]["name"], "*", "");
               Navigator.push(
                 context,
                 MaterialPageRoute(

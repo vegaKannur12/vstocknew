@@ -7,7 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/externalDir.dart';
+import 'package:vstock/controller/barcodeController.dart';
 import 'package:vstock/controller/registrationController.dart';
+
+import '../components/customPainterTest.dart';
 
 class CompanyRegistration extends StatefulWidget {
   @override
@@ -78,180 +81,311 @@ class _CompanyRegistrationState extends State<CompanyRegistration> {
       onWillPop: () => _onBackPressed(context),
       child: Scaffold(
         // backgroundColor: ColorThemeComponent.appbar,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: ColorThemeComponent.appbar,
-          elevation: 0,
-        ),
-        body: InkWell(
-          onTap: () {
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: SingleChildScrollView(
-            child: Consumer<RegistrationController>(
-              builder: (context, value, child) {
-                return Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          // color: ColorThemeComponent.appbar,
-                          // borderRadius: BorderRadius.only(
-                          //     //Edit the shape here
-                          //     bottomLeft: Radius.circular(30),
-                          //     bottomRight: Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: ColorThemeComponent.appbar,
-                              spreadRadius: 40,
-                              blurRadius: 0,
-                              // offset: Offset(0, 3), //Offset of the shadow
-                            ),
-                          ],
+        // appBar: AppBar(
+        //   automaticallyImplyLeading: false,
+        //   backgroundColor: ColorThemeComponent.appbar,
+        //   elevation: 0,
+        // ),
+        body: SafeArea(
+          child: InkWell(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: SingleChildScrollView(
+              child: Consumer<RegistrationController>(
+                builder: (context, value, child) {
+                  return Form(
+                    key: _formKey,
+                    child: Stack(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CustomPaint(
+                          size: Size(size.width, size.height),
+                          painter: CurvedPainter(),
                         ),
-                        height: size.height * 0.2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            // Padding(
-                            //   padding: const EdgeInsets.only(left:18.0),
-                            //   child: Text("Registration", style: GoogleFonts.acme(
-                            //                 // textStyle:
-                            //                 //     Theme.of(context).textTheme.bodyText2,
-                            //                 fontSize: 24,
-                            //                 // fontWeight: FontWeight.bold,
-                            //                 color: ColorThemeComponent.loginReg),),
-                            // ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: size.height,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                          ),
-                          color: ColorThemeComponent.loginReg,
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: size.height * 0.15,
-                            ),
-                            customTextField("Company key", codeController,
-                                "company key", context),
-                            customTextField("Phone number", phoneController,
-                                "phone", context),
-                            ValueListenableBuilder(
-                                valueListenable: visible,
-                                builder: (BuildContext context, bool v,
-                                    Widget? child) {
-                                  print("value===${visible.value}");
-                                  return Visibility(
-                                    visible: v,
-                                    child: Text(
-                                      "Please Enter Valid Phone No",
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  );
-                                }),
-                            SizedBox(
-                              height: size.height * 0.07,
-                            ),
-                            Container(
-                              width: size.width * 0.45,
-                              height: size.height * 0.06,
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: ElevatedButton.icon(
-                                  onPressed: () async {
-                                    String deviceInfo =
-                                        "$manufacturer" + '' + "$model";
-                                    print("device info-----$deviceInfo");
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //       builder: (context) => LoginPage()),
-                                    // );
-
-                                    // await OrderAppDB.instance
-                                    //     .deleteFromTableCommonQuery('menuTable', "");
-                                    // if (codeController.text == null ||
-                                    //     codeController.text.isEmpty) {
-                                    //   visible.value = true;
-                                    // } else {
-                                    //   visible.value = false;
-                                    // FocusScope.of(context)
-                                    //     .requestFocus(FocusNode());
-                                    if (_formKey.currentState!.validate()) {
-                                      String tempFp1 =
-                                          await externalDir.fileRead();
-                                      // String? tempFp1=externalDir.tempFp;
-
-                                      // if(externalDir.tempFp==null){
-                                      //    tempFp="";
-                                      // }
-                                      print("tempFp---${tempFp1}");
-                                      // textFile = await externalDir
-                                      //     .getPublicDirectoryPath();
-                                      // print("textfile........$textFile");
-
-                                      Provider.of<RegistrationController>(
-                                              context,
-                                              listen: false)
-                                          .postRegistration(
-                                              codeController.text,
-                                              tempFp1,
-                                              phoneController.text,
-                                              deviceInfo,
-                                              context);
-                                    }
-                                    // }
-                                  },
-                                  label: Text(
-                                    "Register",
-                                    style: GoogleFonts.aBeeZee(
-                                        textStyle: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: ColorThemeComponent.loginReg),
-                                  ),
-                                  icon: value.isLoading
-                                      ? Container(
-                                          width: 24,
-                                          height: 24,
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: CircularProgressIndicator(
-                                            color: ColorThemeComponent.loginReg,
-                                            strokeWidth: 3,
-                                          ),
-                                        )
-                                      : Icon(
-                                          Icons.arrow_back,
-                                          color: ColorThemeComponent.loginReg,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 220.0),
+                          child: Container(
+                            // height: 600,
+                            child: Column(
+                              children: [
+                                // Container(height: 300,),
+                                customTextField("Company key", codeController,
+                                    "company key", context),
+                                customTextField("Phone number", phoneController,
+                                    "phone", context),
+                                ValueListenableBuilder(
+                                    valueListenable: visible,
+                                    builder: (BuildContext context, bool v,
+                                        Widget? child) {
+                                      print("value===${visible.value}");
+                                      return Visibility(
+                                        visible: v,
+                                        child: Text(
+                                          "Please Enter Valid Phone No",
+                                          style: TextStyle(color: Colors.red),
                                         ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: ColorThemeComponent.appbar,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          15), // <-- Radius
+                                      );
+                                    }),
+                                SizedBox(
+                                  height: size.height * 0.03,
+                                ),
+                                Container(
+                                  width: size.width * 0.45,
+                                  height: size.height * 0.06,
+                                  child: Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () async {
+                                        String deviceInfo =
+                                            "$manufacturer" + '' + "$model";
+                                        print("device info-----$deviceInfo");
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //       builder: (context) => LoginPage()),
+                                        // );
+
+                                        // await OrderAppDB.instance
+                                        //     .deleteFromTableCommonQuery('menuTable', "");
+                                        // if (codeController.text == null ||
+                                        //     codeController.text.isEmpty) {
+                                        //   visible.value = true;
+                                        // } else {
+                                        //   visible.value = false;
+                                        // FocusScope.of(context)
+                                        //     .requestFocus(FocusNode());
+                                        if (_formKey.currentState!.validate()) {
+                                          String tempFp1 =
+                                              await externalDir.fileRead();
+                                          // String? tempFp1=externalDir.tempFp;
+
+                                          // if(externalDir.tempFp==null){
+                                          //    tempFp="";
+                                          // }
+                                          print("tempFp---${tempFp1}");
+                                          // textFile = await externalDir
+                                          //     .getPublicDirectoryPath();
+                                          // print("textfile........$textFile");
+
+                                          Provider.of<RegistrationController>(
+                                                  context,
+                                                  listen: false)
+                                              .postRegistration(
+                                                  codeController.text,
+                                                  tempFp1,
+                                                  phoneController.text,
+                                                  deviceInfo,
+                                                  context);
+
+                                          Provider.of<RegistrationController>(
+                                                  context,
+                                                  listen: false)
+                                              .setCname();
+                                        }
+                                        // }
+                                      },
+                                      label: Text(
+                                        "Register",
+                                        style: GoogleFonts.aBeeZee(
+                                            textStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                ColorThemeComponent.loginReg),
+                                      ),
+                                      icon: value.isLoading
+                                          ? Container(
+                                              width: 24,
+                                              height: 24,
+                                              padding:
+                                                  const EdgeInsets.all(2.0),
+                                              child: CircularProgressIndicator(
+                                                color: ColorThemeComponent
+                                                    .loginReg,
+                                                strokeWidth: 3,
+                                              ),
+                                            )
+                                          : Icon(
+                                              Icons.arrow_back,
+                                              color:
+                                                  ColorThemeComponent.loginReg,
+                                            ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: ColorThemeComponent.appbar,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              15), // <-- Radius
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                );
-              },
+
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     // color: ColorThemeComponent.appbar,
+                        //     // borderRadius: BorderRadius.only(
+                        //     //     //Edit the shape here
+                        //     //     bottomLeft: Radius.circular(30),
+                        //     //     bottomRight: Radius.circular(30)),
+                        //     boxShadow: [
+                        //       BoxShadow(
+                        //         color: ColorThemeComponent.appbar,
+                        //         spreadRadius: 40,
+                        //         blurRadius: 0,
+                        //         // offset: Offset(0, 3), //Offset of the shadow
+                        //       ),
+                        //     ],
+                        //   ),
+                        //   height: size.height * 0.2,
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.start,
+                        //     children: [
+                        //       // Padding(
+                        //       //   padding: const EdgeInsets.only(left:18.0),
+                        //       //   child: Text("Registration", style: GoogleFonts.acme(
+                        //       //                 // textStyle:
+                        //       //                 //     Theme.of(context).textTheme.bodyText2,
+                        //       //                 fontSize: 24,
+                        //       //                 // fontWeight: FontWeight.bold,
+                        //       //                 color: ColorThemeComponent.loginReg),),
+                        //       // ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // Container(
+                        //   height: size.height,
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.only(
+                        //       topLeft: Radius.circular(30),
+                        //       topRight: Radius.circular(30),
+                        //     ),
+                        //     color: ColorThemeComponent.loginReg,
+                        //   ),
+                        //   child: Column(
+                        //     children: [
+                        //       SizedBox(
+                        //         height: size.height * 0.15,
+                        //       ),
+                        //       customTextField("Company key", codeController,
+                        //           "company key", context),
+                        //       customTextField("Phone number", phoneController,
+                        //           "phone", context),
+                        //       ValueListenableBuilder(
+                        //           valueListenable: visible,
+                        //           builder: (BuildContext context, bool v,
+                        //               Widget? child) {
+                        //             print("value===${visible.value}");
+                        //             return Visibility(
+                        //               visible: v,
+                        //               child: Text(
+                        //                 "Please Enter Valid Phone No",
+                        //                 style: TextStyle(color: Colors.red),
+                        //               ),
+                        //             );
+                        //           }),
+                        //       SizedBox(
+                        //         height: size.height * 0.07,
+                        //       ),
+                        //       Container(
+                        //         width: size.width * 0.45,
+                        //         height: size.height * 0.06,
+                        //         child: Directionality(
+                        //           textDirection: TextDirection.rtl,
+                        //           child: ElevatedButton.icon(
+                        //             onPressed: () async {
+                        //               String deviceInfo =
+                        //                   "$manufacturer" + '' + "$model";
+                        //               print("device info-----$deviceInfo");
+                        //               // Navigator.push(
+                        //               //   context,
+                        //               //   MaterialPageRoute(
+                        //               //       builder: (context) => LoginPage()),
+                        //               // );
+
+                        //               // await OrderAppDB.instance
+                        //               //     .deleteFromTableCommonQuery('menuTable', "");
+                        //               // if (codeController.text == null ||
+                        //               //     codeController.text.isEmpty) {
+                        //               //   visible.value = true;
+                        //               // } else {
+                        //               //   visible.value = false;
+                        //               // FocusScope.of(context)
+                        //               //     .requestFocus(FocusNode());
+                        //               if (_formKey.currentState!.validate()) {
+                        //                 String tempFp1 =
+                        //                     await externalDir.fileRead();
+                        //                 // String? tempFp1=externalDir.tempFp;
+
+                        //                 // if(externalDir.tempFp==null){
+                        //                 //    tempFp="";
+                        //                 // }
+                        //                 print("tempFp---${tempFp1}");
+                        //                 // textFile = await externalDir
+                        //                 //     .getPublicDirectoryPath();
+                        //                 // print("textfile........$textFile");
+
+                        //                 Provider.of<RegistrationController>(
+                        //                         context,
+                        //                         listen: false)
+                        //                     .postRegistration(
+                        //                         codeController.text,
+                        //                         tempFp1,
+                        //                         phoneController.text,
+                        //                         deviceInfo,
+                        //                         context);
+                        //               }
+                        //               // }
+                        //             },
+                        //             label: Text(
+                        //               "Register",
+                        //               style: GoogleFonts.aBeeZee(
+                        //                   textStyle: Theme.of(context)
+                        //                       .textTheme
+                        //                       .bodyText2,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.bold,
+                        //                   color: ColorThemeComponent.loginReg),
+                        //             ),
+                        //             icon: value.isLoading
+                        //                 ? Container(
+                        //                     width: 24,
+                        //                     height: 24,
+                        //                     padding: const EdgeInsets.all(2.0),
+                        //                     child: CircularProgressIndicator(
+                        //                       color: ColorThemeComponent.loginReg,
+                        //                       strokeWidth: 3,
+                        //                     ),
+                        //                   )
+                        //                 : Icon(
+                        //                     Icons.arrow_back,
+                        //                     color: ColorThemeComponent.loginReg,
+                        //                   ),
+                        //             style: ElevatedButton.styleFrom(
+                        //               primary: ColorThemeComponent.appbar,
+                        //               shape: RoundedRectangleBorder(
+                        //                 borderRadius: BorderRadius.circular(
+                        //                     15), // <-- Radius
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // )
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),

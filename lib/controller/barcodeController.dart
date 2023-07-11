@@ -15,8 +15,10 @@ class BarcodeController extends ChangeNotifier {
   List<TextEditingController> qty = [];
   bool buttonEnable = false;
   int count1 = 0;
+  double sum = 0.0;
   String barcodeScanned = "";
   var response;
+
   bool selectedList = false;
   ExternalDir externalDir = ExternalDir();
   String? comName;
@@ -25,28 +27,41 @@ class BarcodeController extends ChangeNotifier {
   String count = "0";
   SnackbarCommon snackbarCommon = SnackbarCommon();
   List<Map<String, dynamic>> scanList = [];
+  List<Map<String, dynamic>> reportList = [];
+
   Map<String, dynamic> listSelected = {};
   ////////////////////////////////////////////////
 
   insertintoTableScanlog(
-    String? _barcodeScanned,
-    int qty,
-    int count,
-    int page_id,
-    String type,
-    BuildContext context,
-    bool validation,
-    String date,
-    String time,bool buttonPressd,QRViewController controller
-  ) async {
+      String? _barcodeScanned,
+      int qty,
+      int count,
+      int page_id,
+      String type,
+      BuildContext context,
+      bool validation,
+      String date,
+      String time,
+      bool buttonPressd,
+      QRViewController controller) async {
     var res;
     print(
         "enterd insertion section---$count---$_barcodeScanned---$qty---$type----$validation");
     int max =
         await VstockDB.instance.getMaxCommonQuery('tableScanLog', 'rowId', " ");
 
-    res = await VstockDB.instance.compareScannedbarcode(date, time, qty,
-        page_id, type, _barcodeScanned!, validation, context, max,buttonPressd,controller);
+    res = await VstockDB.instance.compareScannedbarcode(
+        date,
+        time,
+        qty,
+        page_id,
+        type,
+        _barcodeScanned!,
+        validation,
+        context,
+        max,
+        buttonPressd,
+        controller);
     print("responsexxx----$response--");
     // if (type == "1") {
     //   if (response != null) {
@@ -115,13 +130,33 @@ class BarcodeController extends ChangeNotifier {
   }
 
   setListselected(Map<String, dynamic> list) {
-    selectedList=true;
+    selectedList = true;
     listSelected = list;
     print("fkhzfihzd-----$listSelected");
     notifyListeners();
   }
-  setSelectedList(bool sel){
-    selectedList=sel;
+
+  setSelectedList(bool sel) {
+    selectedList = sel;
+    notifyListeners();
+  }
+
+  getReport(String reportType) async {
+    sum=0.0;
+    if (reportType == "1") {
+      reportList = await VstockDB.instance.selectCommonQuery(
+          'tableScanLog', 'product,sum(qty),sum(qty*rate)', "group by product");
+    } else {
+      reportList = await VstockDB.instance.selectCommonQuery(
+          'tableScanLog', 'barcode,sum(qty),sum(qty*rate)', "group by barcode");
+    }
+
+    for (int i = 0; i < reportList.length; i++) {
+      double totl=reportList[i]["sum(qty*rate)"];
+      sum = sum + totl;
+    }
+    print("reportList----$reportList---$sum");
+
     notifyListeners();
   }
 }

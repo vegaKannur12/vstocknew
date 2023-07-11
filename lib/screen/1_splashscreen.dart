@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vstock/components/commonColor.dart';
 import 'package:vstock/components/waveclipper.dart';
@@ -7,6 +8,8 @@ import 'package:vstock/screen/2_registration.dart';
 import 'package:vstock/screen/3_scan_type.dart';
 import 'package:vstock/screen/companyRegistration.dart';
 import 'package:vstock/services/dbHelper.dart';
+
+import '../controller/registrationController.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -50,16 +53,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
       SharedPreferences pref = await SharedPreferences.getInstance();
       companyId = pref.getString('cid');
+      Provider.of<RegistrationController>(context, listen: false).setCname();
 
       // print("companyId==$companyId");
-    
+
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => companyId == null
                 ? CompanyRegistration(
                     // isExpired: isExpired,
-                  )
+                    )
                 : ScanType()),
       );
     });

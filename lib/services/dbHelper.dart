@@ -114,19 +114,26 @@ class VstockDB {
       Data? barcodeData,
       String barcode,
       int rowId,
-      String ean) async {
+      String ean,
+      String product,
+      String? pcode,
+      String? size,
+      String? desc,
+      String? brand,
+      String? model) async {
     var query;
-    print("entered insertion table--------$barcode");
+    print("entered insertion table--$type------$barcode---$ean----$product");
     final db = await database;
 
     if (type == "1" || type == "2") {
-      if (ean == null || ean.isEmpty) {
-        query =
-            'INSERT INTO tableScanLog(rowId, barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES($rowId, "${barcode}", "${date}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","","")';
-      } else {
-        query =
-            'INSERT INTO tableScanLog(rowId, barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES($rowId, "${barcode}", "${date}", "${time}", ${qty}, ${page_id},"","","",$rate,"","","",$ean)';
-      }
+      print("type1 ");
+      // if (ean == null || ean.isEmpty) {
+      //   query =
+      //       'INSERT INTO tableScanLog(rowId, barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES($rowId, "${barcode}", "${date}", "${time}", ${qty}, ${page_id},"","","",$rate,"",,$product,"$pcode"","")';
+      // } else {
+      query =
+          'INSERT INTO tableScanLog(rowId, barcode,date , time, qty, page_id, model, brand, description, rate, size, product, pcode, ean) VALUES($rowId, "${barcode}", "${date}", "${time}", ${qty}, ${page_id},"$model","$brand","$desc",$rate,"$size","$product","$pcode",$ean)';
+      // }
     }
     if (type == "3" || type == "4") {
       query =
@@ -134,7 +141,7 @@ class VstockDB {
     }
 
     var res = await db.rawInsert(query);
-    print(query);
+    print("insert barcode------$query");
     print(res);
     return res;
   }
@@ -166,7 +173,7 @@ class VstockDB {
     Database db = await instance.database;
     print("query variables............$table....$field.....$condition");
     var query = "SELECT $field FROM $table $condition";
-    print("query----$query");
+    print("select query----$query");
     var list = await db.rawQuery(query);
     print("dmks----$list");
     return list;
@@ -326,17 +333,13 @@ class VstockDB {
             "list param-------$barcode.toUpperCase()}----------------${list[0]["ean"]}-");
         if (list[0]["barcode"] == barcode.toUpperCase() ||
             list[0]["ean"] == barcode.toUpperCase()) {
-          // Provider.of<BarcodeController>(context, listen: false).barcodeScanned=barcode;
+          // controller.pauseCamera();
           if (list.length > 1) {
-            Future.delayed(const Duration(seconds: 6), () async {
-              print('One second has passed.');
-              controller.pauseCamera();
-              //
-            });
-            controller.resumeCamera();
+            // controller.resumeCamera();
 
             response = buildPopupDialog(context, list, date, time, page_id,
                 type, qty, rowId, controller);
+            // controller.resumeCamera();
           } else {
             print("yesss");
             // if (listtimeStamp.length > 0) {
@@ -352,14 +355,30 @@ class VstockDB {
             // if (type == "Free Scan") {
             // Provider.of<BarcodeController>(context, listen: false)
             //     .setSelectedList(true);
+            // controller.resumeCamera();
             Provider.of<BarcodeController>(context, listen: false)
                 .setListselected(list[0]);
             if (buttonPressed) {
               Provider.of<BarcodeController>(context, listen: false)
                   .setSelectedList(false);
             }
-            response = await barcodeTimeStamp(date, time, qty, list[0]["rate"],
-                page_id, type, null, list[0]["barcode"], rowId, list[0]["ean"]);
+            response = await barcodeTimeStamp(
+                date,
+                time,
+                qty,
+                list[0]["rate"],
+                page_id,
+                type,
+                null,
+                list[0]["barcode"],
+                rowId,
+                list[0]["ean"],
+                list[0]["product"],
+                list[0]["pcode"],
+                list[0]["size"],
+                list[0]["description"],
+                list[0]["brand"],
+                list[0]["model"]);
 
             // Provider.of<BarcodeController>(context, listen: false).count1=rowId;
 
@@ -378,8 +397,23 @@ class VstockDB {
         return 0;
       }
     } else {
-      response = await barcodeTimeStamp(date, time, qty, 0.0, page_id, type,
-          null, barcode, rowId, list[0]["ean"]);
+      response = await barcodeTimeStamp(
+          date,
+          time,
+          qty,
+          0.0,
+          page_id,
+          type,
+          null,
+          barcode,
+          rowId,
+          list[0]["ean"],
+          list[0]["product"],
+          list[0]["pcode"],
+          list[0]["size"],
+          list[0]["description"],
+          list[0]["brand"],
+          list[0]["model"]);
     }
 
     print("response--ccc--$response");
@@ -593,6 +627,7 @@ class VstockDB {
       int qty,
       int rowId,
       QRViewController controller) async {
+    controller.pauseCamera();
     return showDialog(
         context: context,
         barrierDismissible: true,
@@ -603,14 +638,15 @@ class VstockDB {
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: DataTable(
+                    showCheckboxColumn: false,
                     columns: <DataColumn>[
                       DataColumn(
                         label: Text(
                           "Barcode",
                           style: GoogleFonts.aBeeZee(
                             textStyle: Theme.of(context).textTheme.bodyText2,
-                            fontSize: 17,
-                            // fontWeight: FontWeight.bold,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
                             // color: P_Settings.loginPagetheme,
                           ),
                         ),
@@ -620,8 +656,8 @@ class VstockDB {
                           "Ean",
                           style: GoogleFonts.aBeeZee(
                             textStyle: Theme.of(context).textTheme.bodyText2,
-                            fontSize: 17,
-                            // fontWeight: FontWeight.bold,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
                             // color: P_Settings.loginPagetheme,
                           ),
                         ),
@@ -631,8 +667,8 @@ class VstockDB {
                           "Rate",
                           style: GoogleFonts.aBeeZee(
                             textStyle: Theme.of(context).textTheme.bodyText2,
-                            fontSize: 17,
-                            // fontWeight: FontWeight.bold,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
                             // color: P_Settings.loginPagetheme,
                           ),
                         ),
@@ -641,6 +677,58 @@ class VstockDB {
                     rows: list
                         .map(
                           (list) => DataRow(
+                            onSelectChanged: (value) {
+                              // Future.delayed(const Duration(seconds: 4),
+                              //     () async {
+                              print('One second has passed.');
+
+                              //
+                              // });
+
+                              if (type == "1") {
+                                // Provider.of<BarcodeController>(context, listen: false)
+                                //     .listSelected = list[index];
+                                var response = barcodeTimeStamp(
+                                    date,
+                                    time,
+                                    qty,
+                                    list["rate"],
+                                    page_id,
+                                    type,
+                                    null,
+                                    list["barcode"],
+                                    rowId,
+                                    list["ean"],
+                                    list["product"],
+                                    list["pcode"],
+                                    list["size"],
+                                    list["description"],
+                                    list["brand"],
+                                    list["model"]);
+                                Provider.of<BarcodeController>(context,
+                                        listen: false)
+                                    .setListselected(list);
+                                Provider.of<BarcodeController>(context,
+                                        listen: false)
+                                    .setSelectedList(true);
+                                Provider.of<BarcodeController>(context,
+                                        listen: false)
+                                    .response = response;
+                              } else if (type == "2") {
+                                Provider.of<BarcodeController>(context,
+                                        listen: false)
+                                    .setListselected(list);
+                                Provider.of<BarcodeController>(context,
+                                        listen: false)
+                                    .setSelectedList(true);
+                                Provider.of<BarcodeController>(context,
+                                        listen: false)
+                                    .setbuttonEnable(true);
+                              }
+                              controller.resumeCamera();
+
+                              Navigator.pop(ctx);
+                            },
                             cells: [
                               DataCell(
                                 Column(
@@ -653,7 +741,7 @@ class VstockDB {
                                         '${list['barcode'].toString()}',
                                         style: TextStyle(
                                           color: ColorThemeComponent.clrgrey,
-                                          fontSize: 15,
+                                          fontSize: 17,
                                         ),
                                       ),
                                     ),
@@ -667,7 +755,7 @@ class VstockDB {
                                     list['ean'],
                                     style: TextStyle(
                                       color: ColorThemeComponent.clrgrey,
-                                      fontSize: 15,
+                                      fontSize: 17,
                                     ),
                                   ),
                                 ),
@@ -680,7 +768,7 @@ class VstockDB {
                                     // textAlign: TextAlign.end,
                                     style: TextStyle(
                                       color: ColorThemeComponent.clrgrey,
-                                      fontSize: 15,
+                                      fontSize: 17,
                                     ),
                                   ),
                                 ),

@@ -156,7 +156,7 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
               'tableScanLog',
               '',
             );
-            Provider.of<BarcodeController>(context, listen: false) 
+            Provider.of<BarcodeController>(context, listen: false)
                 .listSelected = {};
             print("jkzs-----$count");
             Provider.of<BarcodeController>(context, listen: false)
@@ -354,8 +354,8 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                         "Barcode",
                         style: GoogleFonts.aBeeZee(
                           textStyle: Theme.of(context).textTheme.bodyText2,
-                          fontSize: 17,
-                          // fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
                           // color: P_Settings.loginPagetheme,
                         ),
                       ),
@@ -365,8 +365,8 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                         "Date & Time",
                         style: GoogleFonts.aBeeZee(
                           textStyle: Theme.of(context).textTheme.bodyText2,
-                          fontSize: 17,
-                          // fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
                           // color: P_Settings.loginPagetheme,
                         ),
                       ),
@@ -376,8 +376,8 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                         "Qty",
                         style: GoogleFonts.aBeeZee(
                           textStyle: Theme.of(context).textTheme.bodyText2,
-                          fontSize: 17,
-                          // fontWeight: FontWeight.bold,
+                          fontSize: 19,
+                          fontWeight: FontWeight.bold,
                           // color: P_Settings.loginPagetheme,
                         ),
                       ),
@@ -395,7 +395,10 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('${list['barcode'].toString()}'),
+                                  Text(
+                                    '${list['barcode'].toString()}',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
                                   list['ean'].toString() == null ||
                                           list['ean'].toString().isEmpty
                                       ? Container()
@@ -409,18 +412,16 @@ class _ScanListBarcodeState extends State<ScanListBarcode> {
                             DataCell(
                               Text(
                                 list['date'] + ' ' + list['time'],
+                                style: TextStyle(fontSize: 18),
                               ),
                             ),
                             DataCell(
                               Container(
-                                alignment: Alignment.centerRight,
+                                alignment: Alignment.center,
                                 child: Text(
                                   list['qty'].toString(),
                                   // textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    color: ColorThemeComponent.clrgrey,
-                                    fontSize: 15,
-                                  ),
+                                  style: TextStyle(fontSize: 18),
                                 ),
                               ),
                             ),

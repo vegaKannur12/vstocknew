@@ -13,6 +13,7 @@ import '../screen/3_scan_type.dart';
 
 class RegistrationController extends ChangeNotifier {
   ExternalDir externalDir = ExternalDir();
+  String?cname1;
   String? comName;
   bool isLoading = false;
   String? fp;
@@ -51,6 +52,8 @@ class RegistrationController extends ChangeNotifier {
             url,
             body: body,
           );
+          isLoading = false;
+          notifyListeners();
           print("body ${body}");
           var map = jsonDecode(response.body);
           print("map register ${map}");
@@ -88,10 +91,10 @@ class RegistrationController extends ChangeNotifier {
               }
               // verifyRegistration(context, "");
 
-              isLoading = false;
-              notifyListeners();
+            
 
               prefs.setString("os", os!);
+               prefs.setString("cname", cname!);
 
               // prefs.setString("cname", cname!);
 
@@ -110,6 +113,7 @@ class RegistrationController extends ChangeNotifier {
                 MaterialPageRoute(builder: (context) => ScanType()),
               );
             } else {
+               
               CustomSnackbar snackbar = CustomSnackbar();
               snackbar.showSnackbar(context, "Invalid Apk Key", "");
             }
@@ -128,7 +132,14 @@ class RegistrationController extends ChangeNotifier {
       }
     });
   }
+setCname() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    cname1 = prefs.getString("cname");
 
+    print("cname1-----$cname1"); 
+    notifyListeners();
+  }
   ////////////////////////////
 
 }

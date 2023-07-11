@@ -44,6 +44,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    print(
+        "jdhjhdjkhjdh----${Provider.of<BarcodeController>(context, listen: false).barcodeScanned}");
     // c = int.parse(
     //           Provider.of<BarcodeController>(context, listen: false).count);
   }
@@ -53,6 +56,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
     double topInsets = MediaQuery.of(context).viewInsets.top;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      // resizeToAvoidBottomInset: false,
+
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -154,7 +159,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                             //  height: size.height*0.057,
                             child: Center(
                                 child: Text(
-                              value.barcodeScanned == null
+                              value.barcodeScanned == null ||
+                                      value.barcodeScanned.isEmpty
                                   ? "scan a code"
                                   : value.barcodeScanned.toString(),
                               style: TextStyle(
@@ -172,7 +178,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                               ? Container(
                                   child: Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 23, right: 33),
+                                      left: 23,
+                                      right: 33,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
@@ -225,6 +233,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                 Provider.of<BarcodeController>(context,
                                         listen: false)
                                     .getDataFromScanLog();
+
+                                // controller!.resumeCamera();
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -256,6 +267,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                             ),
                           ],
                         ),
+                      //  SizedBox(height: 50,),
+                      //  widget.type=="1"? ElevatedButton(onPressed: () {}, child: Text("Click")):Container(),
                       if (widget.type == "2" || widget.type == "4")
                         Column(
                           // mainAxisAlignment: MainAxisAlignment.center,
@@ -575,8 +588,9 @@ class _ScanBarcodeState extends State<ScanBarcode> {
             // Provider.of<RegistrationController>(context, listen: false).postData(
             //     _barcodeScanned, formattedDate, context, 0, 3, "API Scan");
           }
-
-          controller.resumeCamera();
+          if (list.length == 1) {
+            controller.resumeCamera();
+          }
           // await BarcodeDB.instance
           //     .queryQtyUpdate(_barcodeScanned, formattedDate, count);
           // widget.strcontroller!.add(true);

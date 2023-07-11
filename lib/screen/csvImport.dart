@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:vstock/components/commonColor.dart';
@@ -66,17 +67,6 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
       // if (res != null) {
       Provider.of<BarcodeController>(context, listen: false)
           .setIsLoading(false);
-
-      // }
-      // setState(() {
-      //   _progressValue = _progressValue! + 0.2;
-      //   // we "finish" downloading here
-      //   if (_progressValue!.toStringAsFixed(1) == '1.0') {
-      //     isLoading = false;
-      //     // t.cancel();
-      //     return;
-      //   }
-      // });
     } else {
       // User canceled the picker
     }
@@ -88,7 +78,8 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         // allowMultiple: false,
         // withData: true,
-        allowedExtensions: ['csv'], type: FileType.custom);
+        allowedExtensions: ['csv'],
+        type: FileType.custom);
     if (result != null) {
       Provider.of<BarcodeController>(context, listen: false).setIsLoading(true);
       showDailogue(
@@ -290,7 +281,8 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
         //   height: 10,
         // ),
         FloatingActionButton.extended(
-          onPressed: () {
+          onPressed: () async {
+            // await VstockDB.instance.insertImportedData(fields);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Show()),
@@ -300,27 +292,10 @@ class _ImportCsvtodbState extends State<ImportCsvtodb> {
           icon: const Icon(Icons.download),
           backgroundColor: ColorThemeComponent.appbar,
         ),
-        // FloatingActionButton(
-        //   child: Text("db"),
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => Show()),
-        //     );
-        //   },
-        //   heroTag: null,
-        // ),
+
         SizedBox(
           height: 10,
         ),
-        // FloatingActionButton.extended(
-        //   onPressed: () {
-        //     VstockDB.instance.deleteFromTableCommonQuery("barcode", "");
-        //   },
-        //   label: const Text(''),
-        //   icon: const Icon(Icons.delete),
-        //   backgroundColor: Color.fromARGB(255, 0, 0, 0),
-        // ),
       ]),
       body: Consumer<BarcodeController>(
         builder: (context, value, child) {
